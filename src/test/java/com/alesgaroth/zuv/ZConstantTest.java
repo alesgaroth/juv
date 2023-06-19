@@ -21,14 +21,10 @@ class ZuvConstantTest {
     assertEquals(7, constant.fetch());
   }
 
-  @Test
-  public void canRefreshConstant() {
-    constant.refresh();
-  }
 
   @Test
-  public void canAddListener() {
-    constant.addListener(null);
+  public void throwsOnNullListener() {
+    assertThrows(NullPointerException.class, () -> constant.addListener(null));
   }
 }
 

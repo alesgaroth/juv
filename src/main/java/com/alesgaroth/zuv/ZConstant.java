@@ -11,9 +11,8 @@ public class ZConstant<T> {
   	return value;
   }
 
-  public void refresh() {
-  }
-
   public void addListener(Object o) {
+  	if (o == null) throw new NullPointerException("null listeners are forbidden");
+
   }
 }
