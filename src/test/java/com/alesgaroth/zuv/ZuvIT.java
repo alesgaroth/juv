@@ -2,7 +2,7 @@ package com.alesgaroth.zuv;
 
 import org.junit.jupiter.api.Test;
 
-class ZuvAcceptanceTest {
+class ZuvIT {
 
 	Integer heardValue = null;
 
