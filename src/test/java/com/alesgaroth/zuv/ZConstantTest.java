@@ -12,9 +12,6 @@ class ZuvConstantTest {
     constant = new ZConstant((Integer)7);
   }
 
-  @Test
-  public void canCreateConstant() {
-  }
 
   @Test
   public void canReadConstantOutput() {
@@ -25,6 +22,11 @@ class ZuvConstantTest {
   @Test
   public void throwsOnNullListener() {
     assertThrows(NullPointerException.class, () -> constant.addListener(null));
+  }
+
+  @Test
+  public void canCreateListener() {
+  	ZListener listener;
   }
 }
 
