@@ -11,8 +11,8 @@ class ZuvIT {
 		ZConstant constant = new ZConstant((Integer)7);
 		constant.addListener(
 		new ZListener<Integer>() {
-			void update(Integer value) {
-				heardValue = value;
+			void update(ZValue<Integer> value) {
+				heardValue = value.getValue();
 			}
 		});
 		contant.refresh();
