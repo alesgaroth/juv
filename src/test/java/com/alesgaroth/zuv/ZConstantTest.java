@@ -29,9 +29,5 @@ class ZuvConstantTest {
   	ZListener<Integer> listener = new ZListener<Integer>();
 	constant.addListener(listener);
   }
-
-  @Test void canCreateValue() {
-  	ZValue<Integer> integer = new ZValue<Integer>(7);
-  }
 }
 

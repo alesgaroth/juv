@@ -1,11 +1,7 @@
 package com.alesgaroth.zuv;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class ZValue<T> {
   T value;
-  //Set<ZListener> listeners = new HashSet<>();
   public ZValue(T value) {
   	this.value = value;
   }
