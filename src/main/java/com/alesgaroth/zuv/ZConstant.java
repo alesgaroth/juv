@@ -1,18 +1,17 @@
 package com.alesgaroth.zuv;
 
 public class ZConstant<T> {
-  T value;
+  ZValue<T> value;
 
   public ZConstant(T value) {
-  	this.value = value;
+  	this.value = new ZValue(value);
   }
 
-  public T fetch() {
+  public void addListener(ZListener<T> o) {
+  	value.addListener(o);
+  }
+
+  public ZValue<T> output(int outputNum) {
   	return value;
-  }
-
-  public void addListener(Object o) {
-  	if (o == null) throw new NullPointerException("null listeners are forbidden");
-
   }
 }
