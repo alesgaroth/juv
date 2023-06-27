@@ -11,5 +11,6 @@ public class ZVarTest {
     var = new ZVar<Integer>((Integer)7);
 	ZListener<Integer> listener = new ZListener<>();
 	var.output(0).addListener(listener);
+	var.set((Integer)8);
   }
 }
