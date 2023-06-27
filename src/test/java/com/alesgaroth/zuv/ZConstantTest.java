@@ -28,6 +28,7 @@ class ZuvConstantTest {
   public void canAddListener() {
   	ZListener<Integer> listener = new ZListener<Integer>() {
 		@Override public void valueChanged(Integer q) {}
+		@Override public void valueInvalidated() {}
 	};
 	constant.addListener(listener);
   }

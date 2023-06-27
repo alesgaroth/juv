@@ -8,4 +8,8 @@ public class ZVar<T> extends ZNode<T> {
   public void set(T t) {
   	this.value.set(t);
   }
+
+  public void invalidate() {
+  	this.value.invalidate();
+  }
 }

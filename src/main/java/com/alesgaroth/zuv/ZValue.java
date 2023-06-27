@@ -11,6 +11,12 @@ public class ZValue<T> {
   	this.value = value;
   }
 
+  public void invalidate() {
+    value = null;
+	for (ZListener<T> listener: listeners)
+	  listener.valueInvalidated();
+  }
+
   public void set(T value) {
   	this.value = value;
 	for (ZListener<T> listener: listeners)

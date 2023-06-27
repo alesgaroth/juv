@@ -8,6 +8,7 @@ public class ZVarTest {
 
   ZVar<Integer> var;
   boolean [] listenerCalled;
+  boolean [] listenerInvalidated;
 
   @BeforeEach public void setUp() {
     var = new ZVar<Integer>((Integer)7);
@@ -26,6 +27,10 @@ public class ZVarTest {
 	  public void valueChanged(Integer q) {
 		listenerCalled[num] = true;
 	  }
+	  @Override
+	  public void valueInvalidated() {
+	  	listenerInvalidated[num] = true;
+	  }
 	};
 	var.output(0).addListener(listener);
   }
@@ -38,5 +43,12 @@ public class ZVarTest {
 	var.set((Integer)8);
 	for(int k = 0; k < numL; k += 1)
 	  assertTrue(listenerCalled[k]);
+  }
+
+  @Test public void canInvalidate() {
+	listenerInvalidated = new boolean[1];
+	addListener(0);
+  	var.invalidate();
+	assertTrue(listenerInvalidated[0]);
   }
 }
