@@ -41,7 +41,7 @@ public class ZVarTest {
 	var.output(0).addListener(listener);
 	var.output(0).addListener(listener2);
 	var.set((Integer)8);
-	assertTrue(listener1Called);
 	assertTrue(listener2Called);
+	assertTrue(listener1Called);
   }
 }

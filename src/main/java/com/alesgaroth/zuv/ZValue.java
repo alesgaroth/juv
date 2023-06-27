@@ -1,8 +1,11 @@
 package com.alesgaroth.zuv;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ZValue<T> {
   T value;
-  ZListener<T> listener;
+  Set<ZListener<T>> listeners = new HashSet<>();
 
   public ZValue(T value) {
   	this.value = value;
@@ -10,13 +13,13 @@ public class ZValue<T> {
 
   public void set(T value) {
   	this.value = value;
-	if (listener != null)
+	for (ZListener<T> listener: listeners)
 	  listener.valueChanged();
   }
 
   public void addListener(ZListener<T> o) {
   	if (o == null) throw new NullPointerException("null listeners are forbidden");
-	listener = o;
+	listeners.add(o);
   }
 
   public T fetch() {
