@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ZVarTest {
 
-  public void setUp(){
+  @Test public void canCreateVar(){
 	ZVar<Integer> var;
     var = new ZVar<Integer>((Integer)7);
 	ZListener<Integer> listener = new ZListener<>();
