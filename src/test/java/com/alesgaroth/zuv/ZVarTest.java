@@ -6,42 +6,37 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ZVarTest {
 
-  boolean listener1Called = false;
-  boolean listener2Called = false;
+  ZVar<Integer> var;
+  boolean [] listenerCalled;
 
-  @Test public void canListen(){
-	ZVar<Integer> var;
+  @BeforeEach public void setUp() {
     var = new ZVar<Integer>((Integer)7);
-	ZListener<Integer> listener = new ZListener<>(){
-	  @Override
-	  public void valueChanged(Integer q) {
-	  listener1Called = true;
-	  }
-	};
-	var.output(0).addListener(listener);
-	var.set((Integer)8);
-	assertTrue(listener1Called);
   }
 
-  @Test public void canHaveTwoListeners(){
-	ZVar<Integer> var;
-    var = new ZVar<Integer>((Integer)7);
+  @Test public void canListen(){
+	listenerCalled = new boolean[1];
+	addListener(0);
+	var.set((Integer)8);
+	assertTrue(listenerCalled[0]);
+  }
+
+  private void addListener(final int num) {
 	ZListener<Integer> listener = new ZListener<>(){
 	  @Override
 	  public void valueChanged(Integer q) {
-	  listener1Called = true;
-	  }
-	};
-	ZListener<Integer> listener2 = new ZListener<>(){
-	  @Override
-	  public void valueChanged(Integer q) {
-	  listener2Called = true;
+		listenerCalled[num] = true;
 	  }
 	};
 	var.output(0).addListener(listener);
-	var.output(0).addListener(listener2);
+  }
+
+  @Test public void canHaveMultipleListeners(){
+	final int numL = 15;
+	listenerCalled = new boolean[numL];
+	for(int k = 0; k < numL; k += 1)
+	  addListener(k);
 	var.set((Integer)8);
-	assertTrue(listener2Called);
-	assertTrue(listener1Called);
+	for(int k = 0; k < numL; k += 1)
+	  assertTrue(listenerCalled[k]);
   }
 }
