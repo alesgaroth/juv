@@ -1,7 +1,5 @@
 package com.alesgaroth.zuv;
 
-public class ZListener<T> {
-	//ZValue<T> v;
-	public void valueChanged() {
-	}
+public interface ZListener<T> {
+	public void valueChanged(T q);
 }

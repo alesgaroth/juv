@@ -14,7 +14,7 @@ public class ZVarTest {
     var = new ZVar<Integer>((Integer)7);
 	ZListener<Integer> listener = new ZListener<>(){
 	  @Override
-	  public void valueChanged() {
+	  public void valueChanged(Integer q) {
 	  listener1Called = true;
 	  }
 	};
@@ -28,13 +28,13 @@ public class ZVarTest {
     var = new ZVar<Integer>((Integer)7);
 	ZListener<Integer> listener = new ZListener<>(){
 	  @Override
-	  public void valueChanged() {
+	  public void valueChanged(Integer q) {
 	  listener1Called = true;
 	  }
 	};
 	ZListener<Integer> listener2 = new ZListener<>(){
 	  @Override
-	  public void valueChanged() {
+	  public void valueChanged(Integer q) {
 	  listener2Called = true;
 	  }
 	};

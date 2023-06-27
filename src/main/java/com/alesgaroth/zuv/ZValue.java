@@ -14,7 +14,7 @@ public class ZValue<T> {
   public void set(T value) {
   	this.value = value;
 	for (ZListener<T> listener: listeners)
-	  listener.valueChanged();
+	  listener.valueChanged(value);
   }
 
   public void addListener(ZListener<T> o) {

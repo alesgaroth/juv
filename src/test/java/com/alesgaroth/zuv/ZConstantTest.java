@@ -19,14 +19,16 @@ class ZuvConstantTest {
   }
 
 
-  @Test
+  @Test // Question:  Maybe we should just ignore nulls?
   public void throwsOnNullListener() {
     assertThrows(NullPointerException.class, () -> constant.addListener(null));
   }
 
   @Test
   public void canAddListener() {
-  	ZListener<Integer> listener = new ZListener<Integer>();
+  	ZListener<Integer> listener = new ZListener<Integer>() {
+		@Override public void valueChanged(Integer q) {}
+	};
 	constant.addListener(listener);
   }
 }
