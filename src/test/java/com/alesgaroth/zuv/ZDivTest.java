@@ -28,5 +28,8 @@ public class ZDivTest {
 	div.setInput(var2.output(0), 1);
 
 	assertEquals((Integer)10, div.output(0).fetch());
+
+	var1.set(32);
+	assertEquals((Integer)8, div.output(0).fetch());
   }
 }
