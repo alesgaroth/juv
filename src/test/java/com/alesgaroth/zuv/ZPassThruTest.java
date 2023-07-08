@@ -14,8 +14,8 @@ public class ZPassThruTest {
   }
 
   @Test public void canPassThru() {
-  	 ZGraphNode<Integer> gn = new ZGraphNode<Integer>(1, 1);
-	 gn.setInput(var1.output(0), 0);
-	 gn.connect();
+    ZGraphNode<Integer> gn = new ZGraphNode<Integer>(1, 1);
+	  gn.setInput(var1.output(0), 0);
+	  gn.connect();
   }
 }

@@ -7,14 +7,13 @@
   <groupId>com.alesgaroth.zuv</groupId>
   <artifactId>zuv</artifactId>
   <version>1.0-SNAPSHOT</version>
-
-  <name>zuv</name>
+    <name>zuv</name>
   <url>http://www.alesgaroth.com/zuv</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>19</maven.compiler.source>
-    <maven.compiler.target>19</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
   <dependencies>
