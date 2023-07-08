@@ -19,13 +19,14 @@ public class ZValue<T> {
 
   public void set(T value) {
   	this.value = value;
-	for (ZListener<T> listener: listeners)
-	  listener.valueChanged(value);
+	  for (ZListener<T> listener: listeners)
+	    listener.valueChanged(value);
   }
 
   public void addListener(ZListener<T> o) {
-  	if (o == null) throw new NullPointerException("null listeners are forbidden");
-	listeners.add(o);
+  	if (o == null)
+      throw new NullPointerException("null listeners are forbidden");
+	  listeners.add(o);
   }
 
   public T fetch() {
