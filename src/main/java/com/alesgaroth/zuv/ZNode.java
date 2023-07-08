@@ -17,6 +17,6 @@ public class ZNode<T> {
   }
 
   void setInput(ZValue<T> v, int input) {
-	this.input = v;
+	  this.input = v;
   }
 }
