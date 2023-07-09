@@ -4,11 +4,11 @@ public class ZGraphNode<T> extends ZNode<T> {
   public ZGraphNode(int inputs, int outputs) {
   }
 
-  public ZValue<T> input(int i) {
+  public ZValue<T> parameter(int i) {
     return input;
   }
 
-  public void setOutput(ZValue<T> input, int i) {
+  public void setReturnValue(ZValue<T> input, int i) {
     value.set(input.fetch());
     input.addListener(new ZListener<T>() {
 
@@ -19,8 +19,7 @@ public class ZGraphNode<T> extends ZNode<T> {
 
       @Override
       public void valueInvalidated() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'valueInvalidated'");
+        value.invalidate();
       }
 
     });

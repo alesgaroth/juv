@@ -16,13 +16,22 @@ public class ZPassThruTest {
    @Test public void canPassThru() {
     ZGraphNode<Integer> gn = new ZGraphNode<Integer>(1, 1);
 	  gn.setInput(var1.output(0), 0);
-    gn.setOutput(gn.input(0), 0);
+    gn.setReturnValue(gn.parameter(0), 0);
     assertEquals(3, gn.output(0).fetch() );
   }
 
   @Test public void canPassUp() {
     ZGraphNode<Integer> gn = new ZGraphNode<Integer>(0, 1);
-    gn.setOutput(var2.output(0), 0);
+    gn.setReturnValue(var2.output(0), 0);
     assertEquals(5, gn.output(0).fetch() );    
   }
+  
+  @Test public void canInvalidateUp() {
+    ZGraphNode<Integer> gn = new ZGraphNode<Integer>(0, 1);
+    gn.setReturnValue(var2.output(0), 0);
+    var2.invalidate();
+    assertTrue(gn.output(0).isInvalid() );    
+  }
+  // TODO: decide if we want to force graphs to return only from vars in graph...
+  // 
 }
