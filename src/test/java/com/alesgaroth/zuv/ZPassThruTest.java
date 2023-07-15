@@ -30,7 +30,7 @@ public class ZPassThruTest {
     ZGraphNode<Integer> gn = new ZGraphNode<Integer>(0, 1);
     gn.setReturnValue(var2.output(0), 0);
     var2.invalidate();
-    assertTrue(gn.output(0).isInvalid() );    
+    assertTrue(gn.output(0).isInvalid());    
   }
   // TODO: decide if we want to force graphs to return only from vars in graph...
   // 
