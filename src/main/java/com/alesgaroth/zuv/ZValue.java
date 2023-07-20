@@ -5,10 +5,12 @@ import java.util.Set;
 
 public class ZValue<T> {
   T value;
+  final ZNode<T> parent;
   Set<ZListener<T>> listeners = new HashSet<>();
 
-  public ZValue(T value) {
+  public ZValue(T value, ZNode<T> parent) {
   	this.value = value;
+    this.parent = parent;
   }
 
   public void invalidate() {
@@ -21,6 +23,10 @@ public class ZValue<T> {
   	this.value = value;
 	  for (ZListener<T> listener: listeners)
 	    listener.valueChanged(value);
+  }
+
+  public ZNode<T> parent() {
+    return parent;
   }
 
   public void addListener(ZListener<T> o) {

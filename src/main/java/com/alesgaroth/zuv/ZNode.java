@@ -3,9 +3,10 @@ package com.alesgaroth.zuv;
 public class ZNode<T> {
   protected ZValue<T> value;
   ZValue<T> input;
+  ZGraphNode<T> parent;
 
   protected ZNode() {
-  	value = new ZValue<T>(null);
+  	value = new ZValue<T>(null, this);
   }
 
   public void addListener(ZListener<T> o) {
@@ -19,4 +20,12 @@ public class ZNode<T> {
   void setInput(ZValue<T> v, int input) {
 	  this.input = v;
   }
+
+public ZGraphNode<T> parent() {
+    return parent;
+}
+
+public void setParent(ZGraphNode<T> zGraphNode) {
+  parent = zGraphNode;
+}
 }

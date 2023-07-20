@@ -32,6 +32,13 @@ public class ZPassThruTest {
     var2.invalidate();
     assertTrue(gn.output(0).isInvalid());    
   }
-  // TODO: decide if we want to force graphs to return only from vars in graph...
-  // 
+
+  @Test public void graphReturnValsCanOnlyConnectToThingsInThisGraph() {
+    ZGraphNode<Integer> gn = new ZGraphNode<Integer>(0, 1);
+    ZGraphNode<Integer> gn2 = new ZGraphNode<Integer>(0, 1);
+    gn.addNode(var1);
+    Assertions.assertThrows(GraphMismatchException.class,
+      () -> gn2.setReturnValue(var1.output(0), 0));
+  }
+  
 }
