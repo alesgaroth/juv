@@ -13,16 +13,16 @@ public class ZValue<T> {
     this.parent = parent;
   }
 
-  public void invalidate() {
+  public void invalidate(ZQueue q) {
     value = null;
-	for (ZListener<T> listener: listeners)
-	  listener.valueInvalidated();
+    for (ZListener<T> listener: listeners)
+      listener.valueInvalidated(q);
   }
 
-  public void set(T value) {
-  	this.value = value;
-	  for (ZListener<T> listener: listeners)
-	    listener.valueChanged(value);
+  public void set(T value, ZQueue q) {
+    this.value = value;
+    for (ZListener<T> listener: listeners)
+      listener.valueChanged(q);
   }
 
   public ZNode<T> parent() {
@@ -30,13 +30,17 @@ public class ZValue<T> {
   }
 
   public void addListener(ZListener<T> o) {
-  	if (o == null)
+    if (o == null)
       throw new NullPointerException("null listeners are forbidden");
-	  listeners.add(o);
+    listeners.add(o);
   }
 
-  public T fetch() {
-  	return value;
+  public T fetch(ZQueue q) {
+    if (!isInvalid()) {
+      parent.msg_wanted = true;
+      q.prepend(parent);
+    }
+    return value;
   }
 
   public boolean isInvalid() {

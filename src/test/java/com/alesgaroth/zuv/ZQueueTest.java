@@ -54,4 +54,14 @@ public class ZQueueTest {
        assertSame(m, q.next(), "last added to end is last out");
     }
 
+    @Test
+    void canLoop() {
+      ZVar<Integer> var1 = new ZVar<Integer>(3);
+      ZNode<Integer> gn  = ZPassThruTest.createPassThru(var1.output(0));
+      q.doLater(gn);
+      var1.set((Integer)8, q);
+      q.runTillEmpty();
+      assertEquals(8, gn.output(0).fetch(q));
+    }
+
 }

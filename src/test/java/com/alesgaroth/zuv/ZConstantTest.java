@@ -15,7 +15,7 @@ class ZuvConstantTest {
 
   @Test
   public void canReadConstantOutput() {
-    assertEquals(7, constant.output(0).fetch());
+    assertEquals(7, constant.output(0).fetch(ZQueue.nullQueue));
   }
 
 
@@ -26,11 +26,11 @@ class ZuvConstantTest {
 
   @Test
   public void canAddListener() {
-  	ZListener<Integer> listener = new ZListener<Integer>() {
-		@Override public void valueChanged(Integer q) {}
-		@Override public void valueInvalidated() {}
-	};
-	constant.addListener(listener);
+    ZListener<Integer> listener = new ZListener<Integer>() {
+      @Override public void valueChanged(ZQueue q) {}
+      @Override public void valueInvalidated(ZQueue q) {}
+    };
+    constant.addListener(listener);
   }
 }
 

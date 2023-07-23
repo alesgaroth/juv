@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Assertions;
 
 public class ZValueTest {
   @Test void canCreateValue() {
-  	ZValue<Integer> i = new ZValue<Integer>(7, null);
-    Assertions.assertEquals(7, i.fetch());
+  	ZValue<Integer> i = new ZValue<Integer>(7, new ZNode<Integer>());
+    Assertions.assertEquals(7, i.fetch(ZQueue.nullQueue));
   }
 
   @Test void canUpdateValue() {
-    ZValue<Integer> i = new ZValue<>(3, null);
-    i.set(2);
-    Assertions.assertEquals(2, i.fetch());
+    ZValue<Integer> i = new ZValue<>(3, new ZNode<Integer>());
+    i.set(2, null);
+    Assertions.assertEquals(2, i.fetch(ZQueue.nullQueue));
   }
 }

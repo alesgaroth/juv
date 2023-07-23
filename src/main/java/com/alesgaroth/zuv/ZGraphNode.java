@@ -5,6 +5,7 @@ import java.util.Set;
 
 public class ZGraphNode<T> extends ZNode<T> {
   Set<ZNode<T>> children = new LinkedHashSet<>();
+  ZValue<T> inputToReturnValue;
   
   public ZGraphNode(int inputs, int outputs) {
   }
@@ -21,19 +22,26 @@ public class ZGraphNode<T> extends ZNode<T> {
 
   public void setReturnValue(ZValue<T> input, int i) {
     addAsChild(input);
-    value.set(input.fetch());
+    inputToReturnValue = input;
+    //value.set(input.fetch());
+    ZGraphNode<T> gn = this;
     input.addListener(new ZListener<T>() {
 
       @Override
-      public void valueChanged(T q) {
-        value.set(q);
+      public void valueChanged(ZQueue q) {
+        //value.set(q);
+        // Enqueue self so we can pass the info on to others
+        msg_changed = true;
+        q.doLater(gn);
       }
 
       @Override
-      public void valueInvalidated() {
-        value.invalidate();
+      public void valueInvalidated(ZQueue q) {
+        // value.invalidate();
+        // Enqueue self so we can pass the info on to others
+        msg_invalid = true;
+        q.doLater(gn);
       }
-
     });
   }
 
@@ -46,5 +54,14 @@ public class ZGraphNode<T> extends ZNode<T> {
       throw new GraphMismatchException();
     }
 
+  }
+
+  @Override
+  public void execute(ZQueue q) {
+    q.prepend(inputToReturnValue.parent);
+    if (!msg_invalid && msg_changed && input != null) {
+      value.set(input.fetch(q), q);
+    }
+    super.execute(q);
   }
 }
