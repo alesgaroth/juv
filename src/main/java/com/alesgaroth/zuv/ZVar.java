@@ -2,6 +2,7 @@ package com.alesgaroth.zuv;
 
 public class ZVar<T> extends ZNode<T> {
   public ZVar(T t) {
+      super(0, 1);
       this.value.set(t, null);
   }
 

@@ -13,15 +13,15 @@ public class ZQueueTest {
     
     @Test
     void canPutOnQueue() {
-        ZNode<Integer> n = new ZNode<Integer>();
+        ZNode<Integer> n = new ZNode<Integer>(0, 0);
         q.doLater(n);
         assertSame(n, q.next(), "Empty Queue push/pop should return same.");
     }
 
     @Test
     void canPutTwothingsInQueue() {
-        ZNode<Integer> n = new ZNode<Integer>();
-        ZNode<Integer> m = new ZNode<Integer>();
+        ZNode<Integer> n = new ZNode<Integer>(0, 0);
+        ZNode<Integer> m = new ZNode<Integer>(0, 0);
         q.doLater(n);
         q.doLater(m);
         assertSame(n, q.next(), "First in queue is first out");
@@ -30,8 +30,8 @@ public class ZQueueTest {
 
     @Test
     void canPutBack() {
-       ZNode<Integer> n = new ZNode<Integer>();
-       ZNode<Integer> m = new ZNode<Integer>();
+       ZNode<Integer> n = new ZNode<Integer>(0, 0);
+       ZNode<Integer> m = new ZNode<Integer>(0, 0);
        q.doLater(n);
        q.doLater(m);
        assertSame(n, q.next(), "First in queue is first out");
@@ -41,9 +41,9 @@ public class ZQueueTest {
 
     @Test
     void canPrepend() {
-       ZNode<Integer> n = new ZNode<Integer>();
-       ZNode<Integer> m = new ZNode<Integer>();
-       ZNode<Integer> i = new ZNode<Integer>();
+       ZNode<Integer> n = new ZNode<Integer>(0, 0);
+       ZNode<Integer> m = new ZNode<Integer>(0, 0);
+       ZNode<Integer> i = new ZNode<Integer>(0, 0);
        q.doLater(n);
        q.doLater(m);
        assertSame(n, q.next(), "First in queue is first out");

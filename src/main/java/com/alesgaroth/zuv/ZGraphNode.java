@@ -8,6 +8,7 @@ public class ZGraphNode<T> extends ZNode<T> {
   ZValue<T> inputToReturnValue;
   
   public ZGraphNode(int inputs, int outputs) {
+    super(inputs, outputs);
   }
 
   public ZValue<T> parameter(int i) {

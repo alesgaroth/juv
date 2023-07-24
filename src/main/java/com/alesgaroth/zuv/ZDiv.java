@@ -5,6 +5,7 @@ public class ZDiv extends ZNode<Integer> {
   ZValue<Integer> [] inputs = new ZValue[2];
 
   public ZDiv() {
+    super(2, 1);
     this.value.set((Integer)8, null);
   }
 

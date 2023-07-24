@@ -7,8 +7,10 @@ public class ZNode<T> {
 
   boolean msg_wanted = false, msg_invalid = false, msg_changed = false;
 
-  protected ZNode() {
+  
+  public ZNode(int inputs, int outputs) {
     value = new ZValue<T>(null, this);
+
   }
 
   public void addListener(ZListener<T> o) {

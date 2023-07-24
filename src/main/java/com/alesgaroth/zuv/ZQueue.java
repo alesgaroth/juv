@@ -2,7 +2,6 @@ package com.alesgaroth.zuv;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class ZQueue {
 
