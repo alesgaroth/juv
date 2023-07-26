@@ -7,7 +7,6 @@ public class ZNode<T> {
 
   boolean msg_wanted = false, msg_invalid = false, msg_changed = false;
 
-  
   public ZNode(int inputs, int outputs) {
     value = new ZValue<T>(null, this);
 
