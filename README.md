@@ -1,13 +1,23 @@
 This is embarrassing.
 
-Zuv is an actor model system that is intended to show all connections between modules.
+Zuv is an data flow system that is intended to show all connections between modules.
 To show the flow of data from module to module, variable to function to variable.
 To show state machines, and static logic.  To make debug dead easy since you can see where a value came from.
 
 Juv is the Java portion of it.  Java so we have access to Android systems.
 How much will stay in Java, I don't know.
 
+### What Zuv (and Juv) is for:
+  Have you ever looked at code that calculates two values and you really just want one of them, but they're completely complected together?
+  Have you ever wished you could see how data flows through your program?
+  Have you ever tried to track down Race Conditions?
+  
+Zuv is an attempt to build something so you can just grab one output of a function and not calculate all the other, see in a graphical way how data flows through a program, and see everywhere where a variable is being set.
 
+It may be ambitious.  It may be impossible.  This project is an attempt to find out.
+
+
+## Development
 Some philosophizing is in order.
 
 I want to make it all test driven.  So write a test. See it fail. Record it failed.
@@ -16,7 +26,7 @@ If it passed, check test and production code in. as well as the record of what f
 
 During refactoring, everytime you make a change, run the tests. Back out the production changes if they failed a test.
 And record which tests failed.
-If it passed check test, production code and failed test records.
+If it passed check in test, production code, and failed test records.
 
 
 When merging, roll up the record of what failed to get an idea of what's failing.    We need to do something to
