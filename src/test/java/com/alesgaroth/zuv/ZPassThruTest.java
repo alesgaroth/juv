@@ -25,7 +25,7 @@ public class ZPassThruTest {
   @Disabled
    @Test public void canPassThru() {
     ZNode<Integer> gn  = createPassThru(var1.output(0));
-    q.doLater(gn);
+    q.enqueue(gn);
     q.runTillEmpty();
     assertEquals(3, gn.output(0).fetch(q) );
   }
@@ -34,7 +34,7 @@ public class ZPassThruTest {
   @Test public void canPassUp() {
     ZGraphNode<Integer> gn = new ZGraphNode<Integer>(0, 1);
     gn.setReturnValue(var2.output(0), 0);
-    q.doLater(gn);
+    q.enqueue(gn);
     q.runTillEmpty();
     assertEquals(5, gn.output(0).fetch(q) );    
   }

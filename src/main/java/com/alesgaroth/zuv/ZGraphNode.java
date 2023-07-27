@@ -33,7 +33,7 @@ public class ZGraphNode<T> extends ZNode<T> {
         //value.set(q);
         // Enqueue self so we can pass the info on to others
         msg_changed = true;
-        q.doLater(gn);
+        q.enqueue(gn);
       }
 
       @Override
@@ -41,7 +41,7 @@ public class ZGraphNode<T> extends ZNode<T> {
         // value.invalidate();
         // Enqueue self so we can pass the info on to others
         msg_invalid = true;
-        q.doLater(gn);
+        q.enqueue(gn);
       }
     });
   }

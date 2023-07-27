@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.joda.time.Duration;
+
 public class ZQueueTest {
     ZQueue q;
     @BeforeEach
@@ -14,7 +16,7 @@ public class ZQueueTest {
     @Test
     void canPutOnQueue() {
         ZNode<Integer> n = new ZNode<Integer>(0, 0);
-        q.doLater(n);
+        q.enqueue(n);
         assertSame(n, q.next(), "Empty Queue push/pop should return same.");
     }
 
@@ -22,8 +24,8 @@ public class ZQueueTest {
     void canPutTwothingsInQueue() {
         ZNode<Integer> n = new ZNode<Integer>(0, 0);
         ZNode<Integer> m = new ZNode<Integer>(0, 0);
-        q.doLater(n);
-        q.doLater(m);
+        q.enqueue(n);
+        q.enqueue(m);
         assertSame(n, q.next(), "First in queue is first out");
         assertSame(m, q.next(), "Second in queue is second out");
     }
@@ -32,8 +34,8 @@ public class ZQueueTest {
     void canPutBack() {
        ZNode<Integer> n = new ZNode<Integer>(0, 0);
        ZNode<Integer> m = new ZNode<Integer>(0, 0);
-       q.doLater(n);
-       q.doLater(m);
+       q.enqueue(n);
+       q.enqueue(m);
        assertSame(n, q.next(), "First in queue is first out");
        q.prepend(n);
        assertSame(n, q.next(), "First put back is first out");
@@ -44,8 +46,8 @@ public class ZQueueTest {
        ZNode<Integer> n = new ZNode<Integer>(0, 0);
        ZNode<Integer> m = new ZNode<Integer>(0, 0);
        ZNode<Integer> i = new ZNode<Integer>(0, 0);
-       q.doLater(n);
-       q.doLater(m);
+       q.enqueue(n);
+       q.enqueue(m);
        assertSame(n, q.next(), "First in queue is first out");
        q.prepend(n);
        q.prepend(i);
@@ -58,10 +60,18 @@ public class ZQueueTest {
     void canLoop() {
       ZVar<Integer> var1 = new ZVar<Integer>(3);
       ZNode<Integer> gn  = ZPassThruTest.createPassThru(var1.output(0));
-      q.doLater(gn);
+      q.enqueue(gn);
       var1.set((Integer)8, q);
       q.runTillEmpty();
       assertEquals(8, gn.output(0).fetch(q));
+    }
+
+    @Test
+    void canSpecifyAWaitTime() { // for timeouts
+      ZVar<Integer> var1 = new ZVar<Integer>(3);
+      ZNode<Integer> gn = ZPassThruTest.createPassThru(var1.output(0));
+      q.enqueueIn(gn, Duration.millis(2L));
+      // TODO(alesgaroth) q.next();
     }
 
 }
