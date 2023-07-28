@@ -11,13 +11,13 @@
 			"installMaven": "true",
 			"installGradle": "false"
 		}
-	}
+	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "java -version",
+	"postCreateCommand": "java -version",
 
 	// Configure tool-specific properties.
 	// "customizations": {},
