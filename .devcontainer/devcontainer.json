@@ -17,7 +17,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "java -version",
+	"postCreateCommand": "java -version"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
