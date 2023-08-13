@@ -11,10 +11,6 @@ public class ZGraphNode extends ZNode {
     super(inputs, outputs);
   }
 
-  public ZValue parameter(int i) {
-    return input;
-  }
-
   void addAsChild(ZValue t) {
     // find node this Value is the output of, and add it as a child, if it's not already the child of something else.
     ZNode zn = t.parent();
@@ -60,8 +56,8 @@ public class ZGraphNode extends ZNode {
   @Override
   public void execute(ZQueue q) {
     q.prepend(inputToReturnValue.parent);
-    if (!msg_invalid && msg_changed && input != null) {
-      output(0).set(input.fetch(q), q);
+    if (!msg_invalid && msg_changed && parameter(0) != null) {
+      output(0).set(parameter(0).fetch(q), q);
     }
     super.execute(q);
   }
