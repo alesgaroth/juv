@@ -19,17 +19,20 @@ public class ZDivTest {
     assertEquals((Integer)8, div.output(0).fetch(ZQueue.nullQueue));
   }
 
-  @Test @Disabled
+  @Test
   public void canChangeDiv() {
     div = new ZDiv();
     var1 = new ZVar(40);
     var2 = new ZVar(4);
     div.setInput(var1.output(0), 0);
     div.setInput(var2.output(0), 1);
+    div.execute(ZQueue.nullQueue);
 
     assertEquals((Integer)10, div.output(0).fetch(ZQueue.nullQueue));
 
     var1.set(32, ZQueue.nullQueue);
+
+    div.execute(ZQueue.nullQueue);
     assertEquals((Integer)8, div.output(0).fetch(ZQueue.nullQueue));
   }
 }
