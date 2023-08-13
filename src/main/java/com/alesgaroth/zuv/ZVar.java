@@ -1,12 +1,12 @@
 package com.alesgaroth.zuv;
 
-public class ZVar<T> extends ZNode<T> {
-  public ZVar(T t) {
+public class ZVar extends ZNode {
+  public ZVar(Object t) {
       super(0, 1);
       this.value.set(t, null);
   }
 
-  public void set(T t, ZQueue q) {
+  public void set(Object t, ZQueue q) {
       this.value.set(t, q);
   }
 

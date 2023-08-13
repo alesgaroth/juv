@@ -3,30 +3,30 @@ package com.alesgaroth.zuv;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class ZGraphNode<T> extends ZNode<T> {
-  Set<ZNode<T>> children = new LinkedHashSet<>();
-  ZValue<T> inputToReturnValue;
+public class ZGraphNode extends ZNode {
+  Set<ZNode> children = new LinkedHashSet<>();
+  ZValue inputToReturnValue;
   
   public ZGraphNode(int inputs, int outputs) {
     super(inputs, outputs);
   }
 
-  public ZValue<T> parameter(int i) {
+  public ZValue parameter(int i) {
     return input;
   }
 
-  void addAsChild(ZValue<T> t) {
+  void addAsChild(ZValue t) {
     // find node this Value is the output of, and add it as a child, if it's not already the child of something else.
-    ZNode<T> zn = t.parent();
+    ZNode zn = t.parent();
     addNode(zn);
   }
 
-  public void setReturnValue(ZValue<T> input, int i) {
+  public void setReturnValue(ZValue input, int i) {
     addAsChild(input);
     inputToReturnValue = input;
     //value.set(input.fetch());
-    ZGraphNode<T> gn = this;
-    input.addListener(new ZListener<T>() {
+    ZGraphNode gn = this;
+    input.addListener(new ZListener() {
 
       @Override
       public void valueChanged(ZQueue q) {
@@ -46,7 +46,7 @@ public class ZGraphNode<T> extends ZNode<T> {
     });
   }
 
-  public void addNode(ZNode<T> var1) {
+  public void addNode(ZNode var1) {
     if (var1.parent() == this) {
       children.add(this);
     } else if (var1.parent() == null) {

@@ -5,11 +5,11 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ZuvConstantTest {
-  ZConstant<Integer>  constant;
+  ZConstant  constant;
 
   @BeforeEach
   public void setUp(){
-    constant = new ZConstant<Integer>((Integer)7);
+    constant = new ZConstant((Integer)7);
   }
 
 
@@ -26,7 +26,7 @@ class ZuvConstantTest {
 
   @Test
   public void canAddListener() {
-    ZListener<Integer> listener = new ZListener<Integer>() {
+    ZListener listener = new ZListener() {
       @Override public void valueChanged(ZQueue q) {}
       @Override public void valueInvalidated(ZQueue q) {}
     };

@@ -3,39 +3,39 @@ package com.alesgaroth.zuv;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ZValue<T> {
-  T value;
-  final ZNode<T> parent;
-  Set<ZListener<T>> listeners = new HashSet<>();
+public class ZValue {
+  Object value;
+  final ZNode parent;
+  Set<ZListener> listeners = new HashSet<>();
 
-  public ZValue(T value, ZNode<T> parent) {
+  public ZValue(Object value, ZNode parent) {
   	this.value = value;
     this.parent = parent;
   }
 
   public void invalidate(ZQueue q) {
     value = null;
-    for (ZListener<T> listener: listeners)
+    for (ZListener listener: listeners)
       listener.valueInvalidated(q);
   }
 
-  public void set(T value, ZQueue q) {
+  public void set(Object value, ZQueue q) {
     this.value = value;
-    for (ZListener<T> listener: listeners)
+    for (ZListener listener: listeners)
       listener.valueChanged(q);
   }
 
-  public ZNode<T> parent() {
+  public ZNode parent() {
     return parent;
   }
 
-  public void addListener(ZListener<T> o) {
+  public void addListener(ZListener o) {
     if (o == null)
       throw new NullPointerException("null listeners are forbidden");
     listeners.add(o);
   }
 
-  public T fetch(ZQueue q) {
+  public Object fetch(ZQueue q) {
     if (!isInvalid()) {
       parent.msg_wanted = true;
       q.prepend(parent);

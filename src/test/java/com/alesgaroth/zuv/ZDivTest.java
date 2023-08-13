@@ -6,13 +6,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ZDivTest {
 
   ZDiv div;
-  ZVar<Integer> var1;
-  ZVar<Integer> var2;
+  ZVar var1;
+  ZVar var2;
 
   @Test public void canCreateDiv() {
     div = new ZDiv();
-    var1 = new ZVar<Integer>(32);
-    var2 = new ZVar<Integer>(4);
+    var1 = new ZVar(32);
+    var2 = new ZVar(4);
     div.setInput(var1.output(0), 0);
     div.setInput(var2.output(0), 1);
 
@@ -22,8 +22,8 @@ public class ZDivTest {
   @Test @Disabled
   public void canChangeDiv() {
     div = new ZDiv();
-    var1 = new ZVar<Integer>(40);
-    var2 = new ZVar<Integer>(4);
+    var1 = new ZVar(40);
+    var2 = new ZVar(4);
     div.setInput(var1.output(0), 0);
     div.setInput(var2.output(0), 1);
 

@@ -15,15 +15,15 @@ public class ZQueueTest {
     
     @Test
     void canPutOnQueue() {
-        ZNode<Integer> n = new ZNode<Integer>(0, 0);
+        ZNode n = new ZNode(0, 0);
         q.enqueue(n);
         assertSame(n, q.next(), "Empty Queue push/pop should return same.");
     }
 
     @Test
     void canPutTwothingsInQueue() {
-        ZNode<Integer> n = new ZNode<Integer>(0, 0);
-        ZNode<Integer> m = new ZNode<Integer>(0, 0);
+        ZNode n = new ZNode(0, 0);
+        ZNode m = new ZNode(0, 0);
         q.enqueue(n);
         q.enqueue(m);
         assertSame(n, q.next(), "First in queue is first out");
@@ -32,8 +32,8 @@ public class ZQueueTest {
 
     @Test
     void canPutBack() {
-       ZNode<Integer> n = new ZNode<Integer>(0, 0);
-       ZNode<Integer> m = new ZNode<Integer>(0, 0);
+       ZNode n = new ZNode(0, 0);
+       ZNode m = new ZNode(0, 0);
        q.enqueue(n);
        q.enqueue(m);
        assertSame(n, q.next(), "First in queue is first out");
@@ -43,9 +43,9 @@ public class ZQueueTest {
 
     @Test
     void canPrepend() {
-       ZNode<Integer> n = new ZNode<Integer>(0, 0);
-       ZNode<Integer> m = new ZNode<Integer>(0, 0);
-       ZNode<Integer> i = new ZNode<Integer>(0, 0);
+       ZNode n = new ZNode(0, 0);
+       ZNode m = new ZNode(0, 0);
+       ZNode i = new ZNode(0, 0);
        q.enqueue(n);
        q.enqueue(m);
        assertSame(n, q.next(), "First in queue is first out");
@@ -58,8 +58,8 @@ public class ZQueueTest {
 
     @Test
     void canLoop() {
-      ZVar<Integer> var1 = new ZVar<Integer>(3);
-      ZNode<Integer> gn  = ZPassThruTest.createPassThru(var1.output(0));
+      ZVar var1 = new ZVar(3);
+      ZNode gn  = ZPassThruTest.createPassThru(var1.output(0));
       q.enqueue(gn);
       var1.set((Integer)8, q);
       q.runTillEmpty();
@@ -68,8 +68,8 @@ public class ZQueueTest {
 
     @Test
     void canSpecifyAWaitTime() { // for timeouts
-      ZVar<Integer> var1 = new ZVar<Integer>(3);
-      ZNode<Integer> gn = ZPassThruTest.createPassThru(var1.output(0));
+      ZVar var1 = new ZVar(3);
+      ZNode gn = ZPassThruTest.createPassThru(var1.output(0));
       q.enqueueIn(gn, Duration.millis(2L));
       // TODO(alesgaroth) q.next();
     }

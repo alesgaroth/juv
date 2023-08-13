@@ -6,12 +6,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ZVarTest {
 
-  ZVar<Integer> var;
+  ZVar var;
   boolean [] listenerCalled;
   boolean [] listenerInvalidated;
 
   @BeforeEach public void setUp() {
-    var = new ZVar<Integer>((Integer)7);
+    var = new ZVar((Integer)7);
   }
 
   @Test public void canListen(){
@@ -22,7 +22,7 @@ public class ZVarTest {
   }
 
   private void addListener(final int num) {
-    ZListener<Integer> listener = new ZListener<>(){
+    ZListener listener = new ZListener(){
       @Override
       public void valueChanged(ZQueue q) {
           listenerCalled[num] = true;
