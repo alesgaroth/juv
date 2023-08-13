@@ -1,23 +1,27 @@
 package com.alesgaroth.zuv;
 
 public class ZNode {
-  protected ZValue value;
+  private ZValue[] values;
   ZValue input;
   ZGraphNode parent;
 
   boolean msg_wanted = false, msg_invalid = false, msg_changed = false;
 
   public ZNode(int inputs, int outputs) {
-    value = new ZValue(null, this);
-
+    values = new ZValue[outputs];
+    for (int i = 0; i < outputs; i += 1) {
+      values[i] = new ZValue(null, this);
+    }
   }
 
   public void addListener(ZListener o) {
-    value.addListener(o);
+    for (ZValue value: values) {
+      value.addListener(o);
+    }
   }
 
   public ZValue output(int outputNum) {
-    return value;
+    return values[outputNum];
   }
 
   void setInput(ZValue v, int input) {

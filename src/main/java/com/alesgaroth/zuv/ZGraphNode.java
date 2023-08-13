@@ -61,7 +61,7 @@ public class ZGraphNode extends ZNode {
   public void execute(ZQueue q) {
     q.prepend(inputToReturnValue.parent);
     if (!msg_invalid && msg_changed && input != null) {
-      value.set(input.fetch(q), q);
+      output(0).set(input.fetch(q), q);
     }
     super.execute(q);
   }
