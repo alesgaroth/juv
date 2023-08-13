@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.joda.time.Duration;
+import java.time.Duration;
 
 public class ZQueueTest {
     ZQueue q;
@@ -70,8 +70,8 @@ public class ZQueueTest {
     void canSpecifyAWaitTime() { // for timeouts
       ZVar var1 = new ZVar(3);
       ZNode gn = ZPassThruTest.createPassThru(var1.output(0));
-      q.enqueueIn(gn, Duration.millis(2L));
-      // TODO(alesgaroth) q.next();
+      q.enqueueIn(gn, Duration.ofMillis(2L));
+      q.next();
     }
 
 }
