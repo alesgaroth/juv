@@ -5,7 +5,7 @@ public class ZNode {
   private ZValue[] inputs;
   ZGraphNode parent;
 
-  boolean msg_wanted = false, msg_invalid = false, msg_changed = false;
+  boolean msg_wanted = false, msg_invalid = false, msg_changed = true;
 
   public ZNode(int inputs, int outputs) {
     values = new ZValue[outputs];

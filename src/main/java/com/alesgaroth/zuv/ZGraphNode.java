@@ -5,7 +5,6 @@ import java.util.Set;
 
 public class ZGraphNode extends ZNode {
   Set<ZNode> children = new LinkedHashSet<>();
-  ZValue inputToReturnValue;
   
   public ZGraphNode(int inputs, int outputs) {
     super(inputs, outputs);
@@ -19,8 +18,6 @@ public class ZGraphNode extends ZNode {
 
   public void setReturnValue(ZValue input, int i) {
     addAsChild(input);
-    inputToReturnValue = input;
-    //value.set(input.fetch());
     ZGraphNode gn = this;
     input.addListener(new ZListener() {
 
@@ -55,7 +52,6 @@ public class ZGraphNode extends ZNode {
 
   @Override
   public void execute(ZQueue q) {
-    q.prepend(inputToReturnValue.parent);
     if (!msg_invalid && msg_changed && parameter(0) != null) {
       output(0).set(parameter(0).fetch(q), q);
     }
