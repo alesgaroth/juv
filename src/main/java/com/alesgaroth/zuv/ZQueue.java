@@ -61,16 +61,18 @@ public class ZQueue {
     }
 
     private void nextFuture() {
-        while (!futureQueue.isEmpty() && futureQueue.firstEntry().getKey().isBefore(Instant.now())) {
+        while (!futureQueue.isEmpty()) {
+            if (futureQueue.firstEntry().getKey().isAfter(Instant.now())) {
+                Instant inst = futureQueue.firstEntry().getKey();
+                long howlong = Instant.now().until(inst, ChronoUnit.MILLIS);
+                if (howlong > 0) {
+                    try {
+                        Thread.sleep(howlong); // At this point we should wait or network IO etc.
+                    } catch (InterruptedException ie) {}
+                }
+            }
             deque.addAll(futureQueue.firstEntry().getValue());
-        }
-        if (deque.isEmpty() && !futureQueue.isEmpty()) {
-            Instant inst = futureQueue.firstEntry().getKey();
-            long howlong = Instant.now().until(inst, ChronoUnit.MILLIS);
-            try {
-                Thread.sleep(howlong);
-            } catch (InterruptedException ie) {}
-            deque.addAll(futureQueue.firstEntry().getValue());
+            futureQueue.remove(futureQueue.firstEntry().getKey());
         }
     }
 }
