@@ -30,11 +30,11 @@ public class ZPassThruTest {
     assertEquals(3, gn.output(0).fetch(q) );
   }
 
-  @Disabled
   @Test public void canPassUp() {
     ZGraphNode gn = new ZGraphNode(0, 1);
     gn.setReturnValue(var2.output(0), 0);
     q.enqueue(gn);
+    gn.output(0).fetch(q);
     q.runTillEmpty();
     assertEquals(5, gn.output(0).fetch(q) );    
   }

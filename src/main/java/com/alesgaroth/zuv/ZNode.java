@@ -29,6 +29,10 @@ public class ZNode {
     return inputs[i];
   }
 
+  protected int numOutputs() {
+    return values.length;
+  }
+
   void setInput(ZValue v, int input) {
     inputs[input] = v;
   }
