@@ -25,7 +25,6 @@ public class ZPassThruTest {
    @Test public void canPassThru() {
     ZNode gn  = createPassThru(var1.output(0));
     q.enqueue(gn);
-    gn.output(0).fetch(q);
     q.runTillEmpty();
     assertEquals(3, gn.output(0).fetch(q) );
   }
