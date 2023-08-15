@@ -1,7 +1,12 @@
+---
+Test
+---
 !contents -R2 -g -p -f -h
+!path /workspaces/juv/target/test-classes
+!define TEST_SYSTEM {slim}
 Zuv is a flow based programming language.  Some simple examples may help.
 
-| for.Constants |
+| com.alesgaroth.zuv.fixtures.Constants |
 | input | output? |
 | 1 | 1 |
 | 2 | 2 |
