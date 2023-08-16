@@ -1,3 +1,4 @@
 target
 *.sw[a-z]
 log
+*.zip

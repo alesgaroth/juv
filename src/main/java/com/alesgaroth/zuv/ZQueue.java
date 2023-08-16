@@ -3,7 +3,6 @@ package com.alesgaroth.zuv;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.HashSet;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -62,8 +61,8 @@ public class ZQueue {
 
     private void nextFuture() {
         while (!futureQueue.isEmpty()) {
-            if (futureQueue.firstEntry().getKey().isAfter(Instant.now())) {
-                Instant inst = futureQueue.firstEntry().getKey();
+            Instant inst = futureQueue.firstEntry().getKey();
+            if (inst.isAfter(Instant.now())) {
                 long howlong = Instant.now().until(inst, ChronoUnit.MILLIS);
                 if (howlong > 0) {
                     try {
@@ -72,7 +71,7 @@ public class ZQueue {
                 }
             }
             deque.addAll(futureQueue.firstEntry().getValue());
-            futureQueue.remove(futureQueue.firstEntry().getKey());
+            futureQueue.remove(inst);
         }
     }
 }

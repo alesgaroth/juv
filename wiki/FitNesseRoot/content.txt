@@ -1,1 +1,9 @@
-!contents
+!contents -R -g -p -f -h
+
+# File created by Mafia plugin on Wed Aug 16 02:50:21 UTC 2023
+# More info: https://github.com/sijpesteijn/mafia-maven-plugin
+
+!define TEST_SYSTEM {slim}
+
+!path /workspaces/juv/target/classes/
+!path /workspaces/juv/target/test-classes

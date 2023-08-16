@@ -184,6 +184,12 @@
       <scope>runtime</scope>
     </dependency>
             </jvmDependencies>
+            <targets>
+            <target>.</target>
+            </targets>
+            <statics>
+            <static>!define TEST_SYSTEM {slim}</static>
+            </statics>
             <log>${basedir}/wiki/log/</log>
             <connectionAttempts>4</connectionAttempts>
           </configuration>
