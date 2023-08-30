@@ -6,3 +6,6 @@ wiki/FitNesseRoot/files/mafiaResults
 wiki/FitNesseRoot/files/testResults
 site/FitNesseRoot
 wiki/FitNesseRoot/Rerun*
+FitnesseRoot/files
+FitnesseRoot/ErrorLog
+FitnesseRoot/*.zip
