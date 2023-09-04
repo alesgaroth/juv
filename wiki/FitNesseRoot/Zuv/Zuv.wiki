@@ -6,7 +6,7 @@ path /workspaces/juv/target/test-classes
 define TEST_SYSTEM {slim}
 Zuv is a flow based programming language.  Some simple examples may help.
 
-| com.alesgaroth.zuv.fixtures.Constants |
-| input | output? |
+| com.alesgaroth.zuv.fixtures.IntegerConstants |
+| constant | output? |
 | 1 | 1 |
 | 2 | 2 |
