@@ -10,3 +10,9 @@ Zuv is a flow based programming language.  Some simple examples may help.
 | constant | output? |
 | 1 | 1 |
 | 2 | 2 |
+
+
+| com.alesgaroth.zuv.fixtures.StringConstants |
+| constant | output? |
+| hello | hello |
+| world | world |
