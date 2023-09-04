@@ -2,3 +2,7 @@ target
 *.sw[a-z]
 log
 *.zip
+wiki/FitNesseRoot/files/mafiaResults
+wiki/FitNesseRoot/files/testResults
+site/FitNesseRoot
+wiki/FitNesseRoot/Rerun*
