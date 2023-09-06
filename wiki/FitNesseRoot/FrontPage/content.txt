@@ -1,11 +1,9 @@
-!1 Welcome to [[Zuv][Zuv.Zuv]] [[FitNesse][FitNesse.FitNesse]]!
+!1 Welcome to [[Zuv][Zuv]] [[FitNesse][FitNesse.FitNesse]]!
 !3 try as we might to make Zuv useful.
 Juv is the Java implementation of Zuv.
 
 Original FitNesse page below:
 
-| script | |
-| | |
 
 !1 Welcome to [[FitNesse][FitNesse.FitNesse]]!
 !3 ''The fully integrated stand-alone acceptance testing framework and wiki.''

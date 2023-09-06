@@ -2,9 +2,10 @@
 Test
 ---
 !contents -R2 -g -p -f -h
-path /workspaces/juv/target/test-classes
-define TEST_SYSTEM {slim}
+
 Zuv is a flow based programming language.  Some simple examples may help.
+
+Constants work as one would expect.
 
 | com.alesgaroth.zuv.fixtures.IntegerConstants |
 | constant | output? |

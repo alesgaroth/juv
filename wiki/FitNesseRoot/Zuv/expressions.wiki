@@ -1,0 +1,10 @@
+---
+Test
+---
+<test page>
+
+Simple Expressions can be used in the "human readable" representation. (which looks verry lispy).
+
+|com.alesgaroth.zuv.fixtures.Expressions|
+|expression | output? |
+|(+ 1 1) | 2 |

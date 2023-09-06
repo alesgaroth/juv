@@ -126,6 +126,7 @@
             <stopTestsOnWrong>false</stopTestsOnWrong>
             <tests>
               <test>Zuv.Zuv</test>
+              <test>Zuv.expressions</test>
             </tests>
             <jvmArguments>
               <jvmArgument>CM_SYSTEM=fitnesse.wiki.cmSystems.GitCmSystem</jvmArgument>
