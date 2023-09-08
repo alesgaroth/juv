@@ -18,6 +18,12 @@ class ZuvConstantTest {
     assertEquals(7, constant.output(0).fetch(ZQueue.nullQueue));
   }
 
+  @Test
+  public void testEquivalence() {
+    ZConstant expected = new ZConstant(3);
+    assertEquals(expected, new ZConstant(3));
+  }
+
 
   @Test // Question:  Maybe we should just ignore nulls?
   public void throwsOnNullListener() {

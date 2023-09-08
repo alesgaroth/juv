@@ -7,4 +7,23 @@ public class ZConstant extends ZNode {
         output(0).set(value, null);
   }
 
+  @Override
+  public int hashCode() {
+    return output(0).value.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other instanceof ZConstant that) {
+      return this.output(0).value == that.output(0).value;
+    }
+    return false;
+  }
+
+  @Override
+  public String toString() {
+    Object value = this.output(0).value;
+    return "ZConstant<" + value + ":" + value.getClass().getName()+ ">";
+  }
+
 }
