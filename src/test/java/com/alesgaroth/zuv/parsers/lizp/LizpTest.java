@@ -9,11 +9,16 @@ import com.alesgaroth.zuv.ZQueue;
 import com.alesgaroth.zuv.parsers.ZParser;
 
 public class LizpTest {
-    @Test void canParseIntConstant() {
+
+    void testParsesTo(String input, Object expected) {
         ZParser prsr = new Lizp();
-        ZNode n = prsr.parse("1");
-        ZNode expected = new ZConstant(1);
+        ZNode n = prsr.parse(input);
         assertEquals(expected, n);
+    }
+
+
+    @Test void canParseIntConstant() {
+        testParsesTo("1", new ZConstant(1));
     }
 
     @Test void canParseStringConstant() {
