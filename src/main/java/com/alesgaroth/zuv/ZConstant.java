@@ -15,7 +15,13 @@ public class ZConstant extends ZNode {
   @Override
   public boolean equals(Object other) {
     if (other instanceof ZConstant that) {
-      return this.output(0).value == that.output(0).value;
+      Object value  = this.output(0).value;
+      Object thatValue = that.output(0).value;
+      if (value != null) {
+        return value.equals(thatValue);
+      } else {
+        return value == thatValue;
+      }
     }
     return false;
   }
