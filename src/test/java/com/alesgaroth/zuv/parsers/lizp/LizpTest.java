@@ -22,9 +22,6 @@ public class LizpTest {
     }
 
     @Test void canParseStringConstant() {
-        ZParser prsr = new Lizp();
-        ZNode n = prsr.parse("\"string\"");
-        ZNode expected = new ZConstant("string");
-        assertEquals(expected, n);
+        testParsesTo("\"string\"", new ZConstant("string"));
     }
 }
