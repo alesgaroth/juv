@@ -12,9 +12,6 @@ public class LizpTest {
     @Test void canParseConstant() {
         ZParser prsr = new Lizp();
         ZNode n = prsr.parse("1");
-        ZQueue q = new ZQueue();
-        q.enqueue(n);
-        q.runTillEmpty();
         ZNode expected = new ZConstant(1);
         assertEquals(expected, n);
     }
