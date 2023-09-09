@@ -12,13 +12,18 @@ public class Lizp implements ZParser {
 
     @Override
     public ZNode parse(String input) {
+        return new ZConstant(parseConstant(input));
+    }
+
+    public Object parseConstant(String input) {
         char ch = input.charAt(0);
         if (Character.isDigit(ch)) {
-          return new ZConstant(Integer.parseInt(input));
+          return Integer.parseInt(input);
         } else if (ch == '"') {
-          return new ZConstant(input.substring(1, input.length() -1 ));
+          return input.substring(1, input.length() -1 );
+        } else {
+          return input;
         }
-        return new ZConstant(input);
-    }
+      }
     
 }
