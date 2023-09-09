@@ -7,16 +7,20 @@ public class ZConstant extends ZNode {
         output(0).set(value, null);
   }
 
+  public Object outputValue() {
+    return output(0).value;
+  }
+
   @Override
   public int hashCode() {
-    return output(0).value.hashCode();
+    return outputValue().hashCode();
   }
 
   @Override
   public boolean equals(Object other) {
     if (other instanceof ZConstant that) {
-      Object value  = this.output(0).value;
-      Object thatValue = that.output(0).value;
+      Object value  = this.outputValue();
+      Object thatValue = that.outputValue();
       if (value != null) {
         return value.equals(thatValue);
       } else {
@@ -28,7 +32,7 @@ public class ZConstant extends ZNode {
 
   @Override
   public String toString() {
-    Object value = this.output(0).value;
+    Object value = this.outputValue();
     return "ZConstant<" + value + ":" + value.getClass().getName()+ ">";
   }
 
