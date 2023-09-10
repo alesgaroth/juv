@@ -14,4 +14,9 @@ public class ZAdd extends ZNode {
         super.execute(q);
     }
 
+    @Override
+    public String toString() {
+      return "ZAdd<" + parameter(0).parent() + " + " + parameter(1).parent() + ">";
+    }
+
 }

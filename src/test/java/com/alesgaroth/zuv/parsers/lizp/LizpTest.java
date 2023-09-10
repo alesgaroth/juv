@@ -18,9 +18,12 @@ public class LizpTest {
         assertEquals(expected, n);
     }
 
-
     @Test void canParseIntConstant() {
         testParsesTo("1", new ZConstant(1));
+    }
+
+    @Test void canParseTwoDigitIntConstant() {
+        testParsesTo("12", new ZConstant(12));
     }
 
     @Test void canParseStringConstant() {
