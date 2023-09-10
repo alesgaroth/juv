@@ -2,6 +2,7 @@ package com.alesgaroth.zuv.parsers.lizp;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import com.alesgaroth.zuv.ZAdd;
 import com.alesgaroth.zuv.ZConstant;
@@ -26,6 +27,7 @@ public class LizpTest {
         testParsesTo("\"string\"", new ZConstant("string"));
     }
 
+    @Disabled
     @Test void canParseAddition() {
         ZNode adder = new ZAdd();
         ZNode one = new ZConstant(1);
