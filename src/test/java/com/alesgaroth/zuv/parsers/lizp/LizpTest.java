@@ -3,6 +3,7 @@ package com.alesgaroth.zuv.parsers.lizp;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
+import com.alesgaroth.zuv.ZAdd;
 import com.alesgaroth.zuv.ZConstant;
 import com.alesgaroth.zuv.ZNode;
 import com.alesgaroth.zuv.ZQueue;
@@ -23,5 +24,13 @@ public class LizpTest {
 
     @Test void canParseStringConstant() {
         testParsesTo("\"string\"", new ZConstant("string"));
+    }
+
+    @Test void canParseAddition() {
+        ZNode adder = new ZAdd();
+        ZNode one = new ZConstant(1);
+        adder.setInput(one.output(0), 0);
+        adder.setInput(one.output(0), 1);
+        testParsesTo("(+ 1 1)", adder);
     }
 }

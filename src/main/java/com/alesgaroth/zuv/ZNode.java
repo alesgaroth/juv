@@ -33,7 +33,7 @@ public class ZNode {
     return values.length;
   }
 
-  void setInput(ZValue v, int input) {
+  public void setInput(ZValue v, int input) {
     inputs[input] = v;
   }
 
