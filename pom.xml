@@ -103,7 +103,9 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
-
+        </plugins>
+    </pluginManagement>
+      <plugins>
         <plugin>
           <groupId>nl.sijpesteijn.testing.fitnesse.plugins</groupId>
           <artifactId>mafia-maven-plugin</artifactId>
@@ -212,6 +214,5 @@
 
         </plugin>
       </plugins>
-    </pluginManagement>
   </build>
 </project>
