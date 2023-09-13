@@ -103,21 +103,9 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
-        </plugins>
-    </pluginManagement>
-      <plugins>
         <plugin>
           <groupId>nl.sijpesteijn.testing.fitnesse.plugins</groupId>
           <artifactId>mafia-maven-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>mafia-integration-tests</id>
-              <goals>
-                <goal>test</goal>
-              </goals>
-              <phase>verify</phase>
-            </execution>
-          </executions>
           <configuration>
             <fitNessePort>9090</fitNessePort>
             <wikiRoot>${basedir}/wiki/</wikiRoot>
@@ -157,12 +145,12 @@
                 <scope>runtime</scope>
                 <exclusions>
                   <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
+	<artifactId>slf4j-api</artifactId>
+	<groupId>org.slf4j</groupId>
                   </exclusion>
                   <exclusion>
-                    <artifactId>commons-lang3</artifactId>
-                    <groupId>org.apache.commons</groupId>
+	<artifactId>commons-lang3</artifactId>
+	<groupId>org.apache.commons</groupId>
                   </exclusion>
                 </exclusions>
               </dependency>
@@ -211,7 +199,22 @@
             </statics>
             <connectionAttempts>4</connectionAttempts>
           </configuration>
-
+        </plugin>
+      </plugins>
+    </pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>nl.sijpesteijn.testing.fitnesse.plugins</groupId>
+          <artifactId>mafia-maven-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>mafia-integration-tests</id>
+              <goals>
+                <goal>test</goal>
+              </goals>
+              <phase>verify</phase>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
   </build>
