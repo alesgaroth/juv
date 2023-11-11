@@ -9,7 +9,7 @@ public class ZValue {
   Set<ZListener> listeners = new HashSet<>();
 
   public ZValue(Object value, ZNode parent) {
-  	this.value = value;
+    this.value = value;
     this.parent = parent;
   }
 

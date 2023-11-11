@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 
 public class ZValueTest {
   @Test void canCreateValue() {
-  	ZValue i = new ZValue(7, new ZNode(0, 1));
+    ZValue i = new ZValue(7, new ZNode(0, 1));
     Assertions.assertEquals(7, i.fetch(ZQueue.nullQueue));
   }
 
