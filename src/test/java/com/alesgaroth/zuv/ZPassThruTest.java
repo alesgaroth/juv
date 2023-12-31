@@ -17,7 +17,7 @@ public class ZPassThruTest {
 
   static public ZNode createPassThru(ZValue v) {
     ZGraphNode gn = new ZGraphNode(1, 1);
-	  gn.setInput(v, 0);
+    gn.setInput(v, 0);
     gn.setReturnValue(gn.parameter(0), 0);
     return gn;
   }
