@@ -12,25 +12,25 @@ import java.time.temporal.ChronoUnit;
 
 public class ZQueue {
 
-    Deque<ZNode> deque = new LinkedList<>();
-    TreeMap<Instant, Set<ZNode>> futureQueue = new TreeMap<>();
+    Deque<Executable> deque = new LinkedList<>();
+    TreeMap<Instant, Set<Executable>> futureQueue = new TreeMap<>();
 
-    public void enqueue(ZNode zNode) {
+    public void enqueue(Executable zNode) {
         deque.add(zNode);
     }
 
-    public ZNode next() {
+    public Executable next() { // public for testing
         nextFuture();
         return deque.remove();
     }
 
-    public void prepend(ZNode n) {
+    public void prepend(Executable n) {
         deque.addFirst(n);
     }
 
     public void runTillEmpty() {
         while(!deque.isEmpty()) {
-            ZNode n = next();
+            Executable n = next();
             n.execute(this);
         }
     }
@@ -38,20 +38,20 @@ public class ZQueue {
     public static ZQueue nullQueue = new ZNullQueue();
 
     private static class ZNullQueue extends ZQueue {
-      public void enqueue(ZNode zNode) { }
-      public ZNode next() { return null; }
-      public void prepend(ZNode n) { }
+      public void enqueue(Executable zNode) { }
+      public Executable next() { return null; }
+      public void prepend(Executable n) { }
       public void runTillEmpty() { }
     }
 
-    public void enqueueIn(ZNode gn, Duration duration) {
+    public void enqueueIn(Executable gn, Duration duration) {
         Instant inst = Instant.now().plus(duration);
         setAtTime(gn, inst);
 
     }
 
-    private void setAtTime(ZNode gn, Instant inst) {
-        Set<ZNode> listAtTime = futureQueue.get(inst);
+    private void setAtTime(Executable gn, Instant inst) {
+        Set<Executable> listAtTime = futureQueue.get(inst);
         if (listAtTime == null) {
             listAtTime = new HashSet<>();
         }
@@ -73,5 +73,9 @@ public class ZQueue {
             deque.addAll(futureQueue.firstEntry().getValue());
             futureQueue.remove(inst);
         }
+    }
+
+    public interface Executable {
+      void execute(ZQueue q);
     }
 }

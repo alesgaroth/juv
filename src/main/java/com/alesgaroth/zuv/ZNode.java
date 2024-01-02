@@ -1,6 +1,6 @@
 package com.alesgaroth.zuv;
 
-public class ZNode {
+public class ZNode implements ZQueue.Executable {
   private ZValue[] values;
   private ZValue[] inputs;
   ZGraphNode parent;

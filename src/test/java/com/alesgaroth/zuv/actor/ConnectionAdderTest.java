@@ -29,4 +29,9 @@ public class ConnectionAdderTest {
     Assertions.assertThrows(GraphMismatchException.class,
       () -> adder.connect(node1, 0, node2, 0));
   }
+
+  // TODO: Test we can connect two nodes
+  // TODO: Test two nodes that we connected are connected
+  // TODO: Tests that we can encapsulate a node connected to a node not being encapsulated and do the right thing
+  // TODO: Tests that we can encapsulate a node connected from a node not being encapsulated and do the right thing
 }
