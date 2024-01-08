@@ -6,24 +6,25 @@ import java.util.Set;
 public class ZGraphNode extends ZNode {
   Set<ZNode> children = new LinkedHashSet<>();
   ZValue[] outputs;
+  ZValue childrenOutput = new ZValue(children, this);
 
   public ZGraphNode(int inputs, int outputs) {
     super(inputs, outputs);
     this.outputs = new ZValue[outputs];
   }
 
-  void addAsChild(ZValue t) {
+  void addAsChild(ZValue t, ZQueue q) {
     // find node this Value is the output of, and add it as a child, if it's not already the child of something else.
     ZNode zn = t.parent();
-    addNode(zn);
+    addNode(zn, q);
   }
 
   private void addOutput(ZValue output, int i) {
     outputs[i] = output;
   }
 
-  public void setReturnValue(ZValue input, int i) {
-    addAsChild(input);
+  public void setReturnValue(ZValue input, int i, ZQueue q) {
+    addAsChild(input, q);
     addOutput(input, i);
     ZGraphNode gn = this;
     input.addListener(new ZListener() {
@@ -46,16 +47,22 @@ public class ZGraphNode extends ZNode {
     });
   }
 
-  public void addNode(ZNode var1) {
-    if (var1.parent() == this) {
-      children.add(this);
-    } else if (var1.parent() == null) {
+  public void addNode(ZNode var1, ZQueue q) {
+    if (var1.parent() == null) {
       var1.setParent(this);
-    } else {
+    } else if (var1.parent() != this) {
       throw new GraphMismatchException();
     }
-
+    if (!children.contains(var1)) {
+      children.add(this);
+      childrenOutput.set(children, q);
+    }
   }
+
+  public void addChildrenListener(ZListener listener) {
+    childrenOutput.addListener(listener);
+  }
+
 
   @Override
   public void execute(ZQueue q) {

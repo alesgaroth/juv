@@ -59,7 +59,7 @@ public class ZQueueTest {
     @Test
     void canLoop() {
       ZVar var1 = new ZVar(3);
-      ZNode gn  = ZPassThruTest.createPassThru(var1.output(0));
+      ZNode gn  = ZPassThruTest.createPassThru(var1.output(0), q);
       q.enqueue(gn);
       var1.set((Integer)8, q);
       q.runTillEmpty();
@@ -69,7 +69,7 @@ public class ZQueueTest {
     @Test
     void canSpecifyAWaitTime() { // for timeouts
       ZVar var1 = new ZVar(3);
-      ZNode gn = ZPassThruTest.createPassThru(var1.output(0));
+      ZNode gn = ZPassThruTest.createPassThru(var1.output(0), q);
       q.enqueueIn(gn, Duration.ofMillis(2L));
       q.next();
     }

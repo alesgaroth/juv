@@ -15,6 +15,16 @@ public class ZQueue {
     Deque<Executable> deque = new LinkedList<>();
     TreeMap<Instant, Set<Executable>> futureQueue = new TreeMap<>();
 
+    ZGraphNode root;
+
+    public void setRoot(ZGraphNode root) {
+      this.root = root;
+    }
+
+    public ZGraphNode getRoot() {
+      return root;
+    }
+
     public void enqueue(Executable zNode) {
         deque.add(zNode);
     }
