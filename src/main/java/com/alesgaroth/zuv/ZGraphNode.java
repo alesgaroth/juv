@@ -1,6 +1,8 @@
 package com.alesgaroth.zuv;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ZGraphNode extends ZNode {
@@ -53,10 +55,14 @@ public class ZGraphNode extends ZNode {
     } else if (var1.parent() != this) {
       throw new GraphMismatchException();
     }
-    if (!children.contains(var1)) {
-      children.add(this);
+    if (children.add(var1)) {
+      // child added, notify listeners
       childrenOutput.set(children, q);
     }
+  }
+
+  public List<ZNode> children() {
+    return new ArrayList<>(children);
   }
 
   public void addChildrenListener(ZListener listener) {

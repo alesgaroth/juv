@@ -1,5 +1,7 @@
 package com.alesgaroth.zuv.actor;
 
+import java.util.List;
+
 import com.alesgaroth.zuv.ZGraphNode;
 import com.alesgaroth.zuv.ZListener;
 import com.alesgaroth.zuv.ZNode;
@@ -27,17 +29,20 @@ public class NodeAdderTest implements ZListener {
     //anr.parent = "/"; // TODO replace the string with a NodeLocator
 
     ZQueue q = new ZQueue();
-    q.setRoot(new ZGraphNode(0, 0));
+    ZGraphNode parent = new ZGraphNode(0, 0);
+    // this is a new root,  so it should have no children
+    Assertions.assertTrue(parent.children().isEmpty());
 
-    ZGraphNode parent = q.getRoot();
+    q.setRoot(parent);
     parent.addChildrenListener(this);
     adder.add(anr);
     q.enqueue(adder);
     q.runTillEmpty();
     Assertions.assertTrue(receivedNewNodeEvent);
-     // TODO: verify that node was created 
-     // TODO: Verify that new node was added to some graph
-     // TODO: verify that new node is child of named parent
+    List<ZNode> children = parent.children();
+    Assertions.assertFalse(children.isEmpty());
+    ZNode newNode = children.get(0);
+    Assertions.assertEquals(parent, newNode.parent());
   }
 
   // TODO: tests that we can't add new subnodes to nodes that are not graph nodes
@@ -45,6 +50,8 @@ public class NodeAdderTest implements ZListener {
 
   // TODO: tests we can copy a node into a child
   // TODO: Tests we can encapsulate a set of nodes into a new graph node that is child of the current parent of them
+
+  // TODO: Tests that the client can get list of children, and their x,y coords, and other info about them.
 
   public void valueChanged(ZQueue q) {
     receivedNewNodeEvent = true;
