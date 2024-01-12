@@ -7,44 +7,91 @@ import com.alesgaroth.zuv.ZListener;
 import com.alesgaroth.zuv.ZNode;
 import com.alesgaroth.zuv.ZQueue;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class NodeAdderTest implements ZListener {
 
   boolean receivedNewNodeEvent = false;
 
-  @Test
-  void canAddANode() {
-     NodeAdder adder = new NodeAdder();
-     ZGraphNode g = new ZGraphNode(0, 0);
-     ZNode node = adder.addNode(g, ZQueue.nullQueue);
-     Assertions.assertNotNull(node);
-     Assertions.assertEquals(g, node.parent());
+  NodeAdder adder;
+  ZQueue q;
+  ZGraphNode root; 
+
+  @BeforeEach
+  void before(){
+    adder = new NodeAdder();
+    q = new ZQueue();
+    root = new ZGraphNode(0, 0);
+    root.addChildrenListener(this);
+    q.setRoot(root);
   }
 
   @Test
-  void canCreateNodeViaAddNodeRequest() {
+  void canCreateNode() {
     AddNodeRequest anr = new AddNodeRequest();
-    NodeAdder adder = new NodeAdder();
     //anr.parent = "/"; // TODO replace the string with a NodeLocator
 
-    ZQueue q = new ZQueue();
-    ZGraphNode parent = new ZGraphNode(0, 0);
     // this is a new root,  so it should have no children
-    Assertions.assertTrue(parent.children().isEmpty());
+    Assertions.assertTrue(root.children().isEmpty());
 
-    q.setRoot(parent);
-    parent.addChildrenListener(this);
     adder.add(anr);
     q.enqueue(adder);
     q.runTillEmpty();
+
     Assertions.assertTrue(receivedNewNodeEvent);
-    List<ZNode> children = parent.children();
+    List<ZNode> children = root.children();
     Assertions.assertFalse(children.isEmpty());
     ZNode newNode = children.get(0);
-    Assertions.assertEquals(parent, newNode.parent());
+    Assertions.assertEquals(root, newNode.parent());
   }
 
+  @Test void canCreateNodeUnderNotRoot() {
+
+    // first create a direct child
+    AddNodeRequest anr = new AddNodeRequest();
+
+    adder.add(anr);
+    q.enqueue(adder);
+    q.runTillEmpty();
+
+
+    var zl = new ZListener() {
+      boolean myReceivedNewNodeEvent = false;
+      public void valueChanged(ZQueue q) {
+        myReceivedNewNodeEvent = true;
+      }
+      public void valueInvalidated(ZQueue q) {
+      }
+    };
+    ZGraphNode newParent = (ZGraphNode)root.children().get(0);
+    newParent.addChildrenListener(zl);
+
+    AddNodeRequest anr2 = new AddNodeRequest(newParent);
+
+    adder.add(anr2);
+    q.enqueue(adder);
+    q.runTillEmpty();
+
+    Assertions.assertTrue(zl.myReceivedNewNodeEvent);
+    List<ZNode> children = newParent.children();
+    Assertions.assertFalse(children.isEmpty());
+    ZNode newNode = children.get(0);
+    Assertions.assertEquals(newParent, newNode.parent());
+  }
+
+  @Test
+  public void pathMakesSense() {
+    AddNodeRequest anr = new AddNodeRequest();
+
+    adder.add(anr);
+    q.enqueue(adder);
+    q.runTillEmpty();
+    ZNode newNode = root.children().get(0);
+    Assertions.assertTrue(newNode.getPath().startsWith("/"), "a path should start with /");
+    Assertions.assertFalse(newNode.getPath().startsWith("//"), "a path should not start with //");
+    Assertions.assertTrue(newNode.getPath().startsWith("/" + newNode.name()), " a path should start with / followed by the name of the node");
+  }
   // TODO: tests that we can't add new subnodes to nodes that are not graph nodes
   // TODO: tests that we can't add a node that already has a parent to a node.
 

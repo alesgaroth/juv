@@ -1,12 +1,12 @@
 package com.alesgaroth.zuv;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 public class ZGraphNode extends ZNode {
-  Set<ZNode> children = new LinkedHashSet<>();
+  Map<String, ZNode> children = new HashMap<>();
   ZValue[] outputs;
   ZValue childrenOutput = new ZValue(children, this);
 
@@ -55,18 +55,35 @@ public class ZGraphNode extends ZNode {
     } else if (var1.parent() != this) {
       throw new GraphMismatchException();
     }
-    if (children.add(var1)) {
+    if (children.put(var1.name(), var1) != var1) {
       // child added, notify listeners
       childrenOutput.set(children, q);
     }
   }
 
   public List<ZNode> children() {
-    return new ArrayList<>(children);
+    return new ArrayList<>(children.values());
   }
 
   public void addChildrenListener(ZListener listener) {
     childrenOutput.addListener(listener);
+  }
+
+  public ZNode getByName(String name) {
+     ZNode child =  children.get(name);
+     if (child == null) {
+        throw new ZPathException("looking for " + name + " in " + getPath() + " from " +
+           String.join(", ", children.keySet()));
+     }
+     return children.get(name);
+  }
+
+  @Override
+  public String toString() {
+    return getPath() + "#" + super.toString();
+  }
+  public String getPath() {
+    return super.getPath() + "/";
   }
 
 

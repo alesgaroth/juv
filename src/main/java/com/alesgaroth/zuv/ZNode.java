@@ -45,6 +45,15 @@ public class ZNode implements ZQueue.Executable {
     parent = zGraphNode;
   }
 
+  public String getPath() {
+    if (parent() == null) return "";
+    return parent.getPath() + name();
+  }
+
+  public String name() {
+     return "a";
+  }
+
   public void execute(ZQueue q) {
       msg_wanted = false;
       msg_invalid = false;

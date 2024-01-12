@@ -2,6 +2,7 @@ package com.alesgaroth.zuv.actor;
 
 import com.alesgaroth.zuv.ZGraphNode;
 import com.alesgaroth.zuv.ZNode;
+import com.alesgaroth.zuv.ZPathException;
 import com.alesgaroth.zuv.ZQueue;
 
 import java.util.ArrayList;
@@ -35,9 +36,27 @@ public class NodeAdder implements ZQueue.Executable {
   public void execute(ZQueue q) {
     while (!requests.isEmpty()) {
       AddNodeRequest req = requests.remove(0);
-      ZGraphNode parent = q.getRoot();
+      ZGraphNode parent = followPath(q.getRoot(), req.parent);
       parent.addNode(new ZGraphNode(0, 0), q);
       notifyListeners();
     }
+  }
+
+  private ZGraphNode followPath(ZGraphNode start, String path) {
+    if (path == "/") return start;
+    for (String name : path.substring(1).split("/")) {
+      if (name.length() < 1) continue;
+      ZNode node = start.getByName(name);
+      if (node == null) {
+        throw new ZPathException(path + " is not a valid path");
+      } else if (node instanceof ZGraphNode gn) {
+        start = gn;
+      } else if (path.endsWith("/")) {
+        throw new ZPathException(path + " is not a valid path for a non graph node");
+      } else if (path.endsWith(name)) {
+        return (ZGraphNode)node; // this will fail
+      }
+    }
+    return start;
   }
 }
