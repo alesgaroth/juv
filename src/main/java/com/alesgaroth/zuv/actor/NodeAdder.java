@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 public class NodeAdder implements ZQueue.Executable {
-  Set<NodeAdditionListener> listeners = new HashSet<>();
   List<AddNodeRequest> requests = new ArrayList<>();
 
   public ZNode addNode(ZGraphNode parent, ZQueue q) {
@@ -22,23 +21,12 @@ public class NodeAdder implements ZQueue.Executable {
   public void add(AddNodeRequest req) {
     requests.add(req);
   }
-  private void notifyListeners() {
-    NodeAddedEvent nae = new NodeAddedEvent() {};
-    for(var l: listeners) {
-      l.nodeAdded(nae);
-    }
-  }
-
-  public void addListener(NodeAdditionListener l) {
-    listeners.add(l);
-  }
 
   public void execute(ZQueue q) {
     while (!requests.isEmpty()) {
       AddNodeRequest req = requests.remove(0);
       ZGraphNode parent = followPath(q.getRoot(), req.parent);
       parent.addNewNode(q);
-      notifyListeners();
     }
   }
 
