@@ -37,7 +37,7 @@ public class NodeAdder implements ZQueue.Executable {
     while (!requests.isEmpty()) {
       AddNodeRequest req = requests.remove(0);
       ZGraphNode parent = followPath(q.getRoot(), req.parent);
-      parent.addNode(new ZGraphNode(0, 0), q);
+      parent.addNewNode(q);
       notifyListeners();
     }
   }

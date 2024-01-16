@@ -6,9 +6,14 @@ public class AddNodeRequest {
   public String parent;
 
   public AddNodeRequest() {
-    this.parent = "/";
+    this("/");
   }
   public AddNodeRequest(ZNode parent) {
-    this.parent = parent.getPath();
+    this(parent.getPath());
+  }
+
+  private AddNodeRequest(String parent) {
+    // verify path is valid before making this public
+    this.parent = parent;
   }
 }

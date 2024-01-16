@@ -49,6 +49,11 @@ public class ZGraphNode extends ZNode {
     });
   }
 
+  public void addNewNode(ZQueue q) {
+    ZNode var1 = new ZGraphNode(0, 0);
+    addNode(var1, q);
+  }
+
   public void addNode(ZNode var1, ZQueue q) {
     if (var1.parent() == null) {
       var1.setParent(this);

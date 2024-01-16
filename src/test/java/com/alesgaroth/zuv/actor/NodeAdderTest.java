@@ -30,7 +30,6 @@ public class NodeAdderTest implements ZListener {
   @Test
   void canCreateNode() {
     AddNodeRequest anr = new AddNodeRequest();
-    //anr.parent = "/"; // TODO replace the string with a NodeLocator
 
     // this is a new root,  so it should have no children
     Assertions.assertTrue(root.children().isEmpty());
@@ -97,6 +96,7 @@ public class NodeAdderTest implements ZListener {
 
   // TODO: tests we can copy a node into a child
   // TODO: Tests we can encapsulate a set of nodes into a new graph node that is child of the current parent of them
+  // TODO: tests we can move a node into a child
 
   // TODO: Tests that the client can get list of children, and their x,y coords, and other info about them.
 
@@ -105,5 +105,4 @@ public class NodeAdderTest implements ZListener {
   }
   public void valueInvalidated(ZQueue q) {
   }
-
 }
