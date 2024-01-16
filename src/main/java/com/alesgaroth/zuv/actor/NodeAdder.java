@@ -32,7 +32,7 @@ public class NodeAdder implements ZQueue.Executable {
 
   private ZGraphNode followPath(ZGraphNode start, String path) {
     if (path == "/") return start;
-    for (String name : path.substring(1).split("/")) {
+    for (String name : path.split("/")) {
       if (name.length() < 1) continue;
       ZNode node = start.getByName(name);
       if (node == null) {
