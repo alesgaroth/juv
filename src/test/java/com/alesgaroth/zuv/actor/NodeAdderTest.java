@@ -22,9 +22,8 @@ public class NodeAdderTest implements ZListener {
   void before(){
     adder = new NodeAdder();
     q = new ZQueue();
-    root = new ZGraphNode(0, 0);
+    root = q.getRoot();
     root.addChildrenListener(this);
-    q.setRoot(root);
   }
 
   @Test

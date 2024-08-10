@@ -3,6 +3,8 @@ package com.alesgaroth.zuv;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -16,6 +18,10 @@ public class ZQueue {
     TreeMap<Instant, Set<Executable>> futureQueue = new TreeMap<>();
 
     ZGraphNode root;
+
+    public ZQueue() {
+      setRoot(new Root());
+    }
 
     public void setRoot(ZGraphNode root) {
       this.root = root;
@@ -87,5 +93,13 @@ public class ZQueue {
 
     public interface Executable {
       void execute(ZQueue q);
+    }
+
+    class Root extends ZGraphNode {
+      Map<String, ZNode> paths = new HashMap<>();
+      Root() {
+        super(0, 0);
+      }
+      // TODO: Add a way to add nodes in subgraphs
     }
 }

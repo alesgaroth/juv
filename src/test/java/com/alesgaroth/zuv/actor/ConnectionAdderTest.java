@@ -35,4 +35,6 @@ public class ConnectionAdderTest {
   // TODO: Test two nodes that we connected are connected
   // TODO: Tests that we can encapsulate a node connected to a node not being encapsulated and do the right thing
   // TODO: Tests that we can encapsulate a node connected from a node not being encapsulated and do the right thing
+
+  // TODO: test when changing a graph node input, that the child node connected inside to the paramater gets notified of the change
 }
