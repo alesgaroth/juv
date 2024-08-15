@@ -15,5 +15,5 @@ public class Connection {
     listeners.add(new NodePort(l, input));
   }
 
-  public record NodePort(Node l, int input) {}
+  public record NodePort(Node node, int input) {}
 }

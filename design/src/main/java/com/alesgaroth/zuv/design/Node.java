@@ -19,6 +19,10 @@ public class Node {
     upstream.outboundConnections[output].addListener(this, input);
   }
 
+  public int getNumOutputs() {
+    return outboundConnections.length;
+  }
+
   public Connection getOutput(int output) {
     if (!validPut(output, outboundConnections.length)) 
       throw new BadConnectionException();
