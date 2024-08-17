@@ -13,12 +13,17 @@ public class ConnectionInstance {
   Connection conn;
   List<NodeInstance> listeners = new ArrayList<>();
 
-  ConnectionInstance(Connection conn, Map<Node, NodeInstance> algoInst) {
+  ConnectionInstance(Connection conn) {
     this.conn = conn;
   }
 
   public Iterable<NodeInstance> getListeners() {
     return Collections.unmodifiableList(listeners);
+  }
+
+  void connectDownStreamNode(Connection.NodePort np, NodeInstance ni2) {
+    ni2.setInput(this, np.input());
+    listeners.add(ni2);
   }
 }
 
