@@ -23,6 +23,10 @@ public class Node {
     return outboundConnections.length;
   }
 
+  public int getNumInputs() {
+    return numInputs;
+  }
+
   public Connection getOutput(int output) {
     if (!validPut(output, outboundConnections.length)) 
       throw new BadConnectionException();

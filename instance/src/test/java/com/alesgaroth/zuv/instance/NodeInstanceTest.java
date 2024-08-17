@@ -34,12 +34,12 @@ public class NodeInstanceTest {
       assertNotNull(oneInstance);
       assertNotNull(twoInstance);
       ConnectionInstance ci = oneInstance.getOutput(0);
+      assertEquals(ci, twoInstance.getInput(0));
       for(NodeInstance other: ci.getListeners()){
         assertEquals(other.getNode(), twoInstance.getNode());
         assertEquals(other, twoInstance);
         return;
       }
       assertFalse(true, "we should have found the other end");
-
     }
 }

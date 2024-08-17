@@ -17,7 +17,7 @@ public class ConnectionInstance {
     this.conn = conn;
     for(Connection.NodePort np: conn.getListeners()){
       NodeInstance ni = algoInst.computeIfAbsent(np.node(), (key) -> new NodeInstance(key));
-      //ni.setInput(this, np.input());
+      ni.setInput(this, np.input());
       listeners.add(ni);
     }
   }
