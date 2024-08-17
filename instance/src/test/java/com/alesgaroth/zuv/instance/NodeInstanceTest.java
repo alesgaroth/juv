@@ -13,7 +13,15 @@ import com.alesgaroth.zuv.design.Node;
 public class NodeInstanceTest {
     @Test
     public void canInstantiate1() {
-        new NodeInstance(new Node(0, 0));
+	Node n = new Node(0, 0);
+        NodeInstance ni = new NodeInstance(n);
+	assertEquals(ni.getNode(), n);
+	assertThrows(IndexOutOfBoundsException.class, () -> ni.getOutput(-1));
+	assertThrows(IndexOutOfBoundsException.class, () -> ni.getOutput(1));
+	assertThrows(IndexOutOfBoundsException.class, () -> ni.getInput(-1));
+	assertThrows(IndexOutOfBoundsException.class, () -> ni.getInput(1));
+	assertThrows(IndexOutOfBoundsException.class, () -> ni.setInput(null, 1));
+	assertThrows(IndexOutOfBoundsException.class, () -> ni.setInput(null, -1));
     }
 
     @Test

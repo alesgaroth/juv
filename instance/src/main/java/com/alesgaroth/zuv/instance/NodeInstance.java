@@ -18,17 +18,15 @@ public class NodeInstance {
     return design;
   }
 
-
-
-  public ConnectionInstance getOutput(int output) {
+  ConnectionInstance getOutput(int output) {
     return connections[output];
   }
 
-  public ConnectionInstance getInput(int input) {
+  ConnectionInstance getInput(int input) {
     return upstreams[input];
   }
 
-  public void setInput(ConnectionInstance ci, int input) {
+  void setInput(ConnectionInstance ci, int input) {
     upstreams[input] = ci;
   }
 }
