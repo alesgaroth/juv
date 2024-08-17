@@ -22,7 +22,7 @@ public class NodeInstanceTest {
       Node two = new Node(1, 0);
       NodeInstance oneInstance = null, twoInstance = null;
       two.dependOn(0, one, 0);
-      Iterable<NodeInstance> instances = NodeInstance.cloneOutputs(Set.of(one, two));
+      Iterable<NodeInstance> instances = AlgorithmInstance.cloneOutputs(Set.of(one, two));
       for(NodeInstance ni: instances) {
         if(ni.getNode() == one) {
           oneInstance = ni;

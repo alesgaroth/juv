@@ -15,11 +15,6 @@ public class ConnectionInstance {
 
   ConnectionInstance(Connection conn, Map<Node, NodeInstance> algoInst) {
     this.conn = conn;
-    for(Connection.NodePort np: conn.getListeners()){
-      NodeInstance ni = algoInst.computeIfAbsent(np.node(), (key) -> new NodeInstance(key));
-      ni.setInput(this, np.input());
-      listeners.add(ni);
-    }
   }
 
   public Iterable<NodeInstance> getListeners() {
