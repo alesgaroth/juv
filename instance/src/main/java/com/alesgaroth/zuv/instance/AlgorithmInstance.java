@@ -13,11 +13,11 @@ public class AlgorithmInstance {
   static Map<Class<? extends Node>, Class<? extends NodeInstance>> basemap = Map.of(Node.class, NodeInstance.class);
 
 
-  AlgorithmInstance(Map<Class<? extends Node>, Class<? extends NodeInstance>> m) {
+  public AlgorithmInstance(Map<Class<? extends Node>, Class<? extends NodeInstance>> m) {
     this.classMap = m;
   }
 
-  AlgorithmInstance() {
+  public AlgorithmInstance() {
     this(basemap);
   }
 
@@ -61,7 +61,12 @@ public class AlgorithmInstance {
   }
 
   NodeInstance createNode(Node n) {
-      return new NodeInstance(n);
+    Class<?> clz = n.getClass();
+    try {
+      return classMap.get(clz).getDeclaredConstructor(clz).newInstance(n);
+    } catch (Exception e) {
+      throw new RuntimeException("can't get declared constructor for " + clz + " from " + classMap, e);
+    }
   }
   
 }
