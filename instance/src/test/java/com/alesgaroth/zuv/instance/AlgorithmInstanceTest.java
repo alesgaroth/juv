@@ -7,29 +7,32 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import com.alesgaroth.zuv.design.Node;
 
-public class NodeInstanceTest {
-    @Test
-    public void canInstantiate1() {
-        Node n = new Node(0, 0);
-        NodeInstance ni = new NodeInstance(n);
-        assertEquals(ni.getNode(), n);
-        assertThrows(IndexOutOfBoundsException.class, () -> ni.getOutput(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> ni.getOutput(1));
-        assertThrows(IndexOutOfBoundsException.class, () -> ni.getInput(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> ni.getInput(1));
-        assertThrows(IndexOutOfBoundsException.class, () -> ni.setInput(null, 1));
-        assertThrows(IndexOutOfBoundsException.class, () -> ni.setInput(null, -1));
+public class AlgorithmInstanceTest {
+
+    Node one = new Node(0, 1);
+    Node two = new Node(1, 0);
+
+    @BeforeEach
+    public void before() {
+      two.dependOn(0, one, 0);
     }
+
+    @Test void canCreateAMap() {
+      Map<Class<? extends Node>, Class<? extends NodeInstance>> mymap = Map.of(Node.class, NodeInstance.class);
+      AlgorithmInstance instance = new AlgorithmInstance(mymap);
+      instance.instantiate(Set.of(one, two));
+    }
+
 
     @Test
     public void canInstantiateAnAlgorithm(){
-      Node one = new Node(0, 1);
-      Node two = new Node(1, 0);
-      two.dependOn(0, one, 0);
 
       List<NodeInstance> list = AlgorithmInstance.cloneOutputs(Set.of(one, two));
       NodeInstance oneInstance = list.get(0);
