@@ -1,4 +1,4 @@
-package com.alesgaroth.zuv.design;
+package com.alesgaroth.zuv.runtime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -40,6 +40,13 @@ public class RunTest
 
     @Test
     public void canMakeChange() {
+      variableInstance.update("new value");
+    }
+
+    @Test
+    public void changePropagates() {
+      variableInstance.update("new value");
+      new Runner(List.of(variableInstance, twoInstance));
     }
 
 }

@@ -3,6 +3,7 @@ package com.alesgaroth.zuv.instance;
 import com.alesgaroth.zuv.design.Connection;
 import com.alesgaroth.zuv.design.Node;
 
+// A NodeInstance is analogous to a stack frame in a normal running system
 public class NodeInstance {
   Node design;
   ConnectionInstance [] connections;
