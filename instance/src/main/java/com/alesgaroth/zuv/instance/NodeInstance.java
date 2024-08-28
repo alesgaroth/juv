@@ -23,6 +23,10 @@ public class NodeInstance {
     return connections[output];
   }
 
+  void setOutput(ConnectionInstance ci, int output) {
+    connections[output] = ci;
+  }
+
   ConnectionInstance getInput(int input) {
     return upstreams[input];
   }

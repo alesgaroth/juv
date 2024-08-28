@@ -43,21 +43,25 @@ public class AlgorithmInstance {
   }
 
   private NodeInstance createNodeAndItsConnection(Node n) {
-    NodeInstance ni = createNodeIfNotAlreadCreated(n);
-    for(int i = 0; i < ni.connections.length; i += 1) 
-     ni.connections[i] = createConnection(n.getOutput(i));
+    NodeInstance ni = createNodeIfAbsent(n);
+    for(int i = 0; i < n.getNumOutputs(); i += 1) 
+     ni.setOutput(createConnectionAndNodes(n.getOutput(i)), i);
     return ni;
   }
 
-  private ConnectionInstance createConnection(Connection output) {
-    ConnectionInstance conn = new ConnectionInstance(output);
+  private ConnectionInstance createConnectionAndNodes(Connection output) {
+    ConnectionInstance conn = createConnection(output);
     for(Connection.NodePort np: output.getListeners()) 
-      conn.connectDownStreamNode(np, createNodeIfNotAlreadCreated(np.node()));
+      conn.connectDownStreamNode(np, createNodeIfAbsent(np.node()));
     return conn;
   }
 
-  NodeInstance createNodeIfNotAlreadCreated(Node n) {
+  NodeInstance createNodeIfAbsent(Node n) {
     return nis.computeIfAbsent(n, this::createNode);
+  }
+
+  ConnectionInstance createConnection(Connection output) {
+    return new ConnectionInstance(output);
   }
 
   NodeInstance createNode(Node n) {
