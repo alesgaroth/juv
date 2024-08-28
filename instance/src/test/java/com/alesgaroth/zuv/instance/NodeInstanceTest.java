@@ -24,26 +24,4 @@ public class NodeInstanceTest {
         assertThrows(IndexOutOfBoundsException.class, () -> ni.setInput(null, 1));
         assertThrows(IndexOutOfBoundsException.class, () -> ni.setInput(null, -1));
     }
-
-    @Test
-    public void canInstantiateAnAlgorithm(){
-      Node one = new Node(0, 1);
-      Node two = new Node(1, 0);
-      two.dependOn(0, one, 0);
-
-      List<NodeInstance> list = AlgorithmInstance.cloneOutputs(Set.of(one, two));
-      NodeInstance oneInstance = list.get(0);
-      NodeInstance twoInstance = list.get(1);
-
-      assertNotNull(oneInstance);
-      assertNotNull(twoInstance);
-      ConnectionInstance ci = oneInstance.getOutput(0);
-      assertEquals(ci, twoInstance.getInput(0));
-      for(NodeInstance other: ci.getListeners()){
-        assertEquals(other.getNode(), twoInstance.getNode());
-        assertEquals(other, twoInstance);
-        return;
-      }
-      assertFalse(true, "we should have found the other end");
-    }
 }

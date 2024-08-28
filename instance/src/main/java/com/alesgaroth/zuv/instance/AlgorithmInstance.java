@@ -9,12 +9,20 @@ import java.util.Map;
 
 public class AlgorithmInstance {
   Map<Node, NodeInstance> nis = new HashMap<>();
-  Map<Class<? extends Node>, Class<? extends NodeInstance>> classMap;
   static Map<Class<? extends Node>, Class<? extends NodeInstance>> basemap = Map.of(Node.class, NodeInstance.class);
+  InstanceFactory creator;
 
+  static public interface InstanceFactory {
+    NodeInstance createNode(Node n);
+    ConnectionInstance createConnection(Connection output);
+  }
+
+  public AlgorithmInstance(InstanceFactory factory) {
+    creator = factory;
+  }
 
   public AlgorithmInstance(Map<Class<? extends Node>, Class<? extends NodeInstance>> m) {
-    this.classMap = m;
+    this(new InstanceMapFactory(m));
   }
 
   public AlgorithmInstance() {
@@ -26,10 +34,10 @@ public class AlgorithmInstance {
    * creates a NodeInstance for each Node and returns list with matching
    * NodeInstances in the same order as the given iterable returns them.
    */
-  public static List<NodeInstance> cloneOutputs(Iterable<Node> set) {
-    AlgorithmInstance instance = new AlgorithmInstance();
-    return instance.instantiate(set);
-  }
+  //public static List<NodeInstance> cloneOutputs(Iterable<Node> set) {
+    //AlgorithmInstance instance = new AlgorithmInstance();
+    //return instance.instantiate(set);
+  //}
 
   /**
    * creates a NodeInstance for each Node and returns list with matching
@@ -50,27 +58,14 @@ public class AlgorithmInstance {
   }
 
   private ConnectionInstance createConnectionAndNodes(Connection output) {
-    ConnectionInstance conn = createConnection(output);
+    ConnectionInstance conn = creator.createConnection(output);
     for(Connection.NodePort np: output.getListeners()) 
       conn.connectDownStreamNode(np, createNodeIfAbsent(np.node()));
     return conn;
   }
 
   NodeInstance createNodeIfAbsent(Node n) {
-    return nis.computeIfAbsent(n, this::createNode);
+    return nis.computeIfAbsent(n, m -> creator.createNode(m));
   }
 
-  ConnectionInstance createConnection(Connection output) {
-    return new ConnectionInstance(output);
-  }
-
-  NodeInstance createNode(Node n) {
-    Class<?> clz = n.getClass();
-    try {
-      return classMap.get(clz).getDeclaredConstructor(clz).newInstance(n);
-    } catch (Exception e) {
-      throw new RuntimeException("can't get declared constructor for " + clz + " from " + classMap, e);
-    }
-  }
-  
 }

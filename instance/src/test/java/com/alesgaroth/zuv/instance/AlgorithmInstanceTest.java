@@ -34,7 +34,7 @@ public class AlgorithmInstanceTest {
     @Test
     public void canInstantiateAnAlgorithm(){
 
-      List<NodeInstance> list = AlgorithmInstance.cloneOutputs(Set.of(one, two));
+      List<NodeInstance> list = new AlgorithmInstance().instantiate(Set.of(one, two));
       NodeInstance oneInstance = list.get(0);
       NodeInstance twoInstance = list.get(1);
 
