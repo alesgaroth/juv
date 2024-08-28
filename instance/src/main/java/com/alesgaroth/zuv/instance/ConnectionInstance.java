@@ -10,12 +10,7 @@ import java.util.Map;
 
 public class ConnectionInstance {
 
-  Connection conn;
   List<NodeInstance> listeners = new ArrayList<>();
-
-  ConnectionInstance(Connection conn) {
-    this.conn = conn;
-  }
 
   public Iterable<NodeInstance> getListeners() {
     return Collections.unmodifiableList(listeners);

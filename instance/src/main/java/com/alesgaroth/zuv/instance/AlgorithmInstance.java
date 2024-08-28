@@ -14,7 +14,7 @@ public class AlgorithmInstance {
 
   static public interface InstanceFactory {
     NodeInstance createNode(Node n);
-    ConnectionInstance createConnection(Connection output);
+    ConnectionInstance createConnection(NodeInstance ni, int output);
   }
 
   public AlgorithmInstance(InstanceFactory factory) {
@@ -52,13 +52,14 @@ public class AlgorithmInstance {
 
   private NodeInstance createNodeAndItsConnection(Node n) {
     NodeInstance ni = createNodeIfAbsent(n);
-    for(int i = 0; i < n.getNumOutputs(); i += 1) 
-     ni.setOutput(createConnectionAndNodes(n.getOutput(i)), i);
+    for(int i = 0; i < n.getNumOutputs(); i += 1)  {
+     ConnectionInstance conn = creator.createConnection(ni, i);
+     ni.setOutput(createNodes(conn, n.getOutput(i)), i);
+    }
     return ni;
   }
 
-  private ConnectionInstance createConnectionAndNodes(Connection output) {
-    ConnectionInstance conn = creator.createConnection(output);
+  private ConnectionInstance createNodes(ConnectionInstance conn, Connection output) {
     for(Connection.NodePort np: output.getListeners()) 
       conn.connectDownStreamNode(np, createNodeIfAbsent(np.node()));
     return conn;

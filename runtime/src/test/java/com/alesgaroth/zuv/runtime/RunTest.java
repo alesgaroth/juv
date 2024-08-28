@@ -13,7 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.alesgaroth.zuv.design.Node;
+import com.alesgaroth.zuv.design.Connection;
 import com.alesgaroth.zuv.instance.AlgorithmInstance;
+import com.alesgaroth.zuv.instance.ConnectionInstance;
+import com.alesgaroth.zuv.instance.InstanceMapFactory;
 import com.alesgaroth.zuv.instance.NodeInstance;
 
 public class RunTest 
@@ -28,12 +31,17 @@ public class RunTest
         Node.class, NodeInstance.class,
         VariableNode.class, VariableNodeInstance.class
         );
+    AlgorithmInstance.InstanceFactory factory = new InstanceMapFactory(classMap) {
+      public ConnectionInstance createConnection(Connection output) {
+        return super.createConnection(output);
+      }
+    };
 
 
     @BeforeEach
     public void before() {
       two.dependOn(0, variable, 0);
-      List<NodeInstance> list = new AlgorithmInstance(classMap).instantiate(List.of(variable, two));
+      List<NodeInstance> list = new AlgorithmInstance(factory).instantiate(List.of(variable, two));
       variableInstance = (VariableNodeInstance)list.get(0);
       twoInstance = list.get(1);
     }
