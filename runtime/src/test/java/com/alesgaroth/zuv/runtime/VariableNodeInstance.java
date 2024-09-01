@@ -10,5 +10,6 @@ public class VariableNodeInstance extends NodeInstance {
   }
 
   void update(Object newValue){
+    ((RuntimeConnection)getOutput(0)).update(newValue);
   }
 }

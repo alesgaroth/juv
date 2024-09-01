@@ -1,7 +1,6 @@
 package com.alesgaroth.zuv.instance;
 
 import com.alesgaroth.zuv.design.Connection;
-import com.alesgaroth.zuv.design.Node;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -4,7 +4,7 @@ import com.alesgaroth.zuv.design.Connection;
 import com.alesgaroth.zuv.design.Node;
 
 // A NodeInstance is analogous to a stack frame in a normal running system
-public class NodeInstance {
+public class NodeInstance implements Runnable {
   Node design;
   ConnectionInstance [] connections;
   ConnectionInstance [] upstreams;
@@ -19,19 +19,22 @@ public class NodeInstance {
     return design;
   }
 
-  ConnectionInstance getOutput(int output) {
+  public ConnectionInstance getOutput(int output) {
     return connections[output];
   }
 
-  void setOutput(ConnectionInstance ci, int output) {
+  public void setOutput(ConnectionInstance ci, int output) {
     connections[output] = ci;
   }
 
-  ConnectionInstance getInput(int input) {
+  public ConnectionInstance getInput(int input) {
     return upstreams[input];
   }
 
-  void setInput(ConnectionInstance ci, int input) {
+  public void setInput(ConnectionInstance ci, int input) {
     upstreams[input] = ci;
+  }
+
+  public void run() {
   }
 }

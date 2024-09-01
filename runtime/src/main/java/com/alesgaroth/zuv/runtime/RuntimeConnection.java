@@ -1,22 +1,32 @@
 
 package com.alesgaroth.zuv.runtime;
 
-import com.alesgaroth.zuv.design.Connection;
-import com.alesgaroth.zuv.design.Node;
 import com.alesgaroth.zuv.instance.ConnectionInstance;
 import com.alesgaroth.zuv.instance.NodeInstance;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.concurrent.Executor;
 
 public class RuntimeConnection extends ConnectionInstance {
 
-  NodeInstance upstream;
+  final NodeInstance upstream;
+  final Executor executor;
+  private Object value;
 
-  RuntimeConnection(NodeInstance upstream) {
+  public RuntimeConnection(Executor ex, NodeInstance upstream) {
+    this.executor = ex;
     this.upstream = upstream;
   }
+
+  public void update(Object value) {
+    this.value = value;
+    for(NodeInstance ni: getListeners()){
+      executor.execute(ni);
+    }
+  }
+
+  public Object getValue() {
+    return this.value;
+  }
+
 }
 
