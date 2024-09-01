@@ -13,10 +13,10 @@ public class Node {
   }
 
   public void dependOn(int input, Node upstream, int output) {
-    if (!validConnection(input, upstream, output)) 
+    if (!validPut(input, numInputs)) 
       throw new BadConnectionException();
 
-    upstream.outboundConnections[output].addListener(this, input);
+    upstream.getOutput(output).addListener(this, input);
   }
 
   public int getNumOutputs() {
@@ -32,10 +32,6 @@ public class Node {
       throw new BadConnectionException();
 
     return outboundConnections[output];
-  }
-
-  boolean validConnection(int input, Node upstream, int output) {
-    return validPut(input, numInputs) && validPut(output, upstream.outboundConnections.length);
   }
 
   boolean validPut(int num, int max) {
