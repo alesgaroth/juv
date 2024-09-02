@@ -8,13 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import com.alesgaroth.zuv.design.Node;
 
 public class AlgorithmInstanceTest {
+    final static Map<Class<? extends Node>, Class<? extends NodeInstance>> mymap = Map.of(Node.class, NodeInstance.class);
 
     Node one = new Node(0, 1);
     Node two = new Node(1, 0);
@@ -25,16 +25,15 @@ public class AlgorithmInstanceTest {
     }
 
     @Test void canCreateAMap() {
-      Map<Class<? extends Node>, Class<? extends NodeInstance>> mymap = Map.of(Node.class, NodeInstance.class);
       AlgorithmInstance instance = new AlgorithmInstance(mymap);
-      instance.instantiate(Set.of(one, two));
+      instance.instantiate(List.of(one, two));
     }
 
 
     @Test
     public void canInstantiateAnAlgorithm(){
 
-      List<NodeInstance> list = new AlgorithmInstance().instantiate(Set.of(one, two));
+      List<NodeInstance> list = new AlgorithmInstance(mymap).instantiate(List.of(one, two));
       NodeInstance oneInstance = list.get(0);
       NodeInstance twoInstance = list.get(1);
 

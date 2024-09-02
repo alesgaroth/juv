@@ -9,8 +9,27 @@ import java.util.Map;
 
 public class ConnectionInstance {
 
+  static final private Object uninitialized = new Object();
+  final NodeInstance upstream;
   List<NodeInstance> listeners = new ArrayList<>();
-  private Object value;
+  private Object value = uninitialized;
+  private ConnectorStrategy strat;
+
+  final static private ConnectorStrategy noConnectorStrategy = new ConnectorStrategy() {
+    public void update(ConnectionInstance ci) {
+    }
+    public void calcValue(NodeInstance upstream) {
+    }
+  };
+
+  public ConnectionInstance(NodeInstance upstream, ConnectorStrategy cs) {
+    strat = cs;
+    this.upstream = upstream;
+  }
+
+  public ConnectionInstance(NodeInstance upstream) {
+    this(upstream, noConnectorStrategy);
+  }
 
   public Iterable<NodeInstance> getListeners() {
     return Collections.unmodifiableList(listeners);
@@ -23,16 +42,20 @@ public class ConnectionInstance {
 
   public void update(Object value) {
     this.value = value;
+    strat.update(this);
   }
 
   public Object getValue() {
+    strat.calcValue(upstream);
+    if (this.value == uninitialized) 
+      throw new IllegalStateException();
     return this.value;
   }
 
-  //public interface ConnectorStrategy {
-    //void update(Object value);
-    //Object getValue();
-  //}
+  static public interface ConnectorStrategy {
+    void update(ConnectionInstance ci);
+    void calcValue(NodeInstance upstream);
+  }
 
 }
 

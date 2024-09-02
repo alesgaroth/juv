@@ -20,18 +20,30 @@ public class NodeInstance implements Runnable {
   }
 
   public ConnectionInstance getOutput(int output) {
+    if (!Node.validPut(output, connections.length)) {
+      throw new Node.BadConnectionException();
+    }
     return connections[output];
   }
 
   public void setOutput(ConnectionInstance ci, int output) {
+    if (!Node.validPut(output, connections.length)) {
+      throw new Node.BadConnectionException();
+    }
     connections[output] = ci;
   }
 
   public ConnectionInstance getInput(int input) {
+    if (!Node.validPut(input, upstreams.length)) {
+      throw new Node.BadConnectionException();
+    }
     return upstreams[input];
   }
 
   public void setInput(ConnectionInstance ci, int input) {
+    if (!Node.validPut(input, upstreams.length)) {
+      throw new Node.BadConnectionException();
+    }
     upstreams[input] = ci;
   }
 

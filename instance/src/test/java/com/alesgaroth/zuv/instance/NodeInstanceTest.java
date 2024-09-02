@@ -17,11 +17,11 @@ public class NodeInstanceTest {
         Node n = new Node(0, 0);
         NodeInstance ni = new NodeInstance(n);
         assertEquals(ni.getNode(), n);
-        assertThrows(IndexOutOfBoundsException.class, () -> ni.getOutput(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> ni.getOutput(1));
-        assertThrows(IndexOutOfBoundsException.class, () -> ni.getInput(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> ni.getInput(1));
-        assertThrows(IndexOutOfBoundsException.class, () -> ni.setInput(null, 1));
-        assertThrows(IndexOutOfBoundsException.class, () -> ni.setInput(null, -1));
+        assertThrows(Node.BadConnectionException.class, () -> ni.getOutput(-1));
+        assertThrows(Node.BadConnectionException.class, () -> ni.getOutput(1));
+        assertThrows(Node.BadConnectionException.class, () -> ni.getInput(-1));
+        assertThrows(Node.BadConnectionException.class, () -> ni.getInput(1));
+        assertThrows(Node.BadConnectionException.class, () -> ni.setInput(null, 1));
+        assertThrows(Node.BadConnectionException.class, () -> ni.setInput(null, -1));
     }
 }

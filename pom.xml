@@ -31,8 +31,6 @@
         
     <module>instance</module>
         
-    <module>runtime</module>
-      
   </modules>
     
   <build>

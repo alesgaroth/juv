@@ -20,6 +20,6 @@ public class InstanceMapFactory implements AlgorithmInstance.InstanceFactory {
   }
 
   public ConnectionInstance createConnection(NodeInstance ni, int output) {
-    return new ConnectionInstance();
+    return new ConnectionInstance(ni);
   }
 }

@@ -34,10 +34,10 @@ public class Node {
     return outboundConnections[output];
   }
 
-  boolean validPut(int num, int max) {
+  static public boolean validPut(int num, int max) {
     return num >= 0 && max > num;
   }
 
-  public class BadConnectionException extends RuntimeException {
+  static public class BadConnectionException extends RuntimeException {
   }
 }

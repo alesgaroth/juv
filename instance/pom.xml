@@ -9,8 +9,13 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>instance</name>
-  <!-- FIXME change it to the project's website -->
   <url>http://zuv.alesgaroth.com</url>
+
+  <parent>
+    <groupId>com.alesgaroth.zuv</groupId>
+    <artifactId>zuv</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
