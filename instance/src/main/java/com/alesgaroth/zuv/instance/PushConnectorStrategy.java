@@ -13,6 +13,6 @@ public class PushConnectorStrategy implements ConnectionInstance.ConnectorStrate
       executor.execute(listener);
     }
   }
-  public void calcValue(NodeInstance upstream) {
+  public void calcValue(ConnectionInstance ci, NodeInstance upstream) {
   }
 }

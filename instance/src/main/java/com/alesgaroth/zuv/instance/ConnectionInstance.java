@@ -18,7 +18,7 @@ public class ConnectionInstance {
   final static private ConnectorStrategy noConnectorStrategy = new ConnectorStrategy() {
     public void update(ConnectionInstance ci) {
     }
-    public void calcValue(NodeInstance upstream) {
+    public void calcValue(ConnectionInstance ci, NodeInstance upstream) {
     }
   };
 
@@ -45,16 +45,24 @@ public class ConnectionInstance {
     strat.update(this);
   }
 
+  public void invalidate() {
+    this.value = uninitialized;
+  }
+
   public Object getValue() {
-    strat.calcValue(upstream);
-    if (this.value == uninitialized) 
+    strat.calcValue(this, upstream);
+    if (!isReady()) 
       throw new IllegalStateException();
     return this.value;
   }
 
+  public boolean isReady() {
+    return this.value != uninitialized;
+  }
+
   static public interface ConnectorStrategy {
     void update(ConnectionInstance ci);
-    void calcValue(NodeInstance upstream);
+    void calcValue(ConnectionInstance ci, NodeInstance upstream);
   }
 
 }
