@@ -1,11 +1,7 @@
 package com.alesgaroth.zuv.instance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Iterator;
 import java.util.concurrent.Executor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.alesgaroth.zuv.design.Node;
-import com.alesgaroth.zuv.design.Connection;
 
 public class PushTest 
 {

@@ -1,11 +1,7 @@
 package com.alesgaroth.zuv.instance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Iterator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.alesgaroth.zuv.design.Node;
-import com.alesgaroth.zuv.design.Connection;
 
 public class PullTest 
 {
@@ -23,6 +18,7 @@ public class PullTest
     Node three = new Node(1, 0);
     VariableNodeInstance variableInstance = null;
     ReceiverNodeInstance threeInstance = null;
+    PullConnectorStrategy strat = new PullConnectorStrategy();
 
     static Map<Class<? extends Node>, Class<? extends NodeInstance>> classMap = Map.of(
         Node.class, ReceiverNodeInstance.class,
@@ -31,7 +27,7 @@ public class PullTest
         );
     AlgorithmInstance.InstanceFactory factory = new InstanceMapFactory(classMap) {
       public ConnectionInstance createConnection(NodeInstance ni, int output) {
-        return new ConnectionInstance(ni, new PullConnectorStrategy());
+        return new ConnectionInstance(ni, strat);
       }
     };
 
