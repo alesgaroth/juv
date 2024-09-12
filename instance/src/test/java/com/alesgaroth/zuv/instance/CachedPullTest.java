@@ -21,8 +21,7 @@ public class CachedPullTest extends StratTestBase {
 
     @BeforeEach
     public void before() {
-      strat = new CachedPullConnectorStrategy(executor);
-      super.before();
+      super.before(new CachedPullConnectorStrategy(executor));
     }
 
     @Test

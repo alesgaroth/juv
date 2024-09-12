@@ -16,8 +16,7 @@ public class PushTest  extends StratTestBase {
     @BeforeEach
     public void before() {
       Executor executor = new CurrentThreadExecutor();
-      this.strat = new PushConnectorStrategy(executor);
-      super.before();
+      super.before(new PushConnectorStrategy(executor));
     }
 
     @Test

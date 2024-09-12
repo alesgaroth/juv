@@ -14,8 +14,7 @@ public class PullTest extends StratTestBase {
 
     @BeforeEach
     public void before() {
-      strat = new PullConnectorStrategy();
-      super.before();
+      super.before(new PullConnectorStrategy());
     }
 
     @Test

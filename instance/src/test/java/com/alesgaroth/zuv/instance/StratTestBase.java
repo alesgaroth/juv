@@ -29,7 +29,8 @@ public abstract class StratTestBase {
       }
     };
 
-    public void before() {
+    public void before(ConnectionInstance.ConnectorStrategy strt) {
+      this.strat = strt;
       two.dependOn(0, variable, 0);
       three.dependOn(0, two, 0);
       List<NodeInstance> list = new AlgorithmInstance(factory).instantiate(List.of(variable, two, three));
