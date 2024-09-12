@@ -11,45 +11,19 @@ import java.util.Map;
 
 import com.alesgaroth.zuv.design.Node;
 
-public class PushTest 
-{
-
-    VariableNode variable = new VariableNode(0, 1);
-    Node two = new PassThroughNode(1, 1);
-    Node three = new Node(1, 0);
-    VariableNodeInstance variableInstance = null;
-    ReceiverNodeInstance threeInstance = null;
-    PassThroughNodeInstance twoInstance = null;
-
-    Executor executor = new CurrentThreadExecutor();
-    PushConnectorStrategy strat = new PushConnectorStrategy(executor);
-
-    static Map<Class<? extends Node>, Class<? extends NodeInstance>> classMap = Map.of(
-        Node.class, ReceiverNodeInstance.class,
-        PassThroughNode.class, PassThroughNodeInstance.class,
-        VariableNode.class, VariableNodeInstance.class
-        );
-    AlgorithmInstance.InstanceFactory factory = new InstanceMapFactory(classMap) {
-      public ConnectionInstance createConnection(NodeInstance ni, int output) {
-        return new ConnectionInstance(ni, strat);
-      }
-    };
-
+public class PushTest  extends StratTestBase {
 
     @BeforeEach
     public void before() {
-      two.dependOn(0, variable, 0);
-      three.dependOn(0, two, 0);
-      List<NodeInstance> list = new AlgorithmInstance(factory).instantiate(List.of(variable, two, three));
-      variableInstance = (VariableNodeInstance)list.get(0);
-      threeInstance = (ReceiverNodeInstance)list.get(2);
-      twoInstance = (PassThroughNodeInstance)list.get(1);
+      Executor executor = new CurrentThreadExecutor();
+      this.strat = new PushConnectorStrategy(executor);
+      super.before();
     }
 
-    @Test
-    public void canMakeChange() {
-      variableInstance.update("new value");
-    }
+    //@Test
+    //public void canMakeChange() {
+      //variableInstance.update("new value");
+    //}
 
     @Test
     public void changePropagates() {
@@ -58,6 +32,8 @@ public class PushTest
       assertEquals(1, threeInstance.runCalled);
       assertEquals("new value", threeInstance.getValue());
       variableInstance.update("other value");
+      assertEquals(2, twoInstance.runCalled);
+      assertEquals(2, threeInstance.runCalled);
       assertEquals("other value", threeInstance.getValue());
     }
 
