@@ -20,10 +20,10 @@ public class PushTest  extends StratTestBase {
       super.before();
     }
 
-    //@Test
-    //public void canMakeChange() {
-      //variableInstance.update("new value");
-    //}
+    @Test
+    public void canMakeChange() {
+      variableInstance.update("new value");
+    }
 
     @Test
     public void changePropagates() {
