@@ -1,15 +1,13 @@
 package com.alesgaroth.zuv.instance;
 
 
-import org.junit.jupiter.api.BeforeEach;
 
 import java.util.List;
 import java.util.Map;
 
 import com.alesgaroth.zuv.design.Node;
 
-public abstract class StratTestBase
-{
+public abstract class StratTestBase {
 
     VariableNode variable = new VariableNode(0, 1);
     Node two = new PassThroughNode(1, 1);
@@ -31,8 +29,6 @@ public abstract class StratTestBase
       }
     };
 
-
-    @BeforeEach
     public void before() {
       two.dependOn(0, variable, 0);
       three.dependOn(0, two, 0);
