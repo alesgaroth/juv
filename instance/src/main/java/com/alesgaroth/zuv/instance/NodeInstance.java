@@ -33,6 +33,10 @@ public class NodeInstance implements Runnable {
     return Collections.unmodifiableList(Arrays.asList(connections));
   }
 
+  public Iterable<ConnectionInstance> getInputs() {
+    return Collections.unmodifiableList(Arrays.asList(upstreams));
+  }
+
   public void setOutput(ConnectionInstance ci, int output) {
     if (!Node.validPut(output, connections.length)) {
       throw new Node.BadConnectionException();
