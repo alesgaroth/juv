@@ -41,8 +41,10 @@ public class ConnectionInstance {
   }
 
   public void update(Object value) {
-    this.value = value;
-    strat.update(this);
+    if (this.value != value) {
+      this.value = value;
+      strat.update(this);
+    }
   }
 
   public void invalidate() {
