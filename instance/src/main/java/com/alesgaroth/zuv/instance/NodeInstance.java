@@ -51,6 +51,15 @@ public class NodeInstance implements Runnable {
     return upstreams[input];
   }
 
+  public boolean inputsReady() {
+    for(ConnectionInstance ci: getInputs()) {
+      if (!ci.isReady()){
+        return false;
+      }
+    }
+    return true;
+  }
+
   public void setInput(ConnectionInstance ci, int input) {
     if (!Node.validPut(input, upstreams.length)) {
       throw new Node.BadConnectionException();
