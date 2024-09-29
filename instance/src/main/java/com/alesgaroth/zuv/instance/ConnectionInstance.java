@@ -20,6 +20,8 @@ public class ConnectionInstance {
     }
     public void calcValue(ConnectionInstance ci, NodeInstance upstream) {
     }
+    public void invalidate(ConnectionInstance ci, NodeInstance upstream) {
+    }
   };
 
   public ConnectionInstance(NodeInstance upstream, ConnectorStrategy cs) {
@@ -49,6 +51,7 @@ public class ConnectionInstance {
 
   public void invalidate() {
     this.value = uninitialized;
+    strat.invalidate(this, upstream);
   }
 
   public Object getValue() {
@@ -65,6 +68,7 @@ public class ConnectionInstance {
   static public interface ConnectorStrategy {
     void update(ConnectionInstance ci);
     void calcValue(ConnectionInstance ci, NodeInstance upstream);
+    void invalidate(ConnectionInstance ci, NodeInstance upstream);
   }
 
 }

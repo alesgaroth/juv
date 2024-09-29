@@ -24,4 +24,7 @@ public class CachedPullConnectorStrategy implements ConnectionInstance.Connector
       upstream.run();
     }
   }
+
+  public void invalidate(ConnectionInstance ci, NodeInstance upstream) {
+  }
 }
