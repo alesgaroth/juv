@@ -7,18 +7,18 @@ import java.util.Arrays;
 import java.util.Collections;
 
 // A NodeInstance is analogous to a stack frame in a normal running system
-public class NodeInstance implements Runnable {
-  Node design;
+public class NodeInstance<N extends Node> implements Runnable {
+  N design;
   ConnectionInstance [] connections;
   ConnectionInstance [] upstreams;
 
-  public NodeInstance(Node design) {
+  public NodeInstance(N design) {
     this.design = design;
     connections = new ConnectionInstance[design.getNumOutputs()];
     upstreams = new ConnectionInstance[design.getNumInputs()];
   }
 
-  public Node getNode() {
+  public N getNode() {
     return design;
   }
 

@@ -1,5 +1,6 @@
 package com.alesgaroth.zuv.instance;
 import java.util.concurrent.Executor;
+import com.alesgaroth.zuv.design.Node;
 
 public class CachedPullConnectorStrategy implements ConnectionInstance.ConnectorStrategy  {
   Executor ex;
@@ -9,7 +10,7 @@ public class CachedPullConnectorStrategy implements ConnectionInstance.Connector
   }
 
   public void update(ConnectionInstance ci) {
-    for(NodeInstance listener: ci.getListeners()){
+    for(NodeInstance<Node> listener: ci.getListeners()){
       ex.execute(() -> {
         for(ConnectionInstance op: listener.getOutputs()) {
               op.invalidate();
