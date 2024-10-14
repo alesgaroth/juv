@@ -33,7 +33,7 @@ public class AlgorithmInstanceTest {
     @Test
     public void canInstantiateAnAlgorithm(){
 
-      List<NodeInstance> list = new AlgorithmInstance(mymap).instantiate(List.of(one, two));
+      List<NodeInstance<Node>> list = new AlgorithmInstance(mymap).instantiate(List.of(one, two));
       NodeInstance oneInstance = list.get(0);
       NodeInstance twoInstance = list.get(1);
 

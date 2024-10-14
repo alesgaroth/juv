@@ -33,7 +33,7 @@ public abstract class StratTestBase {
       this.strat = strt;
       two.dependOn(0, variable, 0);
       three.dependOn(0, two, 0);
-      List<NodeInstance> list = new AlgorithmInstance(factory).instantiate(List.of(variable, two, three));
+      List<NodeInstance<Node>> list = new AlgorithmInstance(factory).instantiate(List.of(variable, two, three));
       variableInstance = (VariableNodeInstance)list.get(0);
       threeInstance = (ReceiverNodeInstance)list.get(2);
       twoInstance = (PassThroughNodeInstance)list.get(1);

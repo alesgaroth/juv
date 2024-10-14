@@ -31,7 +31,7 @@ public class RunTest {
     @BeforeEach
     public void before() {
       two.dependOn(0, variable, 0);
-      List<NodeInstance> list = new AlgorithmInstance(factory).instantiate(List.of(variable, two));
+      List<NodeInstance<Node>> list = new AlgorithmInstance(factory).instantiate(List.of(variable, two));
       variableInstance = (VariableNodeInstance)list.get(0);
       twoInstance = (ReceiverNodeInstance)list.get(1);
     }

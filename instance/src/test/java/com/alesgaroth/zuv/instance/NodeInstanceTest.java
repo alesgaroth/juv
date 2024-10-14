@@ -14,7 +14,7 @@ public class NodeInstanceTest {
     @Test
     public void canInstantiate1() {
         Node n = new Node(0, 0);
-        NodeInstance ni = new NodeInstance(n);
+        NodeInstance<Node> ni = new NodeInstance(n);
         assertEquals(ni.getNode(), n);
         assertThrows(Node.BadConnectionException.class, () -> ni.getOutput(-1));
         assertThrows(Node.BadConnectionException.class, () -> ni.getOutput(1));
@@ -27,8 +27,8 @@ public class NodeInstanceTest {
 
     @Test
     public void canGetIterableOfInputs() {
-      List<NodeInstance> nodes = simpleGraph();
-      NodeInstance node = nodes.get(1);
+      List<NodeInstance<Node>> nodes = simpleGraph();
+      NodeInstance<Node> node = nodes.get(1);
       for(ConnectionInstance ci: node.getInputs()){
         assertFalse(ci.isReady());
         return;
@@ -38,14 +38,14 @@ public class NodeInstanceTest {
 
     @Test
     public void checkReadyOfNodeInputs() {
-      List<NodeInstance> nodes = simpleGraph();
-      NodeInstance node = nodes.get(1);
+      List<NodeInstance<Node>> nodes = simpleGraph();
+      NodeInstance<Node> node = nodes.get(1);
       assertFalse(node.inputsReady());
       ((VariableNodeInstance)nodes.get(0)).update(0);
       assertTrue(node.inputsReady());
     }
 
-   private List<NodeInstance> simpleGraph() {
+   private List<NodeInstance<Node>> simpleGraph() {
       Node one = new VariableNode(0, 1);
       Node two = new Node(1, 1);
       two.dependOn(0, one, 0);

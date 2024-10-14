@@ -2,7 +2,7 @@ package com.alesgaroth.zuv.instance;
 
 import com.alesgaroth.zuv.design.Node;
 
-public class VariableNodeInstance extends NodeInstance {
+public class VariableNodeInstance extends NodeInstance<Node> {
   public int runCalled = 0;
 
   public VariableNodeInstance(VariableNode n) {

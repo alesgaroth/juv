@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class AlgorithmInstance {
-  Map<Node, NodeInstance> nis = new HashMap<>();
+  Map<Node, NodeInstance<? extends Node>> nis = new HashMap<>();
   static Map<Class<? extends Node>, Class<? extends NodeInstance>> basemap = Map.of(Node.class, NodeInstance.class);
   InstanceFactory creator;
 
@@ -43,15 +43,15 @@ public class AlgorithmInstance {
    * creates a NodeInstance for each Node and returns list with matching
    * NodeInstances in the same order as the given iterable returns them.
    */
-  public List<NodeInstance> instantiate(Iterable<Node> set) {
-    List<NodeInstance> list = new ArrayList<>();
-    for(Node n: set) 
+  public <N extends Node> List<NodeInstance<N>> instantiate(Iterable<N> set) {
+    List<NodeInstance<N>> list = new ArrayList<>();
+    for(N n: set) 
       list.add(createNodeAndItsConnection(n));
     return list;
   }
 
-  private NodeInstance createNodeAndItsConnection(Node n) {
-    NodeInstance ni = createNodeIfAbsent(n);
+  private <N extends Node> NodeInstance<N> createNodeAndItsConnection(N n) {
+    NodeInstance<N> ni = createNodeIfAbsent(n);
     for(int i = 0; i < n.getNumOutputs(); i += 1)  {
      ConnectionInstance conn = creator.createConnection(ni, i);
      ni.setOutput(createNodes(conn, n.getOutput(i)), i);
@@ -65,7 +65,7 @@ public class AlgorithmInstance {
     return conn;
   }
 
-  NodeInstance createNodeIfAbsent(Node n) {
+  <N extends Node> NodeInstance<N> createNodeIfAbsent(N n) {
     return nis.computeIfAbsent(n, m -> creator.createNode(m));
   }
 
