@@ -29,7 +29,7 @@
         
     <module>design</module>
         
-    <module>instance</module>
+    <module>slow_interpreter</module>
         
   </modules>
     
