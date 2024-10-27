@@ -22,22 +22,22 @@ public class FuncTest
 
     @Test
     public void cantConnectToNonExistantOutput() {
-      badConnection(0, 5);
+      badValue(0, 5);
     }
 
     @Test
     public void cantConnectToNegativeOutput() {
-      badConnection(0, -1);
+      badValue(0, -1);
     }
 
     @Test
     public void cantConnectToNegativeInput() {
-      badConnection(-1, 0);
+      badValue(-1, 0);
     }
 
     @Test
     public void cantConnectToNonExistantInput() {
-      badConnection(5, 0);
+      badValue(5, 0);
     }
 
     @Test
@@ -55,19 +55,19 @@ public class FuncTest
     public void canGetOtherEndOfOutput() {
       two.dependOn(0, one, 0);
 
-      Connection c = one.getOutput(0); 
-      Iterator<Connection.FuncPort> it = c.getListeners().iterator();
-      assertEquals(it.next(), new Connection.FuncPort(two, 0));
+      Value c = one.getOutput(0); 
+      Iterator<Value.FuncPort> it = c.getListeners().iterator();
+      assertEquals(it.next(), new Value.FuncPort(two, 0));
     }
 
 
-    void badConnection(int input, int output) {
-      assertThrows(Func.BadConnectionException.class,
+    void badValue(int input, int output) {
+      assertThrows(Func.BadValueException.class,
         () -> two.dependOn(input, one, output));
     }
 
     void missingOutput(int output) {
-      assertThrows(Func.BadConnectionException.class,
+      assertThrows(Func.BadValueException.class,
         () -> one.getOutput(output));
     }
 

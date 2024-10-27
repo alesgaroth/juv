@@ -2,17 +2,17 @@ package com.alesgaroth.zuv.instance;
 import java.util.concurrent.Executor;
 import com.alesgaroth.zuv.design.Func;
 
-public class CachedPullConnectorStrategy implements ConnectionInstance.ConnectorStrategy  {
+public class CachedPullConnectorStrategy implements ValueInstance.ConnectorStrategy  {
   Executor ex;
 
   public CachedPullConnectorStrategy(Executor ex) {
     this.ex = ex;
   }
 
-  public void update(ConnectionInstance ci) {
+  public void update(ValueInstance ci) {
     for(FuncInstance<Func> listener: ci.getListeners()){
       ex.execute(() -> {
-        for(ConnectionInstance op: listener.getOutputs()) {
+        for(ValueInstance op: listener.getOutputs()) {
               op.invalidate();
               update(op);
         }
@@ -20,12 +20,12 @@ public class CachedPullConnectorStrategy implements ConnectionInstance.Connector
     }
   }
 
-  public void calcValue(ConnectionInstance ci, FuncInstance upstream) {
+  public void calcValue(ValueInstance ci, FuncInstance upstream) {
     if (!ci.isReady()) {
       upstream.run();
     }
   }
 
-  public void invalidate(ConnectionInstance ci, FuncInstance upstream) {
+  public void invalidate(ValueInstance ci, FuncInstance upstream) {
   }
 }

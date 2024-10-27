@@ -39,7 +39,7 @@ public class AlgorithmInstanceTest {
 
       assertNotNull(oneInstance);
       assertNotNull(twoInstance);
-      ConnectionInstance ci = oneInstance.getOutput(0);
+      ValueInstance ci = oneInstance.getOutput(0);
       assertEquals(ci, twoInstance.getInput(0));
       for(FuncInstance other: ci.getListeners()){
         assertEquals(other.getFunc(), twoInstance.getFunc());

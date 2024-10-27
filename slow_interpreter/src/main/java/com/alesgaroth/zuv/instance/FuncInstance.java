@@ -1,6 +1,6 @@
 package com.alesgaroth.zuv.instance;
 
-import com.alesgaroth.zuv.design.Connection;
+import com.alesgaroth.zuv.design.Value;
 import com.alesgaroth.zuv.design.Func;
 
 import java.util.Arrays;
@@ -9,50 +9,50 @@ import java.util.Collections;
 // A FuncInstance is analogous to a stack frame in a normal running system
 public class FuncInstance<N extends Func> implements Runnable {
   N design;
-  ConnectionInstance [] connections;
-  ConnectionInstance [] upstreams;
+  ValueInstance [] values;
+  ValueInstance [] upstreams;
 
   public FuncInstance(N design) {
     this.design = design;
-    connections = new ConnectionInstance[design.getNumOutputs()];
-    upstreams = new ConnectionInstance[design.getNumInputs()];
+    values = new ValueInstance[design.getNumOutputs()];
+    upstreams = new ValueInstance[design.getNumInputs()];
   }
 
   public N getFunc() {
     return design;
   }
 
-  public ConnectionInstance getOutput(int output) {
-    if (!Func.validPut(output, connections.length)) {
-      throw new Func.BadConnectionException();
+  public ValueInstance getOutput(int output) {
+    if (!Func.validPut(output, values.length)) {
+      throw new Func.BadValueException();
     }
-    return connections[output];
+    return values[output];
   }
 
-  public Iterable<ConnectionInstance> getOutputs() {
-    return Collections.unmodifiableList(Arrays.asList(connections));
+  public Iterable<ValueInstance> getOutputs() {
+    return Collections.unmodifiableList(Arrays.asList(values));
   }
 
-  public Iterable<ConnectionInstance> getInputs() {
+  public Iterable<ValueInstance> getInputs() {
     return Collections.unmodifiableList(Arrays.asList(upstreams));
   }
 
-  public void setOutput(ConnectionInstance ci, int output) {
-    if (!Func.validPut(output, connections.length)) {
-      throw new Func.BadConnectionException();
+  public void setOutput(ValueInstance ci, int output) {
+    if (!Func.validPut(output, values.length)) {
+      throw new Func.BadValueException();
     }
-    connections[output] = ci;
+    values[output] = ci;
   }
 
-  public ConnectionInstance getInput(int input) {
+  public ValueInstance getInput(int input) {
     if (!Func.validPut(input, upstreams.length)) {
-      throw new Func.BadConnectionException();
+      throw new Func.BadValueException();
     }
     return upstreams[input];
   }
 
   public boolean inputsReady() {
-    for(ConnectionInstance ci: getInputs()) {
+    for(ValueInstance ci: getInputs()) {
       if (!ci.isReady()){
         return false;
       }
@@ -60,9 +60,9 @@ public class FuncInstance<N extends Func> implements Runnable {
     return true;
   }
 
-  public void setInput(ConnectionInstance ci, int input) {
+  public void setInput(ValueInstance ci, int input) {
     if (!Func.validPut(input, upstreams.length)) {
-      throw new Func.BadConnectionException();
+      throw new Func.BadValueException();
     }
     upstreams[input] = ci;
   }

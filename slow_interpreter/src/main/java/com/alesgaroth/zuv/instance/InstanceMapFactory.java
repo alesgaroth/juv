@@ -1,5 +1,5 @@
 package com.alesgaroth.zuv.instance;
-import com.alesgaroth.zuv.design.Connection;
+import com.alesgaroth.zuv.design.Value;
 import com.alesgaroth.zuv.design.Func;
 
 import java.util.Map;
@@ -19,7 +19,7 @@ public class InstanceMapFactory implements AlgorithmInstance.InstanceFactory {
     }
   }
 
-  public ConnectionInstance createConnection(FuncInstance ni, int output) {
-    return new ConnectionInstance(ni);
+  public ValueInstance createValue(FuncInstance ni, int output) {
+    return new ValueInstance(ni);
   }
 }

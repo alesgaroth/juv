@@ -16,7 +16,7 @@ public abstract class StratTestBase {
     ReceiverFuncInstance threeInstance = null;
     PassThroughFuncInstance twoInstance = null;
 
-    ConnectionInstance.ConnectorStrategy strat;
+    ValueInstance.ConnectorStrategy strat;
 
     static Map<Class<? extends Func>, Class<? extends FuncInstance>> classMap = Map.of(
         Func.class, ReceiverFuncInstance.class,
@@ -24,12 +24,12 @@ public abstract class StratTestBase {
         VariableFunc.class, VariableFuncInstance.class
         );
     AlgorithmInstance.InstanceFactory factory = new InstanceMapFactory(classMap) {
-      public ConnectionInstance createConnection(FuncInstance ni, int output) {
-        return new ConnectionInstance(ni, strat);
+      public ValueInstance createValue(FuncInstance ni, int output) {
+        return new ValueInstance(ni, strat);
       }
     };
 
-    public void before(ConnectionInstance.ConnectorStrategy strt) {
+    public void before(ValueInstance.ConnectorStrategy strt) {
       this.strat = strt;
       two.dependOn(0, variable, 0);
       three.dependOn(0, two, 0);

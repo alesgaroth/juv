@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alesgaroth.zuv.design.Func;
-import com.alesgaroth.zuv.design.Connection;
+import com.alesgaroth.zuv.design.Value;
 
 public class RunTest {
 

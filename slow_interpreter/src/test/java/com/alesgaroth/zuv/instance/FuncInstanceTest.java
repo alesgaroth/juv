@@ -16,12 +16,12 @@ public class FuncInstanceTest {
         Func n = new Func(0, 0);
         FuncInstance<Func> ni = new FuncInstance(n);
         assertEquals(ni.getFunc(), n);
-        assertThrows(Func.BadConnectionException.class, () -> ni.getOutput(-1));
-        assertThrows(Func.BadConnectionException.class, () -> ni.getOutput(1));
-        assertThrows(Func.BadConnectionException.class, () -> ni.getInput(-1));
-        assertThrows(Func.BadConnectionException.class, () -> ni.getInput(1));
-        assertThrows(Func.BadConnectionException.class, () -> ni.setInput(null, 1));
-        assertThrows(Func.BadConnectionException.class, () -> ni.setInput(null, -1));
+        assertThrows(Func.BadValueException.class, () -> ni.getOutput(-1));
+        assertThrows(Func.BadValueException.class, () -> ni.getOutput(1));
+        assertThrows(Func.BadValueException.class, () -> ni.getInput(-1));
+        assertThrows(Func.BadValueException.class, () -> ni.getInput(1));
+        assertThrows(Func.BadValueException.class, () -> ni.setInput(null, 1));
+        assertThrows(Func.BadValueException.class, () -> ni.setInput(null, -1));
     }
 
 
@@ -29,7 +29,7 @@ public class FuncInstanceTest {
     public void canGetIterableOfInputs() {
       List<FuncInstance<Func>> funcs = simpleGraph();
       FuncInstance<Func> func = funcs.get(1);
-      for(ConnectionInstance ci: func.getInputs()){
+      for(ValueInstance ci: func.getInputs()){
         assertFalse(ci.isReady());
         return;
       }

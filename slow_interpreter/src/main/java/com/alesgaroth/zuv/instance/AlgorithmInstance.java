@@ -1,6 +1,6 @@
 package com.alesgaroth.zuv.instance;
 
-import com.alesgaroth.zuv.design.Connection;
+import com.alesgaroth.zuv.design.Value;
 import com.alesgaroth.zuv.design.Func;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ public class AlgorithmInstance {
 
   static public interface InstanceFactory {
     FuncInstance createFunc(Func n);
-    ConnectionInstance createConnection(FuncInstance ni, int output);
+    ValueInstance createValue(FuncInstance ni, int output);
   }
 
   public AlgorithmInstance(InstanceFactory factory) {
@@ -46,23 +46,23 @@ public class AlgorithmInstance {
   public <N extends Func> List<FuncInstance<N>> instantiate(Iterable<N> set) {
     List<FuncInstance<N>> list = new ArrayList<>();
     for(N n: set) 
-      list.add(createFuncAndItsConnection(n));
+      list.add(createFuncAndItsValue(n));
     return list;
   }
 
-  private <N extends Func> FuncInstance<N> createFuncAndItsConnection(N n) {
+  private <N extends Func> FuncInstance<N> createFuncAndItsValue(N n) {
     FuncInstance<N> ni = createFuncIfAbsent(n);
     for(int i = 0; i < n.getNumOutputs(); i += 1)  {
-     ConnectionInstance conn = creator.createConnection(ni, i);
-     ni.setOutput(createFuncs(conn, n.getOutput(i)), i);
+     ValueInstance value = creator.createValue(ni, i);
+     ni.setOutput(createFuncs(value, n.getOutput(i)), i);
     }
     return ni;
   }
 
-  private ConnectionInstance createFuncs(ConnectionInstance conn, Connection output) {
-    for(Connection.FuncPort fp: output.getListeners()) 
-      conn.connectDownStreamFunc(fp, createFuncIfAbsent(fp.func()));
-    return conn;
+  private ValueInstance createFuncs(ValueInstance value, Value output) {
+    for(Value.FuncPort fp: output.getListeners()) 
+      value.connectDownStreamFunc(fp, createFuncIfAbsent(fp.func()));
+    return value;
   }
 
   <N extends Func> FuncInstance<N> createFuncIfAbsent(N n) {

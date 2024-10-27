@@ -1,13 +1,13 @@
 package com.alesgaroth.zuv.instance;
 
-import com.alesgaroth.zuv.design.Connection;
+import com.alesgaroth.zuv.design.Value;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class ConnectionInstance {
+public class ValueInstance {
 
   static final private Object uninitialized = new Object();
   final FuncInstance upstream;
@@ -16,20 +16,20 @@ public class ConnectionInstance {
   private ConnectorStrategy strat;
 
   final static private ConnectorStrategy noConnectorStrategy = new ConnectorStrategy() {
-    public void update(ConnectionInstance ci) {
+    public void update(ValueInstance ci) {
     }
-    public void calcValue(ConnectionInstance ci, FuncInstance upstream) {
+    public void calcValue(ValueInstance ci, FuncInstance upstream) {
     }
-    public void invalidate(ConnectionInstance ci, FuncInstance upstream) {
+    public void invalidate(ValueInstance ci, FuncInstance upstream) {
     }
   };
 
-  public ConnectionInstance(FuncInstance upstream, ConnectorStrategy cs) {
+  public ValueInstance(FuncInstance upstream, ConnectorStrategy cs) {
     strat = cs;
     this.upstream = upstream;
   }
 
-  public ConnectionInstance(FuncInstance upstream) {
+  public ValueInstance(FuncInstance upstream) {
     this(upstream, noConnectorStrategy);
   }
 
@@ -37,7 +37,7 @@ public class ConnectionInstance {
     return Collections.unmodifiableList(listeners);
   }
 
-  void connectDownStreamFunc(Connection.FuncPort fp, FuncInstance ni2) {
+  void connectDownStreamFunc(Value.FuncPort fp, FuncInstance ni2) {
     ni2.setInput(this, fp.input());
     listeners.add(ni2);
   }
@@ -66,9 +66,9 @@ public class ConnectionInstance {
   }
 
   static public interface ConnectorStrategy {
-    void update(ConnectionInstance ci);
-    void calcValue(ConnectionInstance ci, FuncInstance upstream);
-    void invalidate(ConnectionInstance ci, FuncInstance upstream);
+    void update(ValueInstance ci);
+    void calcValue(ValueInstance ci, FuncInstance upstream);
+    void invalidate(ValueInstance ci, FuncInstance upstream);
   }
 
 }

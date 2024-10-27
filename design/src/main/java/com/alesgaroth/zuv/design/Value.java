@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Connection {
+public class Value {
   List<FuncPort> listeners = new ArrayList<>();
 
   public Iterable<FuncPort> getListeners(){

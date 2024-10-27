@@ -2,11 +2,11 @@ package com.alesgaroth.zuv.design;
 
 import org.junit.jupiter.api.Test;
 
-public class ConnectionTest 
+public class ValueTest 
 {
     @Test
-    public void canCreateAConnection()
+    public void canCreateAValue()
     {
-        new Connection();
+        new Value();
     }
 }
