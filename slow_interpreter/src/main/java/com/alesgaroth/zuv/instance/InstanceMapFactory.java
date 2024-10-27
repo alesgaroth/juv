@@ -1,16 +1,16 @@
 package com.alesgaroth.zuv.instance;
 import com.alesgaroth.zuv.design.Connection;
-import com.alesgaroth.zuv.design.Node;
+import com.alesgaroth.zuv.design.Func;
 
 import java.util.Map;
 
 
 public class InstanceMapFactory implements AlgorithmInstance.InstanceFactory {
-  Map<Class<? extends Node>, Class<? extends NodeInstance>> classMap;
-  public InstanceMapFactory(Map<Class<? extends Node>, Class<? extends NodeInstance>> m) {
+  Map<Class<? extends Func>, Class<? extends FuncInstance>> classMap;
+  public InstanceMapFactory(Map<Class<? extends Func>, Class<? extends FuncInstance>> m) {
     this.classMap = m;
   }
-  public NodeInstance createNode(Node n) {
+  public FuncInstance createFunc(Func n) {
     Class<?> clz = n.getClass();
     try {
       return classMap.get(clz).getDeclaredConstructor(clz).newInstance(n);
@@ -19,7 +19,7 @@ public class InstanceMapFactory implements AlgorithmInstance.InstanceFactory {
     }
   }
 
-  public ConnectionInstance createConnection(NodeInstance ni, int output) {
+  public ConnectionInstance createConnection(FuncInstance ni, int output) {
     return new ConnectionInstance(ni);
   }
 }

@@ -1,11 +1,11 @@
 package com.alesgaroth.zuv.instance;
 
-import com.alesgaroth.zuv.design.Node;
+import com.alesgaroth.zuv.design.Func;
 
-public class VariableNodeInstance extends NodeInstance<Node> {
+public class VariableFuncInstance extends FuncInstance<Func> {
   public int runCalled = 0;
 
-  public VariableNodeInstance(VariableNode n) {
+  public VariableFuncInstance(VariableFunc n) {
     super(n);
   }
 

@@ -3,10 +3,10 @@ public class PullConnectorStrategy implements ConnectionInstance.ConnectorStrate
   public void update(ConnectionInstance ci) {
   }
 
-  public void calcValue(ConnectionInstance ci, NodeInstance upstream) {
+  public void calcValue(ConnectionInstance ci, FuncInstance upstream) {
     upstream.run();
   }
 
-  public void invalidate(ConnectionInstance ci, NodeInstance upstream) {
+  public void invalidate(ConnectionInstance ci, FuncInstance upstream) {
   }
 }

@@ -6,21 +6,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.function.Function;
 
-public class CalcNodeTest 
+public class CalcFuncTest 
 {
     @Test
-    public void canCreateACalcNode()
+    public void canCreateACalcFunc()
     {
-      CalcNode cn = new CalcNode(1, 1);
-      Node n = cn;
+      CalcFunc cn = new CalcFunc(1, 1);
+      Func n = cn;
       Object [] outputs = cn.doCalculation(new Object[]{n});
       assertNotNull(outputs);
     }
 
     @Test
-    public void simpleFunctionCalcNode(){
+    public void simpleFunctionCalcFunc(){
       Function<Integer,Integer> f = a -> -a;
-      CalcNode cn = new SimpleCalcNode(f);
+      CalcFunc cn = new SimpleCalcFunc(f);
       Object[] outputs = cn.doCalculation(new Object[]{-3});
       assertEquals(3, outputs[0]);
     }

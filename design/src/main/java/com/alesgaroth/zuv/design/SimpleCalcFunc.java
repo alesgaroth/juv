@@ -2,9 +2,9 @@ package com.alesgaroth.zuv.design;
 
 import java.util.function.Function;
 
-public class SimpleCalcNode extends CalcNode {
+public class SimpleCalcFunc extends CalcFunc {
   final Function func;
-  public SimpleCalcNode(Function f){
+  public SimpleCalcFunc(Function f){
     super(1, 1);
     this.func = f;
   }

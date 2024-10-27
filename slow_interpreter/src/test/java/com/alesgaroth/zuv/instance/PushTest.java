@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-import com.alesgaroth.zuv.design.Node;
+import com.alesgaroth.zuv.design.Func;
 
 public class PushTest  extends StratTestBase {
 

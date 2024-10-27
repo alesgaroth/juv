@@ -11,13 +11,13 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import com.alesgaroth.zuv.design.Node;
+import com.alesgaroth.zuv.design.Func;
 
 public class AlgorithmInstanceTest {
-    final static Map<Class<? extends Node>, Class<? extends NodeInstance>> mymap = Map.of(Node.class, NodeInstance.class);
+    final static Map<Class<? extends Func>, Class<? extends FuncInstance>> mymap = Map.of(Func.class, FuncInstance.class);
 
-    Node one = new Node(0, 1);
-    Node two = new Node(1, 0);
+    Func one = new Func(0, 1);
+    Func two = new Func(1, 0);
 
     @BeforeEach
     public void before() {
@@ -33,16 +33,16 @@ public class AlgorithmInstanceTest {
     @Test
     public void canInstantiateAnAlgorithm(){
 
-      List<NodeInstance<Node>> list = new AlgorithmInstance(mymap).instantiate(List.of(one, two));
-      NodeInstance oneInstance = list.get(0);
-      NodeInstance twoInstance = list.get(1);
+      List<FuncInstance<Func>> list = new AlgorithmInstance(mymap).instantiate(List.of(one, two));
+      FuncInstance oneInstance = list.get(0);
+      FuncInstance twoInstance = list.get(1);
 
       assertNotNull(oneInstance);
       assertNotNull(twoInstance);
       ConnectionInstance ci = oneInstance.getOutput(0);
       assertEquals(ci, twoInstance.getInput(0));
-      for(NodeInstance other: ci.getListeners()){
-        assertEquals(other.getNode(), twoInstance.getNode());
+      for(FuncInstance other: ci.getListeners()){
+        assertEquals(other.getFunc(), twoInstance.getFunc());
         assertEquals(other, twoInstance);
         return;
       }

@@ -1,7 +1,7 @@
 package com.alesgaroth.zuv.design;
 
-public class CalcNode extends Node {
-  public CalcNode(int inputs, int outputs){
+public class CalcFunc extends Func {
+  public CalcFunc(int inputs, int outputs){
     super(inputs, outputs);
   }
   public Object[] doCalculation(Object [] inputs) {

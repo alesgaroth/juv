@@ -1,27 +1,27 @@
 package com.alesgaroth.zuv.instance;
 
 import com.alesgaroth.zuv.design.Connection;
-import com.alesgaroth.zuv.design.Node;
+import com.alesgaroth.zuv.design.Func;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class AlgorithmInstance {
-  Map<Node, NodeInstance<? extends Node>> nis = new HashMap<>();
-  static Map<Class<? extends Node>, Class<? extends NodeInstance>> basemap = Map.of(Node.class, NodeInstance.class);
+  Map<Func, FuncInstance<? extends Func>> nis = new HashMap<>();
+  static Map<Class<? extends Func>, Class<? extends FuncInstance>> basemap = Map.of(Func.class, FuncInstance.class);
   InstanceFactory creator;
 
   static public interface InstanceFactory {
-    NodeInstance createNode(Node n);
-    ConnectionInstance createConnection(NodeInstance ni, int output);
+    FuncInstance createFunc(Func n);
+    ConnectionInstance createConnection(FuncInstance ni, int output);
   }
 
   public AlgorithmInstance(InstanceFactory factory) {
     creator = factory;
   }
 
-  public AlgorithmInstance(Map<Class<? extends Node>, Class<? extends NodeInstance>> m) {
+  public AlgorithmInstance(Map<Class<? extends Func>, Class<? extends FuncInstance>> m) {
     this(new InstanceMapFactory(m));
   }
 
@@ -31,42 +31,42 @@ public class AlgorithmInstance {
 
 
   /**
-   * creates a NodeInstance for each Node and returns list with matching
-   * NodeInstances in the same order as the given iterable returns them.
+   * creates a FuncInstance for each Func and returns list with matching
+   * FuncInstances in the same order as the given iterable returns them.
    */
-  //public static List<NodeInstance> cloneOutputs(Iterable<Node> set) {
+  //public static List<FuncInstance> cloneOutputs(Iterable<Func> set) {
     //AlgorithmInstance instance = new AlgorithmInstance();
     //return instance.instantiate(set);
   //}
 
   /**
-   * creates a NodeInstance for each Node and returns list with matching
-   * NodeInstances in the same order as the given iterable returns them.
+   * creates a FuncInstance for each Func and returns list with matching
+   * FuncInstances in the same order as the given iterable returns them.
    */
-  public <N extends Node> List<NodeInstance<N>> instantiate(Iterable<N> set) {
-    List<NodeInstance<N>> list = new ArrayList<>();
+  public <N extends Func> List<FuncInstance<N>> instantiate(Iterable<N> set) {
+    List<FuncInstance<N>> list = new ArrayList<>();
     for(N n: set) 
-      list.add(createNodeAndItsConnection(n));
+      list.add(createFuncAndItsConnection(n));
     return list;
   }
 
-  private <N extends Node> NodeInstance<N> createNodeAndItsConnection(N n) {
-    NodeInstance<N> ni = createNodeIfAbsent(n);
+  private <N extends Func> FuncInstance<N> createFuncAndItsConnection(N n) {
+    FuncInstance<N> ni = createFuncIfAbsent(n);
     for(int i = 0; i < n.getNumOutputs(); i += 1)  {
      ConnectionInstance conn = creator.createConnection(ni, i);
-     ni.setOutput(createNodes(conn, n.getOutput(i)), i);
+     ni.setOutput(createFuncs(conn, n.getOutput(i)), i);
     }
     return ni;
   }
 
-  private ConnectionInstance createNodes(ConnectionInstance conn, Connection output) {
-    for(Connection.NodePort np: output.getListeners()) 
-      conn.connectDownStreamNode(np, createNodeIfAbsent(np.node()));
+  private ConnectionInstance createFuncs(ConnectionInstance conn, Connection output) {
+    for(Connection.FuncPort np: output.getListeners()) 
+      conn.connectDownStreamFunc(np, createFuncIfAbsent(np.node()));
     return conn;
   }
 
-  <N extends Node> NodeInstance<N> createNodeIfAbsent(N n) {
-    return nis.computeIfAbsent(n, m -> creator.createNode(m));
+  <N extends Func> FuncInstance<N> createFuncIfAbsent(N n) {
+    return nis.computeIfAbsent(n, m -> creator.createFunc(m));
   }
 
 }

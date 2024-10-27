@@ -10,14 +10,14 @@ public class PushConnectorStrategy implements ConnectionInstance.ConnectorStrate
   }
 
   public void update(ConnectionInstance ci) {
-    for(NodeInstance listener: ci.getListeners()){
+    for(FuncInstance listener: ci.getListeners()){
       executor.execute(listener);
     }
   }
 
-  public void calcValue(ConnectionInstance ci, NodeInstance upstream) {
+  public void calcValue(ConnectionInstance ci, FuncInstance upstream) {
   }
 
-  public void invalidate(ConnectionInstance ci, NodeInstance upstream) {
+  public void invalidate(ConnectionInstance ci, FuncInstance upstream) {
   }
 }

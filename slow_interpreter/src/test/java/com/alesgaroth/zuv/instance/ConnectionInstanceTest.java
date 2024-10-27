@@ -4,14 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
-import com.alesgaroth.zuv.design.Node;
+import com.alesgaroth.zuv.design.Func;
 
 public class ConnectionInstanceTest {
 
   //If connector receives a value that is equivalent, don't push
   @Test
   public void updateWithSameValueNoStratCall() {
-    NodeInstance upstream = null;
+    FuncInstance upstream = null;
     MyConnectorStrategy cs = new MyConnectorStrategy();
     ConnectionInstance ci = new ConnectionInstance(upstream, cs);
     Object value = 7;
@@ -23,7 +23,7 @@ public class ConnectionInstanceTest {
 
   @Test
   public void invalidateCallsStrategy() {
-    NodeInstance upstream = null;
+    FuncInstance upstream = null;
     MyConnectorStrategy cs = new MyConnectorStrategy();
     ConnectionInstance ci = new ConnectionInstance(upstream, cs);
     Object value = 7;
@@ -39,9 +39,9 @@ public class ConnectionInstanceTest {
     public void update(ConnectionInstance ci) {
       updateCalled += 1;
     }
-    public void calcValue(ConnectionInstance ci, NodeInstance upstream) {
+    public void calcValue(ConnectionInstance ci, FuncInstance upstream) {
     }
-    public void invalidate(ConnectionInstance ci, NodeInstance upstream) {
+    public void invalidate(ConnectionInstance ci, FuncInstance upstream) {
       invalidateCalled += 1;
     }
   }

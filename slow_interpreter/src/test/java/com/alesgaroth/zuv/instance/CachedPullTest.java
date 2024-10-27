@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.Executor;
 
-import com.alesgaroth.zuv.design.Node;
+import com.alesgaroth.zuv.design.Func;
 
 public class CachedPullTest extends StratTestBase {
 

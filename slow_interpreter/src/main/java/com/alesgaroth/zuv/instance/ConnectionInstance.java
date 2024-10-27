@@ -10,34 +10,34 @@ import java.util.Map;
 public class ConnectionInstance {
 
   static final private Object uninitialized = new Object();
-  final NodeInstance upstream;
-  List<NodeInstance> listeners = new ArrayList<>();
+  final FuncInstance upstream;
+  List<FuncInstance> listeners = new ArrayList<>();
   private Object value = uninitialized;
   private ConnectorStrategy strat;
 
   final static private ConnectorStrategy noConnectorStrategy = new ConnectorStrategy() {
     public void update(ConnectionInstance ci) {
     }
-    public void calcValue(ConnectionInstance ci, NodeInstance upstream) {
+    public void calcValue(ConnectionInstance ci, FuncInstance upstream) {
     }
-    public void invalidate(ConnectionInstance ci, NodeInstance upstream) {
+    public void invalidate(ConnectionInstance ci, FuncInstance upstream) {
     }
   };
 
-  public ConnectionInstance(NodeInstance upstream, ConnectorStrategy cs) {
+  public ConnectionInstance(FuncInstance upstream, ConnectorStrategy cs) {
     strat = cs;
     this.upstream = upstream;
   }
 
-  public ConnectionInstance(NodeInstance upstream) {
+  public ConnectionInstance(FuncInstance upstream) {
     this(upstream, noConnectorStrategy);
   }
 
-  public Iterable<NodeInstance> getListeners() {
+  public Iterable<FuncInstance> getListeners() {
     return Collections.unmodifiableList(listeners);
   }
 
-  void connectDownStreamNode(Connection.NodePort np, NodeInstance ni2) {
+  void connectDownStreamFunc(Connection.FuncPort np, FuncInstance ni2) {
     ni2.setInput(this, np.input());
     listeners.add(ni2);
   }
@@ -67,8 +67,8 @@ public class ConnectionInstance {
 
   static public interface ConnectorStrategy {
     void update(ConnectionInstance ci);
-    void calcValue(ConnectionInstance ci, NodeInstance upstream);
-    void invalidate(ConnectionInstance ci, NodeInstance upstream);
+    void calcValue(ConnectionInstance ci, FuncInstance upstream);
+    void invalidate(ConnectionInstance ci, FuncInstance upstream);
   }
 
 }

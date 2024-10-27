@@ -1,11 +1,11 @@
 package com.alesgaroth.zuv.instance;
 
-import com.alesgaroth.zuv.design.Node;
+import com.alesgaroth.zuv.design.Func;
 
-public class ReceiverNodeInstance extends NodeInstance {
+public class ReceiverFuncInstance extends FuncInstance {
   public int runCalled = 0;
 
-  public ReceiverNodeInstance(Node n) {
+  public ReceiverFuncInstance(Func n) {
     super(n);
   }
 

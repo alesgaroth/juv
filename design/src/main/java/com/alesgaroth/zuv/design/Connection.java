@@ -5,15 +5,15 @@ import java.util.Collections;
 import java.util.List;
 
 public class Connection {
-  List<NodePort> listeners = new ArrayList<>();
+  List<FuncPort> listeners = new ArrayList<>();
 
-  public Iterable<NodePort> getListeners(){
+  public Iterable<FuncPort> getListeners(){
       return Collections.unmodifiableList(listeners);
   }
 
-  void addListener(Node l, int input) {
-    listeners.add(new NodePort(l, input));
+  void addListener(Func l, int input) {
+    listeners.add(new FuncPort(l, input));
   }
 
-  public record NodePort(Node node, int input) {}
+  public record FuncPort(Func node, int input) {}
 }

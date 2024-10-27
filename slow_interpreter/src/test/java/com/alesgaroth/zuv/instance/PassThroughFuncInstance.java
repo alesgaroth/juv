@@ -1,12 +1,12 @@
 package com.alesgaroth.zuv.instance;
 
-import com.alesgaroth.zuv.design.Node;
+import com.alesgaroth.zuv.design.Func;
 
-public class PassThroughNodeInstance extends NodeInstance {
+public class PassThroughFuncInstance extends FuncInstance {
 
   public int runCalled = 0;
 
-  public PassThroughNodeInstance(PassThroughNode n) {
+  public PassThroughFuncInstance(PassThroughFunc n) {
     super(n);
   }
 

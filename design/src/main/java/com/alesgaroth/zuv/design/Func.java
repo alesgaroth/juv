@@ -1,10 +1,10 @@
 package com.alesgaroth.zuv.design;
 
-public class Node {
+public class Func {
   Connection[] outboundConnections;
   final int numInputs;
 
-  public Node(int numInputs, int numOutputs) {
+  public Func(int numInputs, int numOutputs) {
     this.numInputs = numInputs;
     outboundConnections = new Connection[numOutputs];
     for(int i = 0; i < numOutputs; i += 1) {
@@ -12,7 +12,7 @@ public class Node {
     }
   }
 
-  public void dependOn(int input, Node upstream, int output) {
+  public void dependOn(int input, Func upstream, int output) {
     if (!validPut(input, numInputs)) 
       throw new BadConnectionException();
 
