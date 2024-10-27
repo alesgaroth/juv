@@ -60,8 +60,8 @@ public class AlgorithmInstance {
   }
 
   private ConnectionInstance createFuncs(ConnectionInstance conn, Connection output) {
-    for(Connection.FuncPort np: output.getListeners()) 
-      conn.connectDownStreamFunc(np, createFuncIfAbsent(np.node()));
+    for(Connection.FuncPort fp: output.getListeners()) 
+      conn.connectDownStreamFunc(fp, createFuncIfAbsent(fp.func()));
     return conn;
   }
 

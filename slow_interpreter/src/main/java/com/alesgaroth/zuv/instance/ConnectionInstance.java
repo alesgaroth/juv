@@ -37,8 +37,8 @@ public class ConnectionInstance {
     return Collections.unmodifiableList(listeners);
   }
 
-  void connectDownStreamFunc(Connection.FuncPort np, FuncInstance ni2) {
-    ni2.setInput(this, np.input());
+  void connectDownStreamFunc(Connection.FuncPort fp, FuncInstance ni2) {
+    ni2.setInput(this, fp.input());
     listeners.add(ni2);
   }
 

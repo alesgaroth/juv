@@ -27,9 +27,9 @@ public class FuncInstanceTest {
 
     @Test
     public void canGetIterableOfInputs() {
-      List<FuncInstance<Func>> nodes = simpleGraph();
-      FuncInstance<Func> node = nodes.get(1);
-      for(ConnectionInstance ci: node.getInputs()){
+      List<FuncInstance<Func>> funcs = simpleGraph();
+      FuncInstance<Func> func = funcs.get(1);
+      for(ConnectionInstance ci: func.getInputs()){
         assertFalse(ci.isReady());
         return;
       }
@@ -38,11 +38,11 @@ public class FuncInstanceTest {
 
     @Test
     public void checkReadyOfFuncInputs() {
-      List<FuncInstance<Func>> nodes = simpleGraph();
-      FuncInstance<Func> node = nodes.get(1);
-      assertFalse(node.inputsReady());
-      ((VariableFuncInstance)nodes.get(0)).update(0);
-      assertTrue(node.inputsReady());
+      List<FuncInstance<Func>> funcs = simpleGraph();
+      FuncInstance<Func> func = funcs.get(1);
+      assertFalse(func.inputsReady());
+      ((VariableFuncInstance)funcs.get(0)).update(0);
+      assertTrue(func.inputsReady());
     }
 
    private List<FuncInstance<Func>> simpleGraph() {

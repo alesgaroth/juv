@@ -15,5 +15,5 @@ public class Connection {
     listeners.add(new FuncPort(l, input));
   }
 
-  public record FuncPort(Func node, int input) {}
+  public record FuncPort(Func func, int input) {}
 }
