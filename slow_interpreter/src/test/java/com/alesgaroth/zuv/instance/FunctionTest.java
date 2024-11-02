@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.alesgaroth.zuv.design.Func;
 import com.alesgaroth.zuv.design.CalcFunc;
 import com.alesgaroth.zuv.design.SimpleCalcFunc;
 
