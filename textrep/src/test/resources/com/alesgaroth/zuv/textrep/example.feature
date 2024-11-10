@@ -1,6 +1,10 @@
-Feature: An example
+Feature: text entry to editor backend
 
-  Scenario: The example
-    Given an example scenario
-    When all step definitions are implemented
-    Then the scenario passes
+  Scenario Outline: can create an algorithm
+    Given an <initial> algorithm
+    When I give the following "<commands>"
+    Then I get the named <algorithm>
+    Examples:
+      | initial | commands | algorithm |
+      | empty | CreateNode foo| oneNode |
+      | oneNode | CreateNode bar\nConnect foo 0 bar 0 | twoConnectedNodes |
