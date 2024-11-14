@@ -19,5 +19,9 @@ public class StepDefinitions {
   public void i_get_the_named(String algo) {
       assertTrue(algorithm.equivalentTo(CacheMap.get(algo)));
   }
+  @Then("I dont get the named {word}")
+  public void i_dont_get_the_named(String algo) {
+      assertFalse(algorithm.equivalentTo(CacheMap.get(algo)));
+  }
 
 }

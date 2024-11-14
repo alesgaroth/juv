@@ -1,13 +1,14 @@
 package com.alesgaroth.zuv.design;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 public class Value {
   List<FuncPort> listeners = new ArrayList<>();
 
-  public Iterable<FuncPort> getListeners(){
+  public Collection<FuncPort> getListeners(){
       return Collections.unmodifiableList(listeners);
   }
 
