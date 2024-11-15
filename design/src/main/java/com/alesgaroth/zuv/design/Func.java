@@ -1,6 +1,6 @@
 package com.alesgaroth.zuv.design;
 
-public class Func {
+public class Func extends Extensible {
   Value[] outboundValues;
   final int numInputs;
 
