@@ -1,6 +1,7 @@
 package com.alesgaroth.zuv.textrep;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.alesgaroth.zuv.design.Func;
@@ -13,15 +14,31 @@ public class Algorithm {
   /**
    * In general graph equivalence (aka Graph Isomorphism) can be very expensive (quasi-polynomial time)
    * https://en.wikipedia.org/wiki/Graph_isomorphism_problem#State_of_the_art
+   *
+   * We have some information that makes it easier than quasi-polynomial time
    * 
    */
   public boolean equivalentTo(Algorithm other) {
     if (other == this) return true;
-    if (other.funcs.size() != this.funcs.size()) return false;
+    if (other.numFuncs() != this.numFuncs()) return false;
     if (this.countEdges() != other.countEdges()) return false;
     if (this.countRoots() != other.countRoots()) return false;
     if (this.countLeaves() != other.countLeaves()) return false;
+    List<Set<Func>> columns = new GraphOrder(this).ordered();
+    List<Set<Func>> oColumns = new GraphOrder(other).ordered();
+    if (columns.size() != oColumns.size()) return false;
+    for (int k = 0; k < columns.size(); k += 1) {
+      Set<Func> col = columns.get(k);
+      Set<Func> oCol = oColumns.get(k);
+      if (col.size() != oCol.size()) {
+        return false;
+      }
+    }
     return true;
+  }
+
+  public int numFuncs() {
+    return funcs.size();
   }
 
   public int countEdges() {

@@ -71,6 +71,23 @@ public class AlgorithmTest {
     assertFalse(algo.equivalentTo(algo2));
   }
 
+  @Test public void twoLongEquivalent() {
+    same(longAlgo(), longAlgo());
+  }
+
+  @Test public void twoParallelNotEquivalent() {
+    different(spur(3), spur(4));
+  }
+
+  public void same(Algorithm algo, Algorithm algo2) { 
+    assertTrue(algo.equivalentTo(algo2));
+  }
+
+  public void different(Algorithm algo, Algorithm algo2) { 
+    assertFalse(algo.equivalentTo(algo2));
+  }
+
+
   Algorithm twoNodeConnected() {
     Algorithm algo = new Algorithm();
     Func one = new Func(0, 1);
@@ -121,4 +138,43 @@ public class AlgorithmTest {
     algo.add(two3);
     return algo;
   }
+
+  Algorithm longAlgo() {
+    Algorithm algo = new Algorithm();
+    Func was = new Func(0, 1);
+    algo.add(was);
+    for (int k = 0; k < 10; k += 1) {
+      Func next = new Func(1, 1);
+      algo.add(next);
+      next.dependOn(0, was, 0);
+      was = next;
+    }
+    Func last = new Func(1, 0);
+    algo.add(last);
+    last.dependOn(0, was, 0);
+    return algo;
+  }
+
+  Algorithm spur(int j) {
+    Algorithm algo = new Algorithm();
+    Func was = new Func(0, 1);
+    Func opt = null;
+    algo.add(was);
+    for (int k = 0; k < 10; k += 1) {
+      Func next = new Func(1, 1);
+      algo.add(next);
+      next.dependOn(0, was, 0);
+      if (j == k ) {
+        opt = new Func(1, 1);
+        algo.add(opt);
+        opt.dependOn(0, was, 0);
+      }
+      was = next;
+    }
+    Func last = new Func(1, 0);
+    algo.add(last);
+    last.dependOn(0, was, 0);
+    return algo;
+  }
+
 }
