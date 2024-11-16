@@ -14,4 +14,7 @@ public class Extensible {
   public final <T extends Extension> T getExtension(Class<? extends T> clz) {
     return (T)extensions.get(clz);
   }
+  public final void removeExtension(Extension ex) {
+    extensions.remove(ex.getClass());
+  }
 }
