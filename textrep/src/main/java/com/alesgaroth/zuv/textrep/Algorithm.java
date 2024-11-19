@@ -27,6 +27,22 @@ public class Algorithm {
     List<Set<Func>> columns = new GraphOrder(this).ordered();
     List<Set<Func>> oColumns = new GraphOrder(other).ordered();
     if (columns.size() != oColumns.size()) return false;
+    if (!columnsHaveTheSameNumberEach(columns, oColumns)) return false;
+    if (canMatchFuncs(columns, oColumns)) return true;
+    throw new NotYetImplemented("Graph is too complicated");
+  }
+
+  public boolean canMatchFuncs(List<Set<Func>> columns, List<Set<Func>> oColumns) {
+    for (int k = 0; k < columns.size(); k += 1) {
+      Set<Func> cols = columns.get(k);
+      if (cols.size() == 1) {
+        continue;
+      }
+      // TODO
+    }
+    return true;
+  }
+  public boolean columnsHaveTheSameNumberEach(List<Set<Func>> columns, List<Set<Func>> oColumns) {
     for (int k = 0; k < columns.size(); k += 1) {
       Set<Func> col = columns.get(k);
       Set<Func> oCol = oColumns.get(k);
