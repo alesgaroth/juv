@@ -1,8 +1,10 @@
 package com.alesgaroth.zuv.textrep;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 import com.alesgaroth.zuv.design.Func;
@@ -19,65 +21,111 @@ public class GraphOrder {
   /**
    * returns a list of columns (as sets) of Funcs
    */
-  List<Set<Func>> ordered() {
-    Set<Func> col = new HashSet<>();
-    for(Func root: algo.getRoots()) {
-      root.extendWith(new FuncExtension());
-      col.add(root);
+  public List<Set<Func>> ordered() {
+    return kahnOrdered();
+  }
+
+  List<Func> kahnsAlgorithm() {
+    List<Func> semiOrderedOutput = new ArrayList<>(algo.numFuncs());
+    Queue<Func> queue = new ArrayDeque<>();
+    for(Func func: algo.getRoots()) {
+      queue.offer(func);
+      func.extendWith(new FuncExtension());
     }
-    int max = algo.numFuncs();
-    int colNo = 0;
-    for(colNo = 0; colNo < max && !col.isEmpty(); colNo += 1) {
-      Set<Func> nextCol = new HashSet<>();
-      for(Func func: col) {
-        FuncExtension fe = func.getExtension(FuncExtension.class);
-        fe.column = colNo;
-        for(int j = 0; j < func.getNumOutputs(); j += 1) {
-          for(FuncPort fp: func.getOutput(j).getListeners()) {
+    int currCol = 0;
+    while(!queue.isEmpty()) {
+      Func func = queue.poll();
+
+      FuncExtension fe = func.getExtension(FuncExtension.class);
+      fe.column = currCol;
+      currCol += 1;
+
+      semiOrderedOutput.add(func);
+      for(int j = 0; j < func.getNumOutputs(); j += 1) {
+        for(FuncPort fp: func.getOutput(j).getListeners()) {
+          Func m = fp.func();
+          FuncExtension me = m.getExtension(FuncExtension.class);
+          if (me == null) {
+            me = new FuncExtension();
+            m.extendWith(me);
+          }
+          me.incomingEdges -= 1;
+          if (me.incomingEdges < 1) {
+            queue.offer(m);
+          }
+        }
+      }
+
+    }
+    return semiOrderedOutput;
+  }
+
+  void countIncomingEdges() {
+    Queue<Func> queue = new ArrayDeque<>();
+    for(Func root: algo.getRoots()) {
+      queue.offer(root);
+    }
+
+    while(!queue.isEmpty()) {
+      Func func = queue.poll();
+      FuncExtension fe = func.getExtension(FuncExtension.class);
+      if (fe != null && fe.visited) {
+        continue;
+      } else if (fe == null) {
+        fe = new FuncExtension();
+        fe.incomingEdges = 0;
+      }
+      fe.visited = true;
+      for(int j = 0; j < func.getNumOutputs(); j += 1) {
+        for(FuncPort fp: func.getOutput(j).getListeners()) {
+          Func m = fp.func();
+          FuncExtension me = m.getExtension(FuncExtension.class);
+          if (me == null) {
+            me = new FuncExtension();
+            me.incomingEdges = 0;
+          }
+          me.incomingEdges += 1;
+        }
+      }
+    }
+  }
+
+  List<Set<Func>> kahnOrdered() {
+    countIncomingEdges();
+    List<Func> semiOrderedOutput = kahnsAlgorithm();
+
+    List<Set<Func>> retval = new ArrayList<>();
+    int firstNext = 0;
+    int currCol = 0;
+    Set<Func> columnGroup = null; 
+
+    for(Func func: semiOrderedOutput) {
+      if (currCol == firstNext) {
+        firstNext = algo.numFuncs();
+        columnGroup = new HashSet<>();
+        retval.add(columnGroup);
+      }
+      currCol += 1;
+      columnGroup.add(func);
+      for(int j = 0; j < func.getNumOutputs(); j += 1) {
+        for(FuncPort fp: func.getOutput(j).getListeners()) {
             Func next = fp.func();
             FuncExtension fen = next.getExtension(FuncExtension.class);
             if (fen == null) {
-              fen = new FuncExtension();
-              next.extendWith(fen);
+              throw new NotYetImplemented("missing extension");
             }
-            fen.column = colNo + 1;
-            nextCol.add(next);
-          }
+            if (fen.column < firstNext) {
+              firstNext = fen.column;
+            }
         }
       }
-      col = nextCol;
     }
-
-    
-    List<Set<Func>> list =  new ArrayList<Set<Func>>();
-    col = new HashSet<>(algo.getRoots());
-    if (col.isEmpty()) {
-      return list;
-    }
-    list.add(col);
-    for(int k = 1; k <= colNo && !col.isEmpty(); k += 1) {
-      Set<Func> nextCol = new HashSet<>();
-      for(Func func: col) {
-        for (int j = 0; j < func.getNumOutputs(); j += 1) {
-          for (FuncPort fp: func.getOutput(j).getListeners()) {
-            Func next = fp.func();
-            FuncExtension fen = next.getExtension(FuncExtension.class);
-            if (fen.column == k) {
-              nextCol.add(next);
-            }
-          }
-        }
-      }
-      if (nextCol.isEmpty()) {
-        return list;
-      }
-      list.add(nextCol);
-      col = nextCol;
-    }
-    return list;
+    return retval;
   }
 
   class FuncExtension implements Func.Extension {
     int column;
+    int incomingEdges;
+    boolean visited;
   }
 }
