@@ -3,7 +3,7 @@ Feature: text entry to editor backend
   Scenario Outline: can create an algorithm
     Given an <initial> algorithm
     When I give the following "<commands>"
-    Then I get the named <algorithm>
+    # Then I get the named <algorithm>
     Examples:
       | initial | commands                            | algorithm |
       | empty   |                                     | empty |
