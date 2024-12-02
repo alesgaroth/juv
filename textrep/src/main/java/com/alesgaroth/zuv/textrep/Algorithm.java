@@ -32,6 +32,20 @@ public class Algorithm {
     throw new NotYetImplemented("Graph is too complicated");
   }
 
+  public String howDiff(Algorithm other) {
+    if (other.numFuncs() != this.numFuncs()) return "Different Number Funcs " + other.numFuncs() + " != " + this.numFuncs() ;
+    if (this.countEdges() != other.countEdges()) return "Different Number Edges";
+    if (this.countRoots() != other.countRoots()) return "Different Number Roots";
+    if (this.countLeaves() != other.countLeaves()) return "Different Number Leaves";
+
+    List<Set<Func>> columns = new GraphOrder(this).ordered();
+    List<Set<Func>> oColumns = new GraphOrder(other).ordered();
+
+    if (columns.size() != oColumns.size()) return "Different number columns";
+    if (!columnsHaveTheSameNumberEach(columns, oColumns)) return "Different number in columns";
+    throw new NotYetImplemented("Graph is too complicated");
+  }
+
   public boolean canMatchFuncs(List<Set<Func>> columns, List<Set<Func>> oColumns) {
     for (int k = 0; k < columns.size(); k += 1) {
       Set<Func> cols = columns.get(k);

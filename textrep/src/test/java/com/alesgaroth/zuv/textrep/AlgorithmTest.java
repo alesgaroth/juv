@@ -89,20 +89,11 @@ public class AlgorithmTest {
 
 
   Algorithm twoNodeConnected() {
-    Algorithm algo = new Algorithm();
-    Func one = new Func(0, 1);
-    Func two = new Func(1, 0);
-    two.dependOn(0, one, 0);
-    algo.add(one);
-    algo.add(two);
-    return algo;
+    return CacheMap.twoConnectedNodes();
   }
 
   Algorithm singleNode() {
-    Algorithm algo = new Algorithm();
-    Func one = new Func(0, 0);
-    algo.add(one);
-    return algo;
+    return CacheMap.oneNode();
   }
 
   Algorithm twoUnconnected() {

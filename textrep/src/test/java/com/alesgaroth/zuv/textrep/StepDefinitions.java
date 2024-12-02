@@ -9,15 +9,17 @@ public class StepDefinitions {
 
   @Given("an {word} algorithm")
   public void an_algorithm(String algo) {
+     //algorithm = CacheMap.get(algo.shallowCopy());
      algorithm = CacheMap.get(algo);
   }
   @When("I give the following {string}")
   public void i_give_the_following(String commands) {
-      new TextRep().on(algorithm).modify(commands);
+      new TextRep(algorithm).modify(commands);
   }
   @Then("I get the named {word}")
   public void i_get_the_named(String algo) {
-      assertTrue(algorithm.equivalentTo(CacheMap.get(algo)));
+      Algorithm other = CacheMap.get(algo);
+      assertTrue(algorithm.equivalentTo(other), () -> algorithm.howDiff(other));
   }
   @Then("I dont get the named {word}")
   public void i_dont_get_the_named(String algo) {
