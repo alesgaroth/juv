@@ -13,7 +13,12 @@ public class InstanceMapFactory implements AlgorithmInstance.InstanceFactory {
   public FuncInstance createFunc(Func n) {
     Class<?> clz = n.getClass();
     try {
-      return classMap.get(clz).getDeclaredConstructor(clz).newInstance(n);
+      FuncInstance fi =   classMap.get(clz).getDeclaredConstructor(clz).newInstance(n);
+      for(int i = 0; i < n.getNumOutputs(); i += 1)  {
+        ValueInstance value = createValue(fi, i);
+        fi.setOutput(value, i);
+      }
+      return fi;
     } catch (Exception e) {
       throw new RuntimeException("can't get declared constructor for " + clz + " from " + classMap, e);
     }

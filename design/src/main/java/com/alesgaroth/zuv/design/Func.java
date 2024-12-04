@@ -1,6 +1,6 @@
 package com.alesgaroth.zuv.design;
 
-public class Func extends Extensible {
+public class Func extends Extensible implements Funclike<Func> {
   Value[] outboundValues;
   final int numInputs;
 
@@ -32,6 +32,11 @@ public class Func extends Extensible {
       throw new BadValueException();
 
     return outboundValues[output];
+  }
+
+  public Iterable<Value.FuncPort> getOutputFuncs(int i) {
+    Value val = getOutput(i);
+    return val.getListeners();
   }
 
   static public boolean validPut(int num, int max) {

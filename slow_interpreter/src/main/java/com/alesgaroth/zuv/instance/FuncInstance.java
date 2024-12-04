@@ -1,13 +1,14 @@
 package com.alesgaroth.zuv.instance;
 
-import com.alesgaroth.zuv.design.Value;
 import com.alesgaroth.zuv.design.Func;
+import com.alesgaroth.zuv.design.Funclike;
+import com.alesgaroth.zuv.design.Value;
 
 import java.util.Arrays;
 import java.util.Collections;
 
 // A FuncInstance is analogous to a stack frame in a normal running system
-public class FuncInstance<N extends Func> implements Runnable {
+public class FuncInstance<N extends Func> implements Runnable, Funclike<FuncInstance> {
   N design;
   ValueInstance [] values;
   ValueInstance [] upstreams;
@@ -65,6 +66,10 @@ public class FuncInstance<N extends Func> implements Runnable {
       throw new Func.BadValueException();
     }
     upstreams[input] = ci;
+  }
+
+  public void dependOn(int input, FuncInstance source, int output) {
+    source.getOutput(output).connectDownStreamFunc(input, this);
   }
 
   public void run() {
