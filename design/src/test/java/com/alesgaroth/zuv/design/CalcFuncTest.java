@@ -24,4 +24,14 @@ public class CalcFuncTest
       Object[] outputs = cn.doCalculation(new Object[]{-3});
       assertEquals(3, outputs[0]);
     }
+
+    @Test
+    public void extendSimpleFunctionCalcFunc(){
+      Function<Integer,Integer> f = a -> -a;
+      CalcFunc cn = new SimpleCalcFunc(f);
+
+      CalcFunc cn2 = (CalcFunc)cn.shallowClone();
+      Object[] outputs = cn2.doCalculation(new Object[]{-3});
+      assertEquals(3, outputs[0]);
+    }
 }

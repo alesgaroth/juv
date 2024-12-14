@@ -14,4 +14,16 @@ public class SimpleCalcFunc extends CalcFunc {
     retval[0] = func.apply(inputs[0]);
     return retval;
   }
+
+  @Override
+  public Func shallowClone() {
+    SimpleCalcFunc f = new SimpleCalcFunc(this.func);
+    for (Extensible.Extension ex: getExtensions() ) {
+      if (ex instanceof Extensible.CloneableExtension cex) {
+        f.extendWith(cex.shallowCopy());
+      }
+    }
+    return f;
+  }
+
 }

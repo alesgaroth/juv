@@ -1,12 +1,17 @@
 package com.alesgaroth.zuv.design;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Iterator;
 import org.junit.jupiter.api.Test;
+
+import com.alesgaroth.zuv.design.Extensible.Extension;
+import com.alesgaroth.zuv.design.Extensible.CloneableExtension;
 
 public class FuncTest 
 {
@@ -58,6 +63,31 @@ public class FuncTest
       Value c = one.getOutput(0); 
       Iterator<Value.FuncPort> it = c.getListeners().iterator();
       assertEquals(it.next(), new Value.FuncPort(two, 0));
+    }
+
+    @Test
+    public void canClone() {
+      Func newf = two.shallowClone();
+      assertNotNull(newf);
+    }
+
+    @Test
+    public void cloneClonesExtensions() {
+
+      Extension ex = new CloneableExtension(){
+        public CloneableExtension shallowCopy() { return this; }
+      };
+      one.extendWith(ex);
+
+      Func newone = one.shallowClone();
+      Func newtwo = two.shallowClone();
+
+      assertNotNull(newone);
+      assertNotNull(newtwo);
+      assertFalse(newtwo == newone);
+
+      assertNotNull(newone.getExtension(ex.getClass()), "should have gotten something from the extension on one");
+      assertNull(newtwo.getExtension(ex.getClass()), "shouldn't have gotten anything from the extension on two");
     }
 
 

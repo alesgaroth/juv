@@ -39,6 +39,16 @@ public class Func extends Extensible implements Funclike<Func> {
     return val.getListeners();
   }
 
+  public Func shallowClone() {
+    Func f = new Func(this.numInputs, this.getNumOutputs());
+    for (Extensible.Extension ex: getExtensions() ) {
+      if (ex instanceof Extensible.CloneableExtension cex) {
+        f.extendWith(cex.shallowCopy());
+      }
+    }
+    return f;
+  }
+
   static public boolean validPut(int num, int max) {
     return num >= 0 && max > num;
   }

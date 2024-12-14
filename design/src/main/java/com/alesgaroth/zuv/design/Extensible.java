@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class Extensible {
   public interface Extension {}
+  public interface CloneableExtension<T extends CloneableExtension> extends Extension { T shallowCopy(); }
 
   private Map<Class<?extends Extension>, Extension> extensions = new HashMap<>();
 
@@ -17,4 +18,9 @@ public class Extensible {
   public final void removeExtension(Extension ex) {
     extensions.remove(ex.getClass());
   }
+
+  protected Iterable<? extends Extension> getExtensions() {
+    return extensions.values();
+  }
+
 }
