@@ -52,3 +52,11 @@ Each commit creates a task to review that commit, somehow so it doesn't get lost
 If commits are small, pretested, very few bugs should be able to get in.
 
 Reviews are after the fact, to look for better ways to do things. Make the code quality better.
+
+### Thoughts:
+
+You don't modify the source code. You write a transaction to change the program..
+
+Zuv expose what most systems find hard to model. Memory allocation, threads, race conditions,
+
+Zuv is coding by clicking/tapping

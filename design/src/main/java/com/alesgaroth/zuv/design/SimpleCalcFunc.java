@@ -17,13 +17,7 @@ public class SimpleCalcFunc extends CalcFunc {
 
   @Override
   public Func shallowClone() {
-    SimpleCalcFunc f = new SimpleCalcFunc(this.func);
-    for (Extensible.Extension ex: getExtensions() ) {
-      if (ex instanceof Extensible.CloneableExtension cex) {
-        f.extendWith(cex.shallowCopy());
-      }
-    }
-    return f;
+    return new SimpleCalcFunc(this.func).withExtensions(this);
   }
 
 }
