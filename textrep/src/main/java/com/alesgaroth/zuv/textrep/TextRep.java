@@ -1,5 +1,7 @@
 package com.alesgaroth.zuv.textrep;
 
+import com.alesgaroth.zuv.design.Algorithm;
+
 public class TextRep {
 
 	Algorithm algo;

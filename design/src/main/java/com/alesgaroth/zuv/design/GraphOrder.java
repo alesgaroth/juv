@@ -1,4 +1,4 @@
-package com.alesgaroth.zuv.textrep;
+package com.alesgaroth.zuv.design;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import com.alesgaroth.zuv.design.Value.FuncPort;
 
 public class GraphOrder {
   Algorithm algo;
-  GraphOrder(Algorithm algo) {
+  public GraphOrder(Algorithm algo) {
     this.algo = algo;
   }
 

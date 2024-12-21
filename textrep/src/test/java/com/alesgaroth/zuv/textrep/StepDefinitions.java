@@ -4,6 +4,8 @@ import io.cucumber.java.en.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.alesgaroth.zuv.design.Algorithm;
+
 public class StepDefinitions {
   Algorithm algorithm;
 

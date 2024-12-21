@@ -16,7 +16,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.alesgaroth.zuv.design.Algorithm;
 import com.alesgaroth.zuv.design.Func;
+import com.alesgaroth.zuv.design.GraphOrder;
+import com.alesgaroth.zuv.design.NotYetImplemented;
 
 public class GraphOrderTest {
 

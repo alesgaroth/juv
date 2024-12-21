@@ -1,4 +1,4 @@
-package com.alesgaroth.zuv.textrep;
+package com.alesgaroth.zuv.design;
 
 public class NotYetImplemented extends RuntimeException {
   public NotYetImplemented(String reason) {

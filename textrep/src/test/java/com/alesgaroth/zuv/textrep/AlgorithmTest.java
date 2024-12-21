@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import com.alesgaroth.zuv.design.Algorithm;
 import com.alesgaroth.zuv.design.Func;
 
 

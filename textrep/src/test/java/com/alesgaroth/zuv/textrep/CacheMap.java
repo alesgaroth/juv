@@ -3,7 +3,9 @@ package com.alesgaroth.zuv.textrep;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alesgaroth.zuv.design.Algorithm;
 import com.alesgaroth.zuv.design.Func;
+import com.alesgaroth.zuv.design.NotYetImplemented;
 
 public class CacheMap {
   static Map<String, Algorithm> cache = new HashMap<>();

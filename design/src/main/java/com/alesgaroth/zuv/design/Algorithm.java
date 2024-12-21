@@ -1,4 +1,4 @@
-package com.alesgaroth.zuv.textrep;
+package com.alesgaroth.zuv.design;
 
 import java.util.HashSet;
 import java.util.List;
