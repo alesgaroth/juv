@@ -5,15 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AlgorithmCopier<T extends Funclike> {
+public class AlgorithmCopier<T extends ZNode> {
   Map<Func, T> nis = new HashMap<>();
-  FunclikeFactory<T> creator;
+  ZNodeFactory<T> creator;
 
-  static public interface FunclikeFactory<U> {
+  static public interface ZNodeFactory<U> {
     U createFunc(Func n);
   }
 
-  public AlgorithmCopier(FunclikeFactory<T> factory) {
+  public AlgorithmCopier(ZNodeFactory<T> factory) {
     creator = factory;
   }
 

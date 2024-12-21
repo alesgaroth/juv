@@ -1,14 +1,14 @@
 package com.alesgaroth.zuv.instance;
 
 import com.alesgaroth.zuv.design.Func;
-import com.alesgaroth.zuv.design.Funclike;
+import com.alesgaroth.zuv.design.ZNode;
 import com.alesgaroth.zuv.design.Value;
 
 import java.util.Arrays;
 import java.util.Collections;
 
 // A FuncInstance is analogous to a stack frame in a normal running system
-public class FuncInstance<N extends Func> implements Runnable, Funclike<FuncInstance> {
+public class FuncInstance<N extends Func> implements Runnable, ZNode<FuncInstance> {
   N design;
   ValueInstance [] values;
   ValueInstance [] upstreams;

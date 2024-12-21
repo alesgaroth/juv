@@ -12,7 +12,7 @@ public class AlgorithmInstance {
   static Map<Class<? extends Func>, Class<? extends FuncInstance>> basemap = Map.of(Func.class, FuncInstance.class);
   InstanceFactory creator;
 
-  static public interface InstanceFactory extends AlgorithmCopier.FunclikeFactory<FuncInstance>{
+  static public interface InstanceFactory extends AlgorithmCopier.ZNodeFactory<FuncInstance>{
     FuncInstance createFunc(Func n);
   }
 

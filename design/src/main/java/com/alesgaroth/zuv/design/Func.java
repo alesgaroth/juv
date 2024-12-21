@@ -1,6 +1,6 @@
 package com.alesgaroth.zuv.design;
 
-public class Func extends Extensible implements Funclike<Func> {
+public class Func extends Extensible implements ZNode<Func> {
   Value[] outboundValues;
   final int numInputs;
 
