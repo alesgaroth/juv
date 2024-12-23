@@ -11,8 +11,7 @@ public class StepDefinitions {
 
   @Given("an {word} algorithm")
   public void an_algorithm(String algo) {
-     //algorithm = CacheMap.get(algo.shallowCopy());
-     algorithm = CacheMap.get(algo);
+     algorithm = CacheMap.get(algo).shallowCopy();
   }
   @When("I give the following {string}")
   public void i_give_the_following(String commands) {

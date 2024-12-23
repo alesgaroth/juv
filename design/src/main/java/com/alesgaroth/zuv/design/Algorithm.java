@@ -8,8 +8,14 @@ import com.alesgaroth.zuv.design.Func;
 import com.alesgaroth.zuv.design.Value.FuncPort;
 
 public class Algorithm {
-  int numItems = 0;
   Set<Func> funcs = new HashSet<>();
+
+  public Algorithm() {
+  }
+
+  private Algorithm(Set<Func> f) {
+    this.funcs = f;
+  }
 
   /**
    * In general graph equivalence (aka Graph Isomorphism) can be very expensive (quasi-polynomial time)
@@ -115,4 +121,15 @@ public class Algorithm {
   public void add(Func f) {
     funcs.add(f);
   }
+
+  static class FuncFactory implements AlgorithmCopier.ZNodeFactory<Func> {
+    public Func createFunc(Func n){
+      return n.shallowClone();
+    }
+  }
+
+  public Algorithm shallowCopy() {
+    return new Algorithm(new HashSet<>(new AlgorithmCopier(new FuncFactory()).instantiate(funcs)));
+  }
+
 }
