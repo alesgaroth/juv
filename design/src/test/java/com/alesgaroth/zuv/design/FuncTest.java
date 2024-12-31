@@ -57,6 +57,18 @@ public class FuncTest
     }
 
     @Test
+    public void canAddInputs() {
+      one.addInput();
+      assertEquals(1, one.getNumInputs());
+    }
+
+    @Test
+    public void canAddOutputs() {
+      two.addOutput();
+      assertEquals(1, two.getNumOutputs());
+    }
+
+    @Test
     public void canGetOtherEndOfOutput() {
       two.dependOn(0, one, 0);
 

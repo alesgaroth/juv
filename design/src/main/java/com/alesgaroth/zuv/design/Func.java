@@ -1,14 +1,17 @@
 package com.alesgaroth.zuv.design;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Func extends Extensible implements ZNode<Func> {
-  Value[] outboundValues;
-  final int numInputs;
+  List<Value> outboundValues;
+  int numInputs;
 
   public Func(int numInputs, int numOutputs) {
     this.numInputs = numInputs;
-    outboundValues = new Value[numOutputs];
+    outboundValues = new ArrayList<Value>(numOutputs);
     for(int i = 0; i < numOutputs; i += 1) {
-      outboundValues[i] = new Value();
+      addOutput();
     }
   }
 
@@ -19,8 +22,16 @@ public class Func extends Extensible implements ZNode<Func> {
     upstream.getOutput(output).addListener(this, input);
   }
 
+  public void addOutput() {
+    outboundValues.add(new Value());
+  }
+
   public int getNumOutputs() {
-    return outboundValues.length;
+    return outboundValues.size();
+  }
+
+  public void addInput() {
+    numInputs += 1;
   }
 
   public int getNumInputs() {
@@ -28,10 +39,10 @@ public class Func extends Extensible implements ZNode<Func> {
   }
 
   public Value getOutput(int output) {
-    if (!validPut(output, outboundValues.length)) 
+    if (!validPut(output, outboundValues.size())) 
       throw new BadValueException();
 
-    return outboundValues[output];
+    return outboundValues.get(output);
   }
 
   public Iterable<Value.FuncPort> getOutputFuncs(int i) {

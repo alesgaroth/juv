@@ -39,10 +39,10 @@ public class Algorithm {
   }
 
   public String howDiff(Algorithm other) {
-    if (other.numFuncs() != this.numFuncs()) return "Different Number Funcs " + other.numFuncs() + " != " + this.numFuncs() ;
-    if (this.countEdges() != other.countEdges()) return "Different Number Edges";
-    if (this.countRoots() != other.countRoots()) return "Different Number Roots";
-    if (this.countLeaves() != other.countLeaves()) return "Different Number Leaves";
+    if (other.numFuncs() != this.numFuncs()) return "Different Number Funcs " + this.numFuncs() + " != " + other.numFuncs() ;
+    if (this.countEdges() != other.countEdges()) return "Different Number Edges " + this.countEdges() + " != " + other.countEdges();
+    if (this.countRoots() != other.countRoots()) return "Different Number Roots " + this.countRoots() + " != " + other.countRoots();
+    if (this.countLeaves() != other.countLeaves()) return "Different Number Leaves " + this.countLeaves() + " != " + other.countLeaves();
 
     List<Set<Func>> columns = new GraphOrder(this).ordered();
     List<Set<Func>> oColumns = new GraphOrder(other).ordered();
