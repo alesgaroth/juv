@@ -1,4 +1,4 @@
-package com.alesgaroth.zuv.textrep;
+package com.alesgaroth.zuv.design;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -9,8 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import com.alesgaroth.zuv.design.Algorithm;
-import com.alesgaroth.zuv.design.Func;
 
 
 public class AlgorithmTest {

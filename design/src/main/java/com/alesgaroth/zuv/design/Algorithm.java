@@ -1,20 +1,23 @@
 package com.alesgaroth.zuv.design;
 
+import java.util.stream.Collectors;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.alesgaroth.zuv.design.Func;
 import com.alesgaroth.zuv.design.Value.FuncPort;
 
 public class Algorithm {
-  Set<Func> funcs = new HashSet<>();
+  Map<String,Func> funcs = new HashMap<>();
 
   public Algorithm() {
   }
 
   private Algorithm(Set<Func> f) {
-    this.funcs = f;
+    this.funcs = f.stream().collect(Collectors.toMap(Func::getName, e -> e));
   }
 
   /**
@@ -52,6 +55,14 @@ public class Algorithm {
     throw new NotYetImplemented("Graph is too complicated");
   }
 
+  public String print() {
+    String output = "";
+    for(Func f: funcs.values()) {
+      output += " " + f.getName();
+    }
+    return output;
+  }
+
   public boolean canMatchFuncs(List<Set<Func>> columns, List<Set<Func>> oColumns) {
     for (int k = 0; k < columns.size(); k += 1) {
       Set<Func> cols = columns.get(k);
@@ -79,7 +90,7 @@ public class Algorithm {
 
   public int countEdges() {
     int count = 0;
-    for(Func f: funcs) {
+    for(Func f: funcs.values()) {
       int num = f.getNumOutputs();
       for (int j = 0; j< num; j += 1) {
         count += f.getOutput(j).getListeners().size();
@@ -89,8 +100,8 @@ public class Algorithm {
   }
 
   public Set<Func> getRoots() {
-    Set<Func> roots = new HashSet<>(funcs);
-    for(Func f: funcs) {
+    Set<Func> roots = new HashSet<>(funcs.values());
+    for(Func f: funcs.values()) {
       int num = f.getNumOutputs();
       for (int j = 0; j< num; j += 1) {
         for(FuncPort fp: f.getOutput(j).getListeners()){
@@ -107,7 +118,7 @@ public class Algorithm {
 
   public int countLeaves() {
     int leaves = 0;
-    for(Func f: funcs) {
+    for(Func f: funcs.values()) {
       int num = f.getNumOutputs();
       for (int j = 0; j< num; j += 1) {
         if(f.getOutput(j).getListeners().size() == 0) {
@@ -119,7 +130,19 @@ public class Algorithm {
   }
 
   public void add(Func f) {
-    funcs.add(f);
+    funcs.put(f.getName(), f);
+  }
+  public Func getByName(String name) {
+    return funcs.get(name);
+  }
+  public Set<String> names() {
+    return funcs.keySet();
+  }
+  public Algorithm remove(Func f) {
+    // are there any links pointing to f? 
+    // are there any links pointing from f? 
+    funcs.remove(f.getName());
+    return this;
   }
 
   static class FuncFactory implements AlgorithmCopier.ZNodeFactory<Func> {
@@ -129,7 +152,7 @@ public class Algorithm {
   }
 
   public Algorithm shallowCopy() {
-    return new Algorithm(new HashSet<>(new AlgorithmCopier(new FuncFactory()).instantiate(funcs)));
+    return new Algorithm(new HashSet<>(new AlgorithmCopier(new FuncFactory()).instantiate(funcs.values())));
   }
 
 }

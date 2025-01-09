@@ -11,7 +11,7 @@ public class StepDefinitions {
 
   @Given("an {word} algorithm")
   public void an_algorithm(String algo) {
-     algorithm = CacheMap.get(algo).shallowCopy();
+     algorithm = AlgoFactory.get(algo);
   }
   @When("I give the following {string}")
   public void i_give_the_following(String commands) {
@@ -19,12 +19,12 @@ public class StepDefinitions {
   }
   @Then("I get the named {word}")
   public void i_get_the_named(String algo) {
-      Algorithm other = CacheMap.get(algo);
-      assertTrue(algorithm.equivalentTo(other), () -> algorithm.howDiff(other));
+      Algorithm other = AlgoFactory.get(algo);
+      assertTrue(algorithm.equivalentTo(other), () -> algorithm.howDiff(other) + " " + algorithm.print());
   }
   @Then("I dont get the named {word}")
   public void i_dont_get_the_named(String algo) {
-      assertFalse(algorithm.equivalentTo(CacheMap.get(algo)));
+      assertFalse(algorithm.equivalentTo(AlgoFactory.get(algo)));
   }
 
 }

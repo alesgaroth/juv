@@ -9,7 +9,6 @@ import com.alesgaroth.zuv.design.Func;
 public class TextRep {
 
   Algorithm algo;
-  Map<String, Func> byName = new HashMap<>();
 
 
   public TextRep(Algorithm algo) {
@@ -32,6 +31,9 @@ public class TextRep {
       case "Connect":
         connectNodes(parts[1], parts[2], parts[3], parts[4]);
         break;
+      case "DeleteNode":
+        deleteNode(parts[1]);
+        break;
       case "":
         break;
       default:
@@ -41,19 +43,18 @@ public class TextRep {
   }
 
   private void createNode(String name) {
-    Func f = new Func(0, 0);
-    byName.put(name, f);
+    Func f = new Func(name, 0, 0);
     algo.add(f);
   }
 
   private void connectNodes(String startName, String output, String endName, String input) {
-    Func start = byName.get(startName);
+    Func start = algo.getByName(startName);
     if (start == null) {
-      throw new NullPointerException("haven't seen " + startName + " before " + byName.keySet());
+      throw new NullPointerException("haven't seen " + startName + " before " + algo.names());
     }
-    Func end = byName.get(endName);
+    Func end = algo.getByName(endName);
     if (end == null) {
-      throw new NullPointerException("haven't seen " + end + " before " + byName.keySet());
+      throw new NullPointerException("haven't seen " + end + " before " + algo.names());
     }
     int out = Integer.valueOf(output);
     int in = Integer.valueOf(input);
@@ -64,5 +65,13 @@ public class TextRep {
       start.addOutput();
     }
     end.dependOn(in, start, out);
+  }
+
+  private void deleteNode(String name) {
+    Func f = algo.getByName(name);
+    if (f == null) {
+      return;
+    }
+    algo = algo.remove(f); // also remove any links
   }
 }

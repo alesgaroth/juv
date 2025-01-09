@@ -6,13 +6,24 @@ import java.util.List;
 public class Func extends Extensible implements ZNode<Func> {
   List<Value> outboundValues;
   int numInputs;
+  String name;
+  static long funcCounter;
 
   public Func(int numInputs, int numOutputs) {
+    this("func:" + funcCounter ++, numInputs, numOutputs);
+
+  }
+  public Func(String name, int numInputs, int numOutputs) {
+    this.name = name;
     this.numInputs = numInputs;
     outboundValues = new ArrayList<Value>(numOutputs);
     for(int i = 0; i < numOutputs; i += 1) {
       addOutput();
     }
+  }
+
+  public String getName(){
+    return name;
   }
 
   public void dependOn(int input, Func upstream, int output) {

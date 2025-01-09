@@ -1,11 +1,8 @@
-package com.alesgaroth.zuv.textrep;
+package com.alesgaroth.zuv.design;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.alesgaroth.zuv.design.Algorithm;
-import com.alesgaroth.zuv.design.Func;
-import com.alesgaroth.zuv.design.NotYetImplemented;
 
 public class CacheMap {
   static Map<String, Algorithm> cache = new HashMap<>();
@@ -15,13 +12,13 @@ public class CacheMap {
       switch(name) {
         case "empty":
                   algo = empty();
-									break;
+                  break;
         case "oneNode":
-									algo = oneNode();
-									break;
+                  algo = oneNode();
+                  break;
         case "twoConnectedNodes":
-									algo = twoConnectedNodes();
-									break;
+                  algo = twoConnectedNodes();
+                  break;
         default: throw new NotYetImplemented("sorry, don't know " + name);
       }
       cache.put(name, algo);
@@ -35,14 +32,14 @@ public class CacheMap {
 
   static Algorithm oneNode() {
     Algorithm algo = new Algorithm();
-    Func one = new Func(0, 0);
+    Func one = new Func("foo", 0, 0);
     algo.add(one);
     return algo;
   }
   static Algorithm twoConnectedNodes() {
     Algorithm algo = new Algorithm();
-    Func one = new Func(0, 1);
-    Func two = new Func(1, 0);
+    Func one = new Func("foo", 0, 1);
+    Func two = new Func("bar", 1, 0);
     two.dependOn(0, one, 0);
     algo.add(one);
     algo.add(two);

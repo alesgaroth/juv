@@ -26,3 +26,6 @@ Feature: backend for an editor (MVP scenarios)
   Scenario: label outputs
   Scenario: from a node choose to edit its algorithm
   Scenario: copy algorithm so we're not editing the default one
+  Scenario: set X,Y for a node
+  Scenario: set way point for connection
+  Scenario: reset way points for connection
