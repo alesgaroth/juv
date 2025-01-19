@@ -28,6 +28,7 @@ Feature: text entry to editor backend
     Examples:
       | initial           | commands                                  | algorithm |
       | oneNode           | DeleteNode foo                            | empty     |
-      #| twoConnectedNodes | DeleteNode bar                            | oneNode   |
+      | twoConnectedNodes | DeleteNode foo                            | oneNode   |
+      | twoConnectedNodes | DeleteNode bar                            | oneNode   |
       | empty             | DeleteNode foo                            | empty     |
       | oneNode           | DeleteNode bar                            | oneNode   |

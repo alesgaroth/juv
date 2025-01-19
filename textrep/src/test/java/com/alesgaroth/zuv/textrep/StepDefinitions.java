@@ -20,7 +20,7 @@ public class StepDefinitions {
   @Then("I get the named {word}")
   public void i_get_the_named(String algo) {
       Algorithm other = AlgoFactory.get(algo);
-      assertTrue(algorithm.equivalentTo(other), () -> algorithm.howDiff(other) + " " + algorithm.print());
+      assertTrue(algorithm.equivalentTo(other), () -> algorithm.howDiff(other) + " " + algorithm.print() + " vs " + other.print());
   }
   @Then("I dont get the named {word}")
   public void i_dont_get_the_named(String algo) {

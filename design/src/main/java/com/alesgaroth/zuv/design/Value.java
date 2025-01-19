@@ -16,5 +16,19 @@ public class Value {
     listeners.add(new FuncPort(l, input));
   }
 
+  void removeAllListeners() {
+    listeners.clear();
+  }
+
+  void removeListenersTo(Func func) {
+    List<FuncPort> toRemove = new ArrayList<>();
+    for(FuncPort fp: listeners) {
+      if (fp.func == func) {
+        toRemove.add(fp);
+      }
+    }
+    listeners.removeAll(toRemove);
+  }
+
   public record FuncPort(Func func, int input) {}
 }

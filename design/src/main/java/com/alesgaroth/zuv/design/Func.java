@@ -56,6 +56,17 @@ public class Func extends Extensible implements ZNode<Func> {
     return outboundValues.get(output);
   }
 
+  public void removeOutput(int output) {
+    if (output > getNumOutputs()) return;
+    outboundValues.get(output).removeAllListeners();
+  }
+
+  public void removeListenersTo(Func func) { 
+    for(Value v: outboundValues) {
+      v.removeListenersTo(func);
+    }
+  }
+
   public Iterable<Value.FuncPort> getOutputFuncs(int i) {
     Value val = getOutput(i);
     return val.getListeners();
