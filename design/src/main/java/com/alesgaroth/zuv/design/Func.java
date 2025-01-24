@@ -26,6 +26,10 @@ public class Func extends Extensible implements ZNode<Func> {
     return name;
   }
 
+  public String toString() {
+    return "Func: " + getName() + " " + numInputs + " -> " + getNumOutputs();
+  }
+
   public void dependOn(int input, Func upstream, int output) {
     if (!validPut(input, numInputs)) 
       throw new BadValueException();
@@ -65,6 +69,9 @@ public class Func extends Extensible implements ZNode<Func> {
     for(Value v: outboundValues) {
       v.removeListenersTo(func);
     }
+    //if (func != this) {
+      //throw new RuntimeException("removed " + func  + ": " + this  + ".listeners now: " + outboundValues);
+    //}
   }
 
   public Iterable<Value.FuncPort> getOutputFuncs(int i) {

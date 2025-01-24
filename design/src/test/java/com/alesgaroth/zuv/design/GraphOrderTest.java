@@ -1,4 +1,4 @@
-package com.alesgaroth.zuv.textrep;
+package com.alesgaroth.zuv.design;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,11 +15,6 @@ import com.alesgaroth.zuv.design.Func;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import com.alesgaroth.zuv.design.Algorithm;
-import com.alesgaroth.zuv.design.Func;
-import com.alesgaroth.zuv.design.GraphOrder;
-import com.alesgaroth.zuv.design.NotYetImplemented;
 
 public class GraphOrderTest {
 

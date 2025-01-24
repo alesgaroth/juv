@@ -1,15 +1,21 @@
 package com.alesgaroth.zuv.design;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class Value {
-  List<FuncPort> listeners = new ArrayList<>();
+  Set<FuncPort> listeners = new HashSet<>();
 
   public Collection<FuncPort> getListeners(){
-      return Collections.unmodifiableList(listeners);
+      return Collections.unmodifiableSet(listeners);
+  }
+
+  public String toString() {
+    return "" + listeners;
   }
 
   void addListener(Func l, int input) {
@@ -28,6 +34,9 @@ public class Value {
       }
     }
     listeners.removeAll(toRemove);
+    //if (!toRemove.isEmpty()) {
+      //throw new RuntimeException("Removed " + toRemove + " so now " + listeners);
+    //}
   }
 
   public record FuncPort(Func func, int input) {}

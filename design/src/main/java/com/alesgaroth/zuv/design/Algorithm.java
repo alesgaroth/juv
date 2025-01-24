@@ -32,7 +32,7 @@ public class Algorithm {
     if (other.numFuncs() != this.numFuncs()) return false;
     if (this.countEdges() != other.countEdges()) return false;
     if (this.countRoots() != other.countRoots()) return false;
-    //if (this.countLeaves() != other.countLeaves()) return false;
+    // if (this.countLeaves() != other.countLeaves()) return false;
     List<Set<Func>> columns = new GraphOrder(this).ordered();
     List<Set<Func>> oColumns = new GraphOrder(other).ordered();
     if (columns.size() != oColumns.size()) return false;
@@ -45,7 +45,7 @@ public class Algorithm {
     if (other.numFuncs() != this.numFuncs()) return "Different Number Funcs " + this.numFuncs() + " != " + other.numFuncs() ;
     if (this.countEdges() != other.countEdges()) return "Different Number Edges " + this.countEdges() + " != " + other.countEdges();
     if (this.countRoots() != other.countRoots()) return "Different Number Roots " + this.countRoots() + " != " + other.countRoots();
-    //if (this.countLeaves() != other.countLeaves()) return "Different Number Leaves " + this.countLeaves() + " != " + other.countLeaves();
+    // if (this.countLeaves() != other.countLeaves()) return "Different Number Leaves " + this.countLeaves() + " != " + other.countLeaves();
 
     List<Set<Func>> columns = new GraphOrder(this).ordered();
     List<Set<Func>> oColumns = new GraphOrder(other).ordered();
@@ -123,6 +123,8 @@ public class Algorithm {
       for (int j = 0; j< num; j += 1) {
         if(f.getOutput(j).getListeners().isEmpty()) {
           leaves += 1;
+        //} else {
+          //throw new RuntimeException("f:" + f + " -> " + f.getOutput(j));
         }
       }
     }

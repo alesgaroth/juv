@@ -72,6 +72,6 @@ public class TextRep {
     if (f == null) {
       return;
     }
-    algo = algo.remove(f); // also remove any links
+    algo = algo.remove(f); // also removes any links
   }
 }
