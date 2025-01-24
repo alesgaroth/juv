@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 
 import java.util.Iterator;
 import java.util.List;
@@ -17,8 +18,61 @@ import java.util.Set;
 
 public class IndexTest {
 
+  Index ndx;
+  FakeCRDT fake;
+
+  @BeforeEach
+  public void beforeEach() {
+    fake = new FakeCRDT();
+    ndx = new Index("/", fake);
+  }
+
   @Test
-  public void emptyTest() {
-    Index ndx = new Index("/", new FakeCRDT());
+  public void emptyIndexHasNoElements() {
+    Set<String> elems = ndx.elements();
+    assertTrue(elems.isEmpty());
+  }
+
+  @Test
+  public void emptyIndexDoesNotContainAnything() {
+    assertFalse(ndx.contains("bob"));
+  }
+
+  @Test
+  public void canAddToIndex() {
+    ndx.add("bob");
+    assertEquals("added /bob", fake.log.get(0));
+    //assertTrue(ndx.contains("bob"));
+  }
+
+  @Test
+  public void canAddToSubIndex() {
+    Index subndx = new Index("/foo/", fake);
+    subndx.add("bob");
+    assertEquals("added /foo/bob", fake.log.get(0));
+    //assertTrue(ndx.contains("bob"));
+  }
+
+  @Test
+  public void canRemoveFromIndex() {
+    ndx.remove("bob");
+    assertEquals("removed /bob", fake.log.get(0));
+  }
+
+  @Test
+  public void canRemoveFromSubIndex() {
+    Index subndx = new Index("/foo/", fake);
+    subndx.remove("bob");
+    assertEquals("removed /foo/bob", fake.log.get(0));
+  }
+
+
+  @Test
+  public void addThenRemoveLeavesEmpty() {
+    ndx.add("bob");
+    ndx.remove("bob");
+    assertFalse(ndx.contains("bob"));
+    assertEquals("added /bob", fake.log.get(0));
+    assertEquals("removed /bob", fake.log.get(1));
   }
 }
