@@ -12,10 +12,10 @@ public class Index implements CRDT<String> {
     this.prefix = prefix;
   }
   public Set<String> elements() {
-    return new HashSet<>();
+    return new HashSet<String>();
   }
   public boolean contains(String name) {
-    return false;
+    return crdt.contains(prefix + name);
   }
   public void add(String e) {
     crdt.add(prefix + e);
@@ -23,4 +23,5 @@ public class Index implements CRDT<String> {
   public void remove(String e) {
     crdt.remove(prefix + e);
   }
+
 }

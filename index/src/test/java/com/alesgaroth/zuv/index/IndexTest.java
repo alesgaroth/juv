@@ -20,11 +20,13 @@ public class IndexTest {
 
   Index ndx;
   FakeCRDT fake;
+  Index subndx;
 
   @BeforeEach
   public void beforeEach() {
     fake = new FakeCRDT();
     ndx = new Index("/", fake);
+    subndx = new Index("/foo/", fake);
   }
 
   @Test
@@ -47,7 +49,6 @@ public class IndexTest {
 
   @Test
   public void canAddToSubIndex() {
-    Index subndx = new Index("/foo/", fake);
     subndx.add("bob");
     assertEquals("added /foo/bob", fake.log.get(0));
     //assertTrue(ndx.contains("bob"));
@@ -61,7 +62,6 @@ public class IndexTest {
 
   @Test
   public void canRemoveFromSubIndex() {
-    Index subndx = new Index("/foo/", fake);
     subndx.remove("bob");
     assertEquals("removed /foo/bob", fake.log.get(0));
   }
@@ -74,5 +74,12 @@ public class IndexTest {
     assertFalse(ndx.contains("bob"));
     assertEquals("added /bob", fake.log.get(0));
     assertEquals("removed /bob", fake.log.get(1));
+  }
+
+  @Test
+  public void passesThroughContains() {
+    fake.data.add("/bob");
+    assertTrue(ndx.contains("bob"));
+    assertFalse(subndx.contains("bob"));
   }
 }

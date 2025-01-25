@@ -1,17 +1,20 @@
 package com.alesgaroth.zuv.index;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 public class FakeCRDT implements CRDT<String> {
   public ArrayList<String> log = new ArrayList<>();
+  public Set<String> data = new HashSet<>();
+
   FakeCRDT(){ 
   }
   public Set<String> elements() {
-    return null;
+    return data;
   }
   public boolean contains(String e) {
-    return false;
+    return data.contains(e);
   }
   public void add(String e) {
     log.add("added " + e);
