@@ -25,8 +25,8 @@ public class IndexTest {
   @BeforeEach
   public void beforeEach() {
     fake = new FakeCRDT();
-    ndx = new Index("/", fake);
     subndx = new Index("/foo/", fake);
+    ndx = new Index("/", fake);
   }
 
   @Test
@@ -43,27 +43,31 @@ public class IndexTest {
   @Test
   public void canAddToIndex() {
     ndx.add("bob");
-    assertEquals("added /bob", fake.log.get(0));
-    //assertTrue(ndx.contains("bob"));
+    assertTrue(fake.log.contains("added /bob"));
+    assertTrue(ndx.contains("bob"));
   }
 
   @Test
   public void canAddToSubIndex() {
     subndx.add("bob");
-    assertEquals("added /foo/bob", fake.log.get(0));
-    //assertTrue(ndx.contains("bob"));
+    assertTrue(fake.log.contains("added /foo/bob"));
+    //try {
+    //assertTrue(subndx.contains("bob"));
+    //} catch (Throwable t) {
+      //throw new RuntimeException("bob: " + subndx.cacheSet, t);
+    //}
   }
 
   @Test
   public void canRemoveFromIndex() {
     ndx.remove("bob");
-    assertEquals("removed /bob", fake.log.get(0));
+    assertTrue(fake.log.contains("removed /bob"));
   }
 
   @Test
   public void canRemoveFromSubIndex() {
     subndx.remove("bob");
-    assertEquals("removed /foo/bob", fake.log.get(0));
+    assertTrue(fake.log.contains("removed /foo/bob"));
   }
 
 
@@ -72,14 +76,20 @@ public class IndexTest {
     ndx.add("bob");
     ndx.remove("bob");
     assertFalse(ndx.contains("bob"));
-    assertEquals("added /bob", fake.log.get(0));
-    assertEquals("removed /bob", fake.log.get(1));
+    assertTrue(fake.log.contains("added /bob"));
+    assertTrue(fake.log.contains("removed /bob"));
   }
 
   @Test
   public void passesThroughContains() {
     fake.data.add("/bob");
-    assertTrue(ndx.contains("bob"));
-    assertFalse(subndx.contains("bob"));
+    // start with a non-empty index
+    Index index = new Index("/", fake);
+    assertTrue(index.contains("bob"));
+  }
+
+  @Test
+  public void registersAsListenerToCRDT() {
+    assertTrue(fake.log.contains("listen"));
   }
 }

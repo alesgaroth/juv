@@ -8,4 +8,11 @@ public interface CRDT<E extends Serializable> {
   boolean contains(E e);
   void add(E e);
   void remove(E e);
+
+  void setListener(CRDTListener<E> l);
+
+  public interface CRDTListener<E extends Serializable> {
+    void added(E e);
+    void removed(E e);
+  }
 }
