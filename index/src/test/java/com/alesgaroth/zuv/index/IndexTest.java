@@ -25,8 +25,12 @@ public class IndexTest {
   @BeforeEach
   public void beforeEach() {
     fake = new FakeCRDT();
+    CompositeListener cl = new CompositeListener(fake);
+    fake.setListener(cl);
     subndx = new Index("/foo/", fake);
+    cl.register(subndx.new Listener(), "/foo/");
     ndx = new Index("/", fake);
+    cl.register(ndx.new Listener(), "/");
   }
 
   @Test
@@ -44,18 +48,14 @@ public class IndexTest {
   public void canAddToIndex() {
     ndx.add("bob");
     assertTrue(fake.log.contains("added /bob"));
-    assertTrue(ndx.contains("bob"));
+    assertTrue(ndx.contains("bob"), " in " + ndx.elements());
   }
 
   @Test
   public void canAddToSubIndex() {
     subndx.add("bob");
     assertTrue(fake.log.contains("added /foo/bob"));
-    //try {
-    //assertTrue(subndx.contains("bob"));
-    //} catch (Throwable t) {
-      //throw new RuntimeException("bob: " + subndx.cacheSet, t);
-    //}
+    assertTrue(subndx.contains("bob"), ""  + subndx.cacheSet);
   }
 
   @Test

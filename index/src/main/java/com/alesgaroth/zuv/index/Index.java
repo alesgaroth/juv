@@ -11,7 +11,7 @@ public class Index implements CRDT<String> {
   public Index(String prefix, CRDT<String> crdt) {
     this.crdt = crdt;
     this.prefix = prefix;
-    crdt.setListener(new Listener());
+    //crdt.setListener(new Listener());
     int j = 0;
     for (String e: crdt.elements()) {
       String k = strip(e);
@@ -33,13 +33,19 @@ public class Index implements CRDT<String> {
   }
 
   public void setListener(CRDTListener<String> l) {
+    // refused bequest. Oops
   }
 
   String strip(String e) {
-    return e.substring(prefix.length());
+    if (e.length() > prefix.length()
+        && e.substring(0, prefix.length()).equals(prefix)) {
+      return e.substring(prefix.length());
+    } else {
+      return e;
+    }
   }
 
-  private class Listener implements CRDTListener<String> {
+  class Listener implements CRDTListener<String> {
     public void added(String e){ 
       String k = strip(e);
       cacheSet.add(k);

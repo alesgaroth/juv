@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -37,20 +38,44 @@ public class CompositeListenerTest {
     cl.register(spy, "/");
     fake.setListener(cl);
     fake.add("/bob");
-    assertTrue(spy.log.contains("added /bob"));
+    assertTrue(spy.log.contains("added bob"));
     fake.remove("/bob");
-    assertTrue(spy.log.contains("removed /bob"));
+    assertTrue(spy.log.contains("removed bob"));
   }
 
   @Test
   public void calcPrefix() {
-     assertNull(CompositeListener.getPrefixFrom(null));
-     assertEquals("/", CompositeListener.getPrefixFrom("/"));
-     assertEquals("/", CompositeListener.getPrefixFrom("/bob"));
-     assertEquals("/", CompositeListener.getPrefixFrom("/bob/"));
-     assertEquals("/bob/", CompositeListener.getPrefixFrom("/bob/foo"));
-     assertEquals("/bob/", CompositeListener.getPrefixFrom("/bob/foo/"));
+    assertNull(CompositeListener.getPrefixFrom(null));
+    assertEquals("/", CompositeListener.getPrefixFrom("/"));
+    assertEquals("/", CompositeListener.getPrefixFrom("/bob"));
+    assertEquals("/", CompositeListener.getPrefixFrom("/bob/"));
+    assertEquals("/bob/", CompositeListener.getPrefixFrom("/bob/foo"));
+    assertEquals("/bob/", CompositeListener.getPrefixFrom("/bob/foo/"));
   }
+  @Test
+  public void splitDegenerate() {
+    String [] split = CompositeListener.splitPathBase(null);
+    assertNull(split[0]);
+    assertNull(split[1]);
+
+    split = CompositeListener.splitPathBase("/");
+    assertEquals("/", split[0]);
+    assertNull(split[1]);
+  }
+
+  @Test
+  public void split() {
+    assertSplit("/bob", "/", "bob");
+    assertSplit("/bob/foo", "/bob/", "foo");
+    assertSplit("/bob/", "/", "bob");
+    assertSplit("/bob/foo/", "/bob/", "foo");
+  }
+  private void assertSplit(String full, String path, String base) {
+    String [] split = CompositeListener.splitPathBase(full);
+    assertEquals(path, split[0]);
+    assertEquals(base, split[1]);
+  }
+
 
   @Test
   public void canAdd2Listeners() {
@@ -62,17 +87,29 @@ public class CompositeListenerTest {
     cl.register(spy2, "/bob/");
     fake.setListener(cl);
     fake.add("/bob/");
-    assertTrue(spy.log.contains("added /bob/"));
-    assertFalse(spy2.log.contains("added /bob/"));
+    assertLastLog(spy, "added bob");
     fake.remove("/bob/");
-    assertTrue(spy.log.contains("removed /bob/"));
-    assertFalse(spy2.log.contains("removed /bob/"));
+    assertLastLog(spy, "removed bob");
+    assertNotLastLog(spy2, "removed bob");
     fake.add("/bob/foo/");
-    assertTrue(spy2.log.contains("added /bob/foo/"));
-    assertFalse(spy.log.contains("added /bob/foo/"));
+    assertNotLastLog(spy, "added foo");
+    assertLastLog(spy2, "added foo");
     fake.remove("/bob/foo/");
-    assertTrue(spy2.log.contains("removed /bob/foo/"));
-    assertFalse(spy.log.contains("removed /bob/foo/"));
+    assertNotLastLog(spy, "removed foo");
+    assertLastLog(spy2, "removed foo");
   }
+  private void assertLastLog(SpyListener spy, String expected) {
+    String actual = spy.log.get(spy.log.size() - 1);
+    assertEquals(expected, actual);
+  }
+
+  private void assertNotLastLog(SpyListener spy, String expected) {
+    if (spy.log.size() == 0) {
+      return;
+    }
+    String actual = spy.log.get(spy.log.size() - 1);
+    assertNotEquals(expected, actual);
+  }
+
 
 }
