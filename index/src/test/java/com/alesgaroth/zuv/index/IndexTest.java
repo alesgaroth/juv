@@ -21,11 +21,12 @@ public class IndexTest {
   Index ndx;
   FakeCRDT fake;
   Index subndx;
+  CompositeListener  cl;
 
   @BeforeEach
   public void beforeEach() {
     fake = new FakeCRDT();
-    CompositeListener cl = new CompositeListener(fake);
+    cl = new CompositeListener(fake);
     fake.setListener(cl);
     subndx = new Index("/foo/", fake);
     cl.register(subndx.new Listener(), "/foo/");
@@ -82,9 +83,9 @@ public class IndexTest {
 
   @Test
   public void passesThroughContains() {
-    fake.data.add("/bob");
+    fake.data.add("/bar/bob");
     // start with a non-empty index
-    Index index = new Index("/", fake);
+    Index index = new Index("/bar/", fake);
     assertTrue(index.contains("bob"));
   }
 
@@ -92,4 +93,53 @@ public class IndexTest {
   public void registersAsListenerToCRDT() {
     assertTrue(fake.log.contains("listen"));
   }
+
+  @Test
+  public void canAddSubIndexes() {
+    Index second = ndx.addIndex("subindex/");
+    cl.register(second.new Listener(), "/subindex/");
+    fake.add("/subindex/bar");
+    assertTrue(second.contains("bar"), "is bar in " + second.cacheSet + "? " + cl.listeners + "," + fake.log);
+  }
+
+  @Test
+  public void canAddToSubIndexes() {
+    Index second = ndx.addIndex("subndx/");
+    cl.register(second.new Listener(), "/subndx/");
+    second.add("baz");
+    assertTrue(second.contains("baz"), "is baz in " + second.cacheSet + "? " + cl.listeners + "," + fake.log);
+  }
+
+  @Test
+  public void subIndexPrefixesGetSlash() {
+    Index second = ndx.addIndex("subndx");
+    cl.register(second.new Listener(), "/subndx/");
+    second.add("bat");
+    assertTrue(second.contains("bat"), "is bat in " + second.cacheSet + "? " + cl.listeners + "," + fake.log);
+  }
+
+  /*
+    algoIndex.addIndex(name);
+    
+    String path = algoIndex.getPath();
+    String startPath = path + "/" + startName + "/ouput/" + output + "/";
+    String endPath = path + "/" + endName + "/input/" + input + "/";
+    Register startReg = algoIndex.getRegister(startPath);
+    startReg.set(endPath); // escapes the slashes (/) since those aren't valid names.
+	       //
+    algoIndex.remove(name); // this would have a ripple effect... removing connections, any sub nodes
+    	// it automatically removes any incoming, but the outgoing would still exist unless it
+     	// went looking for them...
+    
+    Index node = algoIndex.getIndex(nodeName);
+    Register implReg = node.getRegister("implementation");
+    Register javaReg = implReg.addRegister("java");
+    javaReg.add(javaFuncName); ... the JVM version deals with the lookups and setting the number of outputs and inputs
+   
+    Index node = algoIndex.get(nodeName);
+    Register implReg = node.getRegister("implementation");
+    Register algoReg = implReg.addRegister("algorithm");
+    algoReg.add(algoPath);
+	       
+   */
 }

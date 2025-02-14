@@ -43,10 +43,16 @@ public class CompositeListener implements CRDT.CRDTListener<String> {
 
   public void added(String e) {
     String [] split =  splitPathBase(e);
-    listeners.get(split[0]).added(split[1]);
+    var listener = listeners.get(split[0]);
+    if (listener != null) {
+      listener.added(split[1]);
+    }
   }
   public void removed(String e) {
     String [] split =  splitPathBase(e);
-    listeners.get(split[0]).removed(split[1]);
+    var listener = listeners.get(split[0]);
+    if (listener != null) {
+      listener.removed(split[1]);
+    }
   }
 }

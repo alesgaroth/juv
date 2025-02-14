@@ -111,5 +111,14 @@ public class CompositeListenerTest {
     assertNotEquals(expected, actual);
   }
 
+  @Test
+  public void badPathShouldNotThrow(){
+    CRDT fake = new FakeCRDT();
+    CompositeListener cl = new CompositeListener(fake);
+    fake.setListener(cl);
+    fake.add("hello");
+    fake.remove("hello");
+  }
+
 
 }

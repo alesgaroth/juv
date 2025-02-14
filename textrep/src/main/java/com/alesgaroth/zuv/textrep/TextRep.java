@@ -45,9 +45,18 @@ public class TextRep {
   private void createNode(String name) {
     Func f = new Func(name, 0, 0);
     algo.add(f);
+    // 
+    // algoIndex.addIndex(name);
   }
 
   private void connectNodes(String startName, String output, String endName, String input) {
+    /*
+    String path = algoIndex.getPath();
+    String startPath = path + "/" + startName + "/ouput/" + output + "/";
+    String endPath = path + "/" + endName + "/input/" + input + "/";
+    Register startReg = algoIndex.getRegister(startPath);
+    startReg.set(endPath); // escapes the slashes (/) since those aren't valid names.
+    */
     Func start = algo.getByName(startName);
     if (start == null) {
       throw new NullPointerException("haven't seen " + startName + " before " + algo.names());
@@ -68,10 +77,28 @@ public class TextRep {
   }
 
   private void deleteNode(String name) {
+    // algoIndex.remove(name); // this would have a ripple effect... removing connections, any sub nodes
+    // 	// it automatically removes any incoming, but the outgoing would still exist unless it
+    // 	// went looking for them...
     Func f = algo.getByName(name);
     if (f == null) {
       return;
     }
     algo = algo.remove(f); // also removes any links
   }
+
+  private void setJavaFunc(String nodeName, String javaFuncName) {
+    //Index node = algoIndex.getIndex(nodeName);
+    //Register implReg = node.getRegister("implementation");
+    //Register javaReg = implReg.addRegister("java");
+    //javaReg.add(javaFuncName); ... the JVM version deals with the lookups and setting the number of outputs and inputs
+  }
+
+  private void setAlgorithm(String nodeName, String algoPath ) {
+    //Index node = algoIndex.get(nodeName);
+    //Register implReg = node.getRegister("implementation");
+    //Register algoReg = implReg.addRegister("algorithm");
+    //algoReg.add(algoPath);
+  }
+ 
 }
