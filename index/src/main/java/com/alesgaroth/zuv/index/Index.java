@@ -7,14 +7,17 @@ public class Index {
   CRDT<String> crdt;
   String prefix;
   Set<String> cacheSet = new HashSet<>();
+  CRDTListenerRegistration clr;
 
-  public Index(String prefix, CRDT<String> crdt) {
+  public Index(String prefix, CRDT<String> crdt, CRDTListenerRegistration cl) {
     this.crdt = crdt;
+    this.clr = cl;
     if (prefix.charAt(prefix.length() - 1) != '/') {
       this.prefix = prefix  + '/';
     } else {
       this.prefix = prefix;
     }
+    cl.register(new Listener(), this.prefix);
     int j = 0;
     for (String e: crdt.elements()) {
       String k = strip(e);
@@ -37,12 +40,21 @@ public class Index {
     crdt.remove(prefix + e);
   }
 
-  // an index and an note and a register are all implemented the same
+  // an index and a tag and a register are all implemented the same
   // but conceptually they're different, so different methods to add
   // them
   public Index addIndex(String e) {
     this.add(e);
-    return new Index(prefix + e, crdt);
+    return new Index(prefix + e, crdt, clr);
+  }
+
+  public Register addRegister(String e) {
+    this.add(e);
+    return new Register(prefix + e, crdt, clr);
+  }
+
+  public String getPath() {
+    return prefix;
   }
 
 
@@ -52,6 +64,20 @@ public class Index {
       return e.substring(prefix.length());
     } else {
       return e;
+    }
+  }
+
+  static class Register extends Index {
+    Register(String prefix, CRDT crdt, CRDTListenerRegistration cl) {
+      super(prefix, crdt, cl);
+    }
+
+    public void add(String e) {
+      Set<String> elems = new HashSet<>(elements());
+      for(String elem: elems) {
+        super.remove(elem);
+      }
+      super.add(e);
     }
   }
 

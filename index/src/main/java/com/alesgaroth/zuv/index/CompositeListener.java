@@ -6,12 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class CompositeListener implements CRDT.CRDTListener<String> {
+public class CompositeListener implements CRDT.CRDTListener<String>, CRDTListenerRegistration {
   Map<String, CRDT.CRDTListener<String>> listeners = new HashMap<>();
   public CompositeListener(CRDT<String> crdt) {
   }
 
   public void register(CRDT.CRDTListener<String> l, String prefix) {
+    if (prefix.charAt(prefix.length() - 1) != '/') {
+      prefix = prefix  + '/';
+    } else {
+      prefix = prefix;
+    }
     listeners.put(prefix, l);
   }
 

@@ -28,10 +28,8 @@ public class IndexTest {
     fake = new FakeCRDT();
     cl = new CompositeListener(fake);
     fake.setListener(cl);
-    subndx = new Index("/foo/", fake);
-    cl.register(subndx.new Listener(), "/foo/");
-    ndx = new Index("/", fake);
-    cl.register(ndx.new Listener(), "/");
+    subndx = new Index("/foo/", fake, cl);
+    ndx = new Index("/", fake, cl);
   }
 
   @Test
@@ -85,7 +83,7 @@ public class IndexTest {
   public void passesThroughContains() {
     fake.data.add("/bar/bob");
     // start with a non-empty index
-    Index index = new Index("/bar/", fake);
+    Index index = new Index("/bar/", fake, cl);
     assertTrue(index.contains("bob"));
   }
 
@@ -97,7 +95,6 @@ public class IndexTest {
   @Test
   public void canAddSubIndexes() {
     Index second = ndx.addIndex("subindex/");
-    cl.register(second.new Listener(), "/subindex/");
     fake.add("/subindex/bar");
     assertTrue(second.contains("bar"), "is bar in " + second.cacheSet + "? " + cl.listeners + "," + fake.log);
   }
@@ -105,7 +102,6 @@ public class IndexTest {
   @Test
   public void canAddToSubIndexes() {
     Index second = ndx.addIndex("subndx/");
-    cl.register(second.new Listener(), "/subndx/");
     second.add("baz");
     assertTrue(second.contains("baz"), "is baz in " + second.cacheSet + "? " + cl.listeners + "," + fake.log);
   }
@@ -113,9 +109,23 @@ public class IndexTest {
   @Test
   public void subIndexPrefixesGetSlash() {
     Index second = ndx.addIndex("subndx");
-    cl.register(second.new Listener(), "/subndx/");
     second.add("bat");
     assertTrue(second.contains("bat"), "is bat in " + second.cacheSet + "? " + cl.listeners + "," + fake.log);
+  }
+
+  @Test
+  public void canAddRegisters() {
+    Index reg = ndx.addRegister("reg");
+    reg.add("one");
+    assertTrue(reg.contains("one"), "is one in " + reg.cacheSet);
+    reg.add("two");
+    assertTrue(reg.contains("two"), "is two in " + reg.cacheSet);
+    assertFalse(reg.contains("one"), "is one not in " + reg.cacheSet);
+  }
+
+  @Test
+  public void canGetPath() {
+    assertEquals(subndx.getPath(), "/foo/");
   }
 
   /*
@@ -126,7 +136,7 @@ public class IndexTest {
     String endPath = path + "/" + endName + "/input/" + input + "/";
     Register startReg = algoIndex.getRegister(startPath);
     startReg.set(endPath); // escapes the slashes (/) since those aren't valid names.
-	       //
+
     algoIndex.remove(name); // this would have a ripple effect... removing connections, any sub nodes
     	// it automatically removes any incoming, but the outgoing would still exist unless it
      	// went looking for them...
