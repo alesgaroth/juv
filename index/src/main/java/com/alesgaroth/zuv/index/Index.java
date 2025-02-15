@@ -12,17 +12,21 @@ public class Index {
   public Index(String prefix, CRDT<String> crdt, CRDTListenerRegistration cl) {
     this.crdt = crdt;
     this.clr = cl;
-    if (prefix.charAt(prefix.length() - 1) != '/') {
-      this.prefix = prefix  + '/';
-    } else {
-      this.prefix = prefix;
-    }
+    this.prefix = appendSlash(prefix);
     cl.register(new Listener(), this.prefix);
     int j = 0;
     for (String e: crdt.elements()) {
       String k = strip(e);
       cacheSet.add(k);
       j += 1;
+    }
+  }
+
+  static public String appendSlash(String e) {
+    if (e.charAt(e.length() - 1) != '/') {
+      return e  + '/';
+    } else {
+      return e;
     }
   }
   public Set<String> elements() {
@@ -32,12 +36,18 @@ public class Index {
     return cacheSet.contains(name);
   }
   public void add(String e) {
-    crdt.add(prefix + e);
+    crdt.add(prefix + appendSlash(e));
   }
 
 
   public void remove(String e) {
-    crdt.remove(prefix + e);
+    String pref = prefix + appendSlash(e);
+    for (String elem : new HashSet<String>(crdt.elements())){
+      if (elem.startsWith(pref)) {
+        crdt.remove(elem);
+      }
+    }
+    crdt.remove(pref);
   }
 
   // an index and a tag and a register are all implemented the same
@@ -88,6 +98,8 @@ public class Index {
     }
     public void removed(String e){ 
       String k = strip(e);
+      // TODO:  to get a remove wins style we need to
+      // remove again here in a delayed thread
       cacheSet.remove(k);
     }
   }

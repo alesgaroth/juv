@@ -19,10 +19,12 @@ public class FakeCRDT implements CRDT<String> {
   }
   public void add(String e) {
     log.add("added " + e);
+    data.add(e);
     listener.added(e);
   }
   public void remove(String e) {
     log.add("removed " + e);
+    data.remove(e);
     listener.removed(e);
   }
 

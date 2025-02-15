@@ -46,27 +46,27 @@ public class IndexTest {
   @Test
   public void canAddToIndex() {
     ndx.add("bob");
-    assertTrue(fake.log.contains("added /bob"));
+    assertTrue(fake.log.contains("added /bob/"));
     assertTrue(ndx.contains("bob"), " in " + ndx.elements());
   }
 
   @Test
   public void canAddToSubIndex() {
     subndx.add("bob");
-    assertTrue(fake.log.contains("added /foo/bob"));
+    assertTrue(fake.log.contains("added /foo/bob/"));
     assertTrue(subndx.contains("bob"), ""  + subndx.cacheSet);
   }
 
   @Test
   public void canRemoveFromIndex() {
     ndx.remove("bob");
-    assertTrue(fake.log.contains("removed /bob"));
+    assertTrue(fake.log.contains("removed /bob/"));
   }
 
   @Test
   public void canRemoveFromSubIndex() {
     subndx.remove("bob");
-    assertTrue(fake.log.contains("removed /foo/bob"));
+    assertTrue(fake.log.contains("removed /foo/bob/"));
   }
 
 
@@ -75,8 +75,8 @@ public class IndexTest {
     ndx.add("bob");
     ndx.remove("bob");
     assertFalse(ndx.contains("bob"));
-    assertTrue(fake.log.contains("added /bob"));
-    assertTrue(fake.log.contains("removed /bob"));
+    assertTrue(fake.log.contains("added /bob/"));
+    assertTrue(fake.log.contains("removed /bob/"));
   }
 
   @Test
@@ -126,6 +126,19 @@ public class IndexTest {
   @Test
   public void canGetPath() {
     assertEquals(subndx.getPath(), "/foo/");
+  }
+
+  @Test
+  public void rmIndexRmsChildren() {
+    Index one = ndx.addIndex("one");
+    Index two = one.addIndex("two");
+    Index three = two.addIndex("three");
+    assertTrue(fake.log.contains("added /one/two/three/"), "" + fake.log);
+    assertTrue(fake.contains("/one/two/three/"), "looking for three " + fake.data);
+    assertTrue(fake.contains("/one/two/"), "" + fake.data);
+    ndx.remove("one");
+    assertFalse(fake.contains("/one/two/three/"), "" + fake.data);
+    assertFalse(fake.contains("/one/two/"), "" + fake.data);
   }
 
   /*
