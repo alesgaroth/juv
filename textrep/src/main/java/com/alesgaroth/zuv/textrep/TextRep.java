@@ -8,11 +8,11 @@ import com.alesgaroth.zuv.design.Func;
 
 public class TextRep {
 
-  Algorithm algo;
+  AlgorithmEditor editor;
 
 
   public TextRep(Algorithm algo) {
-    this.algo = algo;
+    this.editor = new AlgorithmEditor(algo);
   }
 
   public TextRep modify(String commands) {
@@ -43,13 +43,13 @@ public class TextRep {
   }
 
   private void createNode(String name) {
-    Func f = new Func(name, 0, 0);
-    algo.add(f);
+    editor.createNode(name);
     // 
     // algoIndex.addIndex(name);
   }
 
   private void connectNodes(String startName, String output, String endName, String input) {
+    editor.connectNodes(startName, output, endName, input);
     /*
     String path = algoIndex.getPath();
     String startPath = path + "/" + startName + "/ouput/" + output + "/";
@@ -57,34 +57,13 @@ public class TextRep {
     Register startReg = algoIndex.getRegister(startPath);
     startReg.set(endPath); // escapes the slashes (/) since those aren't valid names.
     */
-    Func start = algo.getByName(startName);
-    if (start == null) {
-      throw new NullPointerException("haven't seen " + startName + " before " + algo.names());
-    }
-    Func end = algo.getByName(endName);
-    if (end == null) {
-      throw new NullPointerException("haven't seen " + end + " before " + algo.names());
-    }
-    int out = Integer.valueOf(output);
-    int in = Integer.valueOf(input);
-    while (in >= end.getNumInputs()) {
-      end.addInput();
-    }
-    while (out >= start.getNumOutputs()) {
-      start.addOutput();
-    }
-    end.dependOn(in, start, out);
   }
 
   private void deleteNode(String name) {
+    editor.deleteNode(name);
     // algoIndex.remove(name); // this would have a ripple effect... removing connections, any sub nodes
     // 	// it automatically removes any incoming, but the outgoing would still exist unless it
     // 	// went looking for them...
-    Func f = algo.getByName(name);
-    if (f == null) {
-      return;
-    }
-    algo = algo.remove(f); // also removes any links
   }
 
   private void setJavaFunc(String nodeName, String javaFuncName) {
