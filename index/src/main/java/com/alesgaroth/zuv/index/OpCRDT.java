@@ -1,6 +1,7 @@
 package com.alesgaroth.zuv.index;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class OpCRDT<E extends Serializable> implements CRDT<E> {
   }
 
   public Set<E> elements() {
-    return new HashSet<>(m.keySet());
+    return Collections.unmodifiableSet(m.keySet());
   }
   public boolean contains(E e) {
     return m.containsKey(e);
@@ -34,7 +35,7 @@ public class OpCRDT<E extends Serializable> implements CRDT<E> {
     }
     Set<String> s = m.get(e);
     if (s != null) {
-      s = new HashSet<>(s);
+      s = Collections.unmodifiableSet(s);
     }
     queueIt(new Addition<E>(e, replica + ":" + thisc, s));
   }
@@ -48,7 +49,7 @@ public class OpCRDT<E extends Serializable> implements CRDT<E> {
   public void remove(E e) {
     Set<String> s = m.get(e);
     if (s != null) {
-      s = new HashSet<>(s);
+      s = Collections.unmodifiableSet(s);
     }
     queueIt(new Removal(e, s));
   }

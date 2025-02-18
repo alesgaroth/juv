@@ -33,7 +33,7 @@ public class CompositeListenerTest {
   @Test
   public void canAddListener() {
     CRDT fake = new FakeCRDT();
-    CompositeListener cl = new CompositeListener(fake);
+    Router cl = new Router();
     SpyListener spy = new SpyListener();
     cl.register(spy, "/");
     fake.setListener(cl);
@@ -45,20 +45,20 @@ public class CompositeListenerTest {
 
   @Test
   public void calcPrefix() {
-    assertNull(CompositeListener.getPrefixFrom(null));
-    assertEquals("/", CompositeListener.getPrefixFrom("/"));
-    assertEquals("/", CompositeListener.getPrefixFrom("/bob"));
-    assertEquals("/", CompositeListener.getPrefixFrom("/bob/"));
-    assertEquals("/bob/", CompositeListener.getPrefixFrom("/bob/foo"));
-    assertEquals("/bob/", CompositeListener.getPrefixFrom("/bob/foo/"));
+    assertNull(Router.getPrefixFrom(null));
+    assertEquals("/", Router.getPrefixFrom("/"));
+    assertEquals("/", Router.getPrefixFrom("/bob"));
+    assertEquals("/", Router.getPrefixFrom("/bob/"));
+    assertEquals("/bob/", Router.getPrefixFrom("/bob/foo"));
+    assertEquals("/bob/", Router.getPrefixFrom("/bob/foo/"));
   }
   @Test
   public void splitDegenerate() {
-    String [] split = CompositeListener.splitPathBase(null);
+    String [] split = Router.splitPathBase(null);
     assertNull(split[0]);
     assertNull(split[1]);
 
-    split = CompositeListener.splitPathBase("/");
+    split = Router.splitPathBase("/");
     assertEquals("/", split[0]);
     assertNull(split[1]);
   }
@@ -71,7 +71,7 @@ public class CompositeListenerTest {
     assertSplit("/bob/foo/", "/bob/", "foo");
   }
   private void assertSplit(String full, String path, String base) {
-    String [] split = CompositeListener.splitPathBase(full);
+    String [] split = Router.splitPathBase(full);
     assertEquals(path, split[0]);
     assertEquals(base, split[1]);
   }
@@ -80,7 +80,7 @@ public class CompositeListenerTest {
   @Test
   public void canAdd2Listeners() {
     CRDT fake = new FakeCRDT();
-    CompositeListener cl = new CompositeListener(fake);
+    Router cl = new Router();
     SpyListener spy = new SpyListener();
     SpyListener spy2 = new SpyListener();
     cl.register(spy, "/");
@@ -114,7 +114,7 @@ public class CompositeListenerTest {
   @Test
   public void badPathShouldNotThrow(){
     CRDT fake = new FakeCRDT();
-    CompositeListener cl = new CompositeListener(fake);
+    Router cl = new Router();
     fake.setListener(cl);
     fake.add("hello");
     fake.remove("hello");

@@ -21,12 +21,12 @@ public class IndexTest {
   Index ndx;
   FakeCRDT fake;
   Index subndx;
-  CompositeListener  cl;
+  Router  cl;
 
   @BeforeEach
   public void beforeEach() {
     fake = new FakeCRDT();
-    cl = new CompositeListener(fake);
+    cl = new Router();
     fake.setListener(cl);
     subndx = new Index("/foo/", fake, cl);
     ndx = new Index("/", fake, cl);
