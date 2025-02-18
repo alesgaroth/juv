@@ -12,6 +12,8 @@ public class OpCRDT<E extends Serializable> implements CRDT<E> {
   int c = 1;
   String replica;
   Queue<Effect> queue;
+  CRDTListener<E> listener ;
+  OpCRDT<E> other;
 
   public OpCRDT(String replica, Queue<Effect> queue) {
     this.queue = queue;
@@ -34,69 +36,95 @@ public class OpCRDT<E extends Serializable> implements CRDT<E> {
     if (s != null) {
       s = new HashSet<>(s);
     }
-    queueIt(new Add(e, replica + ":" + thisc, s));
+    queueIt(new Addition<E>(e, replica + ":" + thisc, s));
   }
   private void queueIt(Effect effect) {
     queue.add(effect);
-    effect.apply();
+    effect.apply(this);
+    if (other != null) {
+      other.changed(effect);
+    }
   }
   public void remove(E e) {
     Set<String> s = m.get(e);
     if (s != null) {
       s = new HashSet<>(s);
     }
-    queueIt(new Remove(e, s));
+    queueIt(new Removal(e, s));
   }
 
   public void setListener(CRDTListener<E> l) {
+    this.listener = l;
   }
 
-  public class Add implements Effect {
-    E e; String d; Set<String> r;
-    Add(E e, String d, Set<String> r) {
-      this.e = e;
-      this.d = d;
-      this.r = r;
+  private void added(E e, String d, Set<String> r) {
+    Set<String> s;
+    synchronized (m) {
+      s = m.computeIfAbsent(e, y -> new HashSet<String>());
     }
-    public void apply() {
+    if (r != null) {
+      s.removeAll(r);
+    }
+    synchronized (m) {
+      s = m.computeIfAbsent(e, y -> new HashSet<String>());
+      s.add(d);
+    }
+    if (listener != null) {
+      listener.added(e);
+    }
+  }
 
-      Set<String> s;
-      synchronized (m) {
-        s = m.computeIfAbsent(e, e -> new HashSet<String>());
-      }
-      if (r != null) {
+  private void removed(E e, Set<String> r) {
+    if (r != null) {
+      // there's a race condition here...
+      Set<String>s = m.get(e);
+      if (s != null) {
         s.removeAll(r);
-      }
-      synchronized (m) {
-        s = m.computeIfAbsent(e, e -> new HashSet<String>());
-        s.add(d);
-      }
-    }
-  }
-  public class Remove implements Effect {
-    E e; Set<String> r;
-    Remove(E e, Set<String> r) {
-      this.e = e;
-      this.r = r;
-    }
-    public void apply() {
-      if (r != null) {
-        // there's a race condition here...
-        Set<String>s = m.get(e);
-        if (s != null) {
-          s.removeAll(r);
-          synchronized(m) {
-            if (s.isEmpty()) {
-              m.remove(e);
-            }
+        synchronized(m) {
+          if (s.isEmpty()) {
+            m.remove(e);
           }
         }
       }
     }
+    if (listener != null) {
+      listener.removed(e);
+    }
+  }
+
+  public void replicateTo(OpCRDT other) {
+    this.other = other;
+  }
+
+  public void changed(Effect eff) {
+    eff.apply(this);
+  }
+
+  private static class Addition<E extends Serializable> implements Effect {
+    E e; String d; Set<String> r;
+    Addition(E e, String d, Set<String> r) {
+      this.e = e;
+      this.d = d;
+      this.r = r;
+    }
+    public void apply(OpCRDT rcvr) {
+      rcvr.added(e, d, r);
+    }
+  }
+
+  private static class Removal<E extends Serializable> implements Effect {
+    E e; Set<String> r;
+    Removal(E e, Set<String> r) {
+      this.e = e;
+      this.r = r;
+    }
+    public void apply(OpCRDT rcvr)  {
+      rcvr.removed(e, r);
+    }
   }
 
   static public interface Effect {
-    void apply();
+    void apply(OpCRDT rcvr);
   }
 
 }

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 public class CompositeListenerTest {
-  public class SpyListener implements CRDT.CRDTListener<String> {
+  public static class SpyListener implements CRDT.CRDTListener<String> {
     public ArrayList<String> log = new ArrayList<>();
     public void added(String e) {
       log.add("added " + e);

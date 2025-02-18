@@ -1,7 +1,10 @@
 package com.alesgaroth.zuv.index;
 
-import java.util.stream.Stream;
 import java.util.ArrayDeque;
+import java.util.Collection;
+import java.util.List;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,26 +15,85 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 
 public class CRDTTest {
-  // this is supposed to be a test for a CRDT
-  // It should work with any CRDT we might write that is an add/remove set.
   @ParameterizedTest
   @MethodSource("crdts")
-  void canAdd(CRDT<String> crdt) {
-    crdt.add("/hello/");
-    assertTrue(crdt.contains("/hello/"), " actual contents:" + crdt.elements());
+  @Retention(RetentionPolicy.RUNTIME)
+  private @interface TestOne {
+  }
+  @ParameterizedTest
+  @MethodSource("doubleCrdts")
+  @Retention(RetentionPolicy.RUNTIME)
+  private @interface TestTwo {
   }
 
-  @ParameterizedTest
-  @MethodSource("crdts")
+  static List<CRDT<String>> crdts() {
+    return List.of(new OpCRDT<String>("replica0", new ArrayDeque<OpCRDT.Effect>()));
+  }
+
+  static List<List<CRDT<String>>> doubleCrdts() {
+    return List.of(List.of( new OpCRDT<String>("replica0", new ArrayDeque<OpCRDT.Effect>()),
+        new OpCRDT<String>("replica1", new ArrayDeque<OpCRDT.Effect>()) ));
+  }
+
+  void assertContains(CRDT<String> c, String s) {
+    assertTrue(c.contains(s), " actual contents:" + c.elements());
+  }
+
+  void assertNotContains(CRDT<String> c, String s) {
+    assertFalse(c.contains(s), " actual contents:" + c.elements() + " log: " + ((OpCRDT)c).queue);
+  }
+
+  void assertContains(Collection<String> c, String s) {
+    assertTrue(c.contains(s), " actual contents:" + c);
+  }
+
+
+  // this is supposed to be a test for a CRDT
+  // It should work with any CRDT we might write that is an add/remove set.
+  @TestOne
+  void canAdd(CRDT<String> crdt) {
+    crdt.add("/hello/");
+    assertContains(crdt, "/hello/");
+  }
+
+  @TestOne
   void canRemove(CRDT<String> crdt) {
     crdt.add("/hello/");
     crdt.remove("/hello/");
-    assertFalse(crdt.contains("/hello/"), " actual contents:" + crdt.elements() + ((OpCRDT)crdt).queue);
+    assertNotContains(crdt, "/hello/");
   }
 
-  static Stream<CRDT<String>> crdts() {
-    return Stream.of(new OpCRDT<String>("replica0", new ArrayDeque<OpCRDT.Effect>()));
+
+  @TestOne
+  void canAddMultiple(CRDT<String> crdt) {
+    crdt.add("/foo/");
+    crdt.add("/bar/");
+    assertContains(crdt, "/foo/");
+    assertContains(crdt, "/bar/");
   }
+
+  @TestOne
+  void reportsChanges(CRDT<String> crdt) {
+      CompositeListenerTest.SpyListener spy = new CompositeListenerTest.SpyListener();
+      crdt.setListener(spy);
+      crdt.add("/foo/");
+      crdt.remove("/foo/");
+      assertContains(spy.log, "added /foo/");
+      assertContains(spy.log, "removed /foo/");
+  }
+
+  @TestTwo
+  void canBuildTwo(List<CRDT<String>> crdts) {
+    CRDT<String> rep0 = crdts.get(0);
+    CRDT<String> rep1 = crdts.get(1);
+    ((OpCRDT)rep0).replicateTo((OpCRDT)rep1);
+    rep0.add("/foo/");
+    rep0.add("/bar/");
+    assertContains(rep1, "/foo/");
+    assertContains(rep1, "/bar/");
+  }
+
+
   //
   // first simple things like
   // can add to one
