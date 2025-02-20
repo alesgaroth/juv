@@ -1,6 +1,6 @@
 package com.alesgaroth.zuv.index;
 
-import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.lang.annotation.Retention;
@@ -26,13 +26,25 @@ public class CRDTTest {
   private @interface TestTwo {
   }
 
+  Replica<OpCRDT> rep;
+  ArrayList<Effect> log = new ArrayList<>();
+
+  @BeforeEach
+  public void before() {
+    rep = new Replica<OpCRDT>(){
+      public void changed(Effect<OpCRDT> effect) {
+        log.add(effect);
+      }
+    };
+  }
+
   static List<CRDT<String>> crdts() {
-    return List.of(new OpCRDT<String>("replica0", new ArrayDeque<OpCRDT.Effect>()));
+    return List.of(new OpCRDT<String>("replica0"));
   }
 
   static List<List<CRDT<String>>> doubleCrdts() {
-    return List.of(List.of( new OpCRDT<String>("replica0", new ArrayDeque<OpCRDT.Effect>()),
-        new OpCRDT<String>("replica1", new ArrayDeque<OpCRDT.Effect>()) ));
+    return List.of(List.of( new OpCRDT<String>("replica0"),
+        new OpCRDT<String>("replica1") ));
   }
 
   void assertContains(CRDT<String> c, String s) {
@@ -40,7 +52,7 @@ public class CRDTTest {
   }
 
   void assertNotContains(CRDT<String> c, String s) {
-    assertFalse(c.contains(s), " actual contents:" + c.elements() + " log: " + ((OpCRDT)c).queue);
+    assertFalse(c.contains(s), " actual contents:" + c.elements() + " log: " + log);
   }
 
   void assertContains(Collection<String> c, String s) {
@@ -58,6 +70,7 @@ public class CRDTTest {
 
   @TestOne
   void canRemove(CRDT<String> crdt) {
+    ((OpCRDT)crdt).replicateTo(rep);
     crdt.add("/hello/");
     crdt.remove("/hello/");
     assertNotContains(crdt, "/hello/");

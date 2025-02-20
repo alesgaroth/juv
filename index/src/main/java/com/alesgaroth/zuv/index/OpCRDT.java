@@ -5,19 +5,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 
-public class OpCRDT<E extends Serializable> implements CRDT<E> {
+public class OpCRDT<E extends Serializable> implements Replica<OpCRDT>, CRDT<E> {
   Map<E, Set<String>> m = new HashMap<>();
   int c = 1;
   String replica;
-  Queue<Effect> queue;
   CRDTListener<E> listener ;
-  OpCRDT<E> other;
+  Replica<OpCRDT> other;
 
-  public OpCRDT(String replica, Queue<Effect> queue) {
-    this.queue = queue;
+  public OpCRDT(String replica) {
     this.replica = replica;
   }
 
@@ -39,13 +36,6 @@ public class OpCRDT<E extends Serializable> implements CRDT<E> {
     }
     queueIt(new Addition<E>(e, replica + ":" + thisc, s));
   }
-  private void queueIt(Effect effect) {
-    queue.add(effect);
-    effect.apply(this);
-    if (other != null) {
-      other.changed(effect);
-    }
-  }
   public void remove(E e) {
     Set<String> s = m.get(e);
     if (s != null) {
@@ -56,6 +46,21 @@ public class OpCRDT<E extends Serializable> implements CRDT<E> {
 
   public void setListener(CRDTListener<E> l) {
     this.listener = l;
+  }
+
+  private void queueIt(Effect effect) {
+    effect.apply(this);
+    if (other != null) {
+      other.changed(effect);
+    }
+  }
+
+  public void replicateTo(Replica<OpCRDT> other) {
+    this.other = other;
+  }
+
+  public void changed(Effect eff) {
+    eff.apply(this);
   }
 
   private void added(E e, String d, Set<String> r) {
@@ -93,15 +98,7 @@ public class OpCRDT<E extends Serializable> implements CRDT<E> {
     }
   }
 
-  public void replicateTo(OpCRDT other) {
-    this.other = other;
-  }
-
-  public void changed(Effect eff) {
-    eff.apply(this);
-  }
-
-  private static class Addition<E extends Serializable> implements Effect {
+  private static class Addition<E extends Serializable> implements Effect<OpCRDT> {
     E e; String d; Set<String> r;
     Addition(E e, String d, Set<String> r) {
       this.e = e;
@@ -113,7 +110,7 @@ public class OpCRDT<E extends Serializable> implements CRDT<E> {
     }
   }
 
-  private static class Removal<E extends Serializable> implements Effect {
+  private static class Removal<E extends Serializable> implements Effect<OpCRDT> {
     E e; Set<String> r;
     Removal(E e, Set<String> r) {
       this.e = e;
@@ -124,8 +121,6 @@ public class OpCRDT<E extends Serializable> implements CRDT<E> {
     }
   }
 
-  static public interface Effect {
-    void apply(OpCRDT rcvr);
-  }
+
 
 }
