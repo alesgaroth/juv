@@ -123,7 +123,7 @@ public class GraphOrder {
     return retval;
   }
 
-  class FuncExtension implements Func.Extension {
+  class FuncExtension implements Extensible.Extension {
     int column;
     int incomingEdges;
     boolean visited;

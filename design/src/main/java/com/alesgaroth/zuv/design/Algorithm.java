@@ -161,7 +161,9 @@ public class Algorithm {
   }
 
   public Algorithm shallowCopy() {
-    return new Algorithm(new HashSet<>(new AlgorithmCopier(new FuncFactory()).instantiate(funcs.values())));
+    return new Algorithm(new HashSet<>(
+          new AlgorithmCopier<Func>(new FuncFactory())
+            .instantiate(funcs.values())));
   }
 
 }

@@ -5,14 +5,14 @@ import java.util.Map;
 
 public class Extensible {
   public interface Extension {}
-  public interface CloneableExtension<T extends CloneableExtension> extends Extension { T shallowCopy(); }
+  public interface CloneableExtension<T extends CloneableExtension<T>> extends Extension { T shallowCopy(); }
 
-  private Map<Class<?extends Extension>, Extension> extensions = new HashMap<>();
+  private  Map<Class<? extends Extension>, Extension> extensions = new HashMap<>();
 
   public final void extendWith(Extension obj) {
     extensions.put(obj.getClass(), obj);
   }
-  public final <T extends Extension> T getExtension(Class<? extends T> clz) {
+  public final <T extends Extension> T getExtension(Class<T> clz) {
     return (T)extensions.get(clz);
   }
   public final void removeExtension(Extension ex) {

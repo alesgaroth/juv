@@ -78,7 +78,7 @@ public class Index {
   }
 
   static class Register extends Index {
-    Register(String prefix, CRDT crdt, CRDTListenerRegistration cl) {
+    Register(String prefix, CRDT<String> crdt, CRDTListenerRegistration cl) {
       super(prefix, crdt, cl);
     }
 

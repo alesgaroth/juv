@@ -7,24 +7,24 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class OpCRDT<E extends Serializable> implements Replica<OpCRDT>, CRDT<E> {
-  Map<E, Set<String>> m = new HashMap<>();
+public class OpCRDT implements Replica, CRDT<String> {
+  Map<String, Set<String>> m = new HashMap<>();
   int c = 1;
   String replica;
-  CRDTListener<E> listener ;
-  Replica<OpCRDT> other;
+  CRDTListener<String> listener ;
+  Replica other;
 
   public OpCRDT(String replica) {
     this.replica = replica;
   }
 
-  public Set<E> elements() {
+  public Set<String> elements() {
     return Collections.unmodifiableSet(m.keySet());
   }
-  public boolean contains(E e) {
+  public boolean contains(String e) {
     return m.containsKey(e);
   }
-  public void add(E e) {
+  public void add(String e) {
     long thisc;
     synchronized(this) {
       thisc = c;
@@ -34,9 +34,9 @@ public class OpCRDT<E extends Serializable> implements Replica<OpCRDT>, CRDT<E> 
     if (s != null) {
       s = Collections.unmodifiableSet(s);
     }
-    queueIt(new Addition<E>(e, replica + ":" + thisc, s));
+    queueIt(new Addition(e, replica + ":" + thisc, s));
   }
-  public void remove(E e) {
+  public void remove(String e) {
     Set<String> s = m.get(e);
     if (s != null) {
       s = Collections.unmodifiableSet(s);
@@ -44,7 +44,7 @@ public class OpCRDT<E extends Serializable> implements Replica<OpCRDT>, CRDT<E> 
     queueIt(new Removal(e, s));
   }
 
-  public void setListener(CRDTListener<E> l) {
+  public void setListener(CRDTListener<String> l) {
     this.listener = l;
   }
 
@@ -55,7 +55,7 @@ public class OpCRDT<E extends Serializable> implements Replica<OpCRDT>, CRDT<E> 
     }
   }
 
-  public void replicateTo(Replica<OpCRDT> other) {
+  public void replicateTo(Replica other) {
     this.other = other;
   }
 
@@ -63,7 +63,7 @@ public class OpCRDT<E extends Serializable> implements Replica<OpCRDT>, CRDT<E> 
     eff.apply(this);
   }
 
-  private void added(E e, String d, Set<String> r) {
+  private void added(String e, String d, Set<String> r) {
     Set<String> s;
     synchronized (m) {
       s = m.computeIfAbsent(e, y -> new HashSet<String>());
@@ -80,7 +80,7 @@ public class OpCRDT<E extends Serializable> implements Replica<OpCRDT>, CRDT<E> 
     }
   }
 
-  private void removed(E e, Set<String> r) {
+  private void removed(String e, Set<String> r) {
     if (r != null) {
       // there's a race condition here...
       Set<String>s = m.get(e);
@@ -98,26 +98,30 @@ public class OpCRDT<E extends Serializable> implements Replica<OpCRDT>, CRDT<E> 
     }
   }
 
-  private static class Addition<E extends Serializable> implements Effect<OpCRDT> {
-    E e; String d; Set<String> r;
-    Addition(E e, String d, Set<String> r) {
+  private static class Addition implements Effect {
+    String e; String d; Set<String> r;
+    Addition(String e, String d, Set<String> r) {
       this.e = e;
       this.d = d;
       this.r = r;
     }
-    public void apply(OpCRDT rcvr) {
-      rcvr.added(e, d, r);
+    public void apply(Object rcvr) {
+      if (rcvr instanceof OpCRDT op) {
+        op.added(e, d, r);
+      }
     }
   }
 
-  private static class Removal<E extends Serializable> implements Effect<OpCRDT> {
-    E e; Set<String> r;
-    Removal(E e, Set<String> r) {
+  private static class Removal implements Effect {
+    String e; Set<String> r;
+    Removal(String e, Set<String> r) {
       this.e = e;
       this.r = r;
     }
-    public void apply(OpCRDT rcvr)  {
-      rcvr.removed(e, r);
+    public void apply(Object rcvr)  {
+      if (rcvr instanceof OpCRDT op) {
+        op.removed(e, r);
+      }
     }
   }
 

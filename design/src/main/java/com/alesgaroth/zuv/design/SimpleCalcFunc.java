@@ -3,8 +3,8 @@ package com.alesgaroth.zuv.design;
 import java.util.function.Function;
 
 public class SimpleCalcFunc extends CalcFunc {
-  final Function func;
-  public SimpleCalcFunc(Function f){
+  final Function<Object, Object> func;
+  public SimpleCalcFunc(Function<Object, Object> f){
     super(1, 1);
     this.func = f;
   }

@@ -26,25 +26,25 @@ public class CRDTTest {
   private @interface TestTwo {
   }
 
-  Replica<OpCRDT> rep;
+  Replica rep;
   ArrayList<Effect> log = new ArrayList<>();
 
   @BeforeEach
   public void before() {
-    rep = new Replica<OpCRDT>(){
-      public void changed(Effect<OpCRDT> effect) {
+    rep = new Replica(){
+      public void changed(Effect effect) {
         log.add(effect);
       }
     };
   }
 
   static List<CRDT<String>> crdts() {
-    return List.of(new OpCRDT<String>("replica0"));
+    return List.of(new OpCRDT("replica0"));
   }
 
   static List<List<CRDT<String>>> doubleCrdts() {
-    return List.of(List.of( new OpCRDT<String>("replica0"),
-        new OpCRDT<String>("replica1") ));
+    return List.of(List.of( new OpCRDT("replica0"),
+        new OpCRDT("replica1") ));
   }
 
   void assertContains(CRDT<String> c, String s) {

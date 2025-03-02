@@ -81,7 +81,7 @@ public class Func extends Extensible implements ZNode<Func> {
 
   protected Func withExtensions(Func f) {
     for (Extensible.Extension ex: f.getExtensions() ) {
-      if (ex instanceof Extensible.CloneableExtension cex) {
+      if (ex instanceof Extensible.CloneableExtension<?> cex) {
         extendWith(cex.shallowCopy());
       }
     }
@@ -97,5 +97,6 @@ public class Func extends Extensible implements ZNode<Func> {
   }
 
   static public class BadValueException extends RuntimeException {
+    static final long serialVersionUID = 4;
   }
 }

@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 // A FuncInstance is analogous to a stack frame in a normal running system
-public class FuncInstance<N extends Func> implements Runnable, ZNode<FuncInstance> {
+public class FuncInstance<N extends Func> implements Runnable, ZNode<FuncInstance<N>> {
   N design;
   ValueInstance [] values;
   ValueInstance [] upstreams;
