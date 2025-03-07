@@ -47,7 +47,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.alesgaroth.zuv.design</groupId>
+      <groupId>com.alesgaroth.zuv</groupId>
       <artifactId>design</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>

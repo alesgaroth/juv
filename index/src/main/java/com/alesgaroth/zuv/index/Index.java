@@ -68,7 +68,7 @@ public class Index {
   }
 
 
-  String strip(String e) {
+  private String strip(String e) {
     if (e.length() > prefix.length()
         && e.substring(0, prefix.length()).equals(prefix)) {
       return e.substring(prefix.length());
