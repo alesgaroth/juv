@@ -8,6 +8,7 @@ import java.util.function.Function;
 
 public class CalcFuncTest 
 {
+    static Function<Object,Object> f = a -> -(Integer)a;
     @Test
     public void canCreateACalcFunc()
     {
@@ -19,7 +20,6 @@ public class CalcFuncTest
 
     @Test
     public void simpleFunctionCalcFunc(){
-      Function<Integer,Integer> f = a -> -a;
       CalcFunc cn = new SimpleCalcFunc(f);
       Object[] outputs = cn.doCalculation(new Object[]{-3});
       assertEquals(3, outputs[0]);
@@ -27,7 +27,6 @@ public class CalcFuncTest
 
     @Test
     public void extendSimpleFunctionCalcFunc(){
-      Function<Integer,Integer> f = a -> -a;
       CalcFunc cn = new SimpleCalcFunc(f);
 
       CalcFunc cn2 = (CalcFunc)cn.shallowClone();
