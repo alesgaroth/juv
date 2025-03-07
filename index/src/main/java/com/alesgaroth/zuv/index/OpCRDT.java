@@ -110,6 +110,9 @@ public class OpCRDT implements Replica, CRDT<String> {
         op.added(e, d, r);
       }
     }
+    public String toString() {
+      return "added " + e + " " + d + ((r == null)?"":(" " + String.join(" ", r))); 
+    }
   }
 
   private static class Removal implements Effect {

@@ -1,5 +1,9 @@
 package com.alesgaroth.zuv.protocol;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -13,17 +17,43 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 
 import com.alesgaroth.zuv.index.CRDT;
+import com.alesgaroth.zuv.index.OpCRDT;
+import com.alesgaroth.zuv.index.Replica;
 
 public class TextProtocolTest {
 
-  @Test
-  public void test() {
-    assertTrue(true);
+  OpCRDT crdt;
+  MockTextSender ts;
+
+  @BeforeEach
+  public void before() {
+    crdt = new OpCRDT("foo");
+    ts = new MockTextSender();
   }
 
-  //  Can create peer
-  //  can get updates when index is edited
-  //  can delivery updates when peer is edited
-  //  text format
-  //
+  @Test
+  public void test() {
+    Replicator rep = new Replicator(crdt, ts);
+    crdt.add("/hello/");
+    assertLastIs("added /hello/ foo:1");
+  }
+
+  private void assertLastIs(String expected) {
+    assertEquals(expected, ts.log.get(ts.log.size()-1), "actual " + ts.log);
+  }
+
+  //  Can create peer -- that's OpCRDT's Replica
+  //  can get updates when index is edited -- that's OpCRDT's Replica
+  //  can delivery updates when peer is edited -- that's OpCRDT's Replica
+  //  text format:
+  //  	added /path/to/index/ uniquekey oldkey oldkey2\n
+  //  	removed /path/to/index/ oldkey oldkey2\n
+
+  public class MockTextSender implements TextSender {
+    ArrayList<String> log = new ArrayList<>();
+    public void send(String s) {
+      log.add(s);
+    }
+  }
+ 
 }
