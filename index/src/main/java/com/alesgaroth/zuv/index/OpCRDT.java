@@ -19,7 +19,7 @@ public class OpCRDT implements Replica, CRDT<String> {
   }
 
   public Set<String> elements() {
-    return Collections.unmodifiableSet(m.keySet());
+    return Collections.unmodifiableSet(new HashSet<>(m.keySet()));
   }
   public boolean contains(String e) {
     return m.containsKey(e);
@@ -32,14 +32,14 @@ public class OpCRDT implements Replica, CRDT<String> {
     }
     Set<String> s = m.get(e);
     if (s != null) {
-      s = Collections.unmodifiableSet(s);
+      s = new HashSet<>(s);
     }
     queueIt(new Addition(e, replica + ":" + thisc, s));
   }
   public void remove(String e) {
     Set<String> s = m.get(e);
     if (s != null) {
-      s = Collections.unmodifiableSet(s);
+      s = new HashSet<>(s);
     }
     queueIt(new Removal(e, s));
   }
@@ -64,16 +64,18 @@ public class OpCRDT implements Replica, CRDT<String> {
   }
 
   private void added(String e, String d, Set<String> r) {
-    Set<String> s;
     synchronized (m) {
-      s = m.computeIfAbsent(e, y -> new HashSet<String>());
-    }
-    if (r != null) {
-      s.removeAll(r);
-    }
-    synchronized (m) {
-      s = m.computeIfAbsent(e, y -> new HashSet<String>());
+      Set<String> s;
+      if (m.containsKey(e)) {
+        s = m.get(e);
+      } else {
+        s = new HashSet<String>();
+      }
+      if (r != null) {
+        s.removeAll(r);
+      }
       s.add(d);
+      m.put(e, s);
     }
     if (listener != null) {
       listener.added(e);
@@ -82,11 +84,11 @@ public class OpCRDT implements Replica, CRDT<String> {
 
   private void removed(String e, Set<String> r) {
     if (r != null) {
-      // there's a race condition here...
       Set<String>s = m.get(e);
       if (s != null) {
         s.removeAll(r);
         synchronized(m) {
+          s = m.get(e);
           if (s.isEmpty()) {
             m.remove(e);
           }
@@ -125,6 +127,10 @@ public class OpCRDT implements Replica, CRDT<String> {
       if (rcvr instanceof OpCRDT op) {
         op.removed(e, r);
       }
+    }
+
+    public String toString() {
+      return "removed " + e + ((r == null)?"":(" " + String.join(" ", r))); 
     }
   }
 

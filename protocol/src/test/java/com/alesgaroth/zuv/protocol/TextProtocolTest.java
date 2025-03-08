@@ -32,14 +32,22 @@ public class TextProtocolTest {
   }
 
   @Test
-  public void test() {
+  public void testAdded() {
     Replicator rep = new Replicator(crdt, ts);
     crdt.add("/hello/");
-    assertLastIs("added /hello/ foo:1");
+    assertLastIs("added /hello/ foo:1", "");
   }
 
-  private void assertLastIs(String expected) {
-    assertEquals(expected, ts.log.get(ts.log.size()-1), "actual " + ts.log);
+  @Test
+  public void testRemoved() {
+    Replicator rep = new Replicator(crdt, ts);
+    crdt.add("/hello/");
+    crdt.remove("/hello/");
+    assertLastIs("removed /hello/ foo:1");
+  }
+
+  private void assertLastIs(String expected, String extra) {
+    assertEquals(expected, ts.log.get(ts.log.size()-1), "actual " + ts.log + extra);
   }
 
   //  Can create peer -- that's OpCRDT's Replica
