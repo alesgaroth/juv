@@ -52,6 +52,14 @@ public class TextProtocolTest {
     assertTrue(crdt.contains("/howdy/"), "actual " + crdt.elements());
   }
 
+  @Test
+  public void testReadRemoved() {
+    crdt.add("/hola/");
+    assertTrue(crdt.contains("/hola/"), "actual " + crdt.elements());
+    rep.receive("removed /hola/ foo:1");
+    assertFalse(crdt.contains("/hola/"), "actual " + crdt.elements());
+  }
+
   private void assertLastIs(String expected, String extra) {
     assertEquals(expected, ts.log.get(ts.log.size()-1), "actual " + ts.log + extra);
   }

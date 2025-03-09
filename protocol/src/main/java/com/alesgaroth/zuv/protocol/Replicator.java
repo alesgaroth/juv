@@ -24,6 +24,10 @@ public class Replicator implements Replica {
     switch(parts[0]) {
       case "added":
         replica.changed(new OpCRDT.Addition(parts[1], parts[2], Set.of(Arrays.copyOfRange(parts, 3, parts.length))));
+        break;
+      case "removed":
+        replica.changed(new OpCRDT.Removal(parts[1], Set.of(Arrays.copyOfRange(parts, 2, parts.length))));
+        break;
     }
   }
 }
