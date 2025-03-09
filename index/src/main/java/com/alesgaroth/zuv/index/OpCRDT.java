@@ -100,9 +100,9 @@ public class OpCRDT implements Replica, CRDT<String> {
     }
   }
 
-  private static class Addition implements Effect {
+  public static class Addition implements Effect {
     String e; String d; Set<String> r;
-    Addition(String e, String d, Set<String> r) {
+    public Addition(String e, String d, Set<String> r) {
       this.e = e;
       this.d = d;
       this.r = r;
@@ -117,9 +117,9 @@ public class OpCRDT implements Replica, CRDT<String> {
     }
   }
 
-  private static class Removal implements Effect {
+  public static class Removal implements Effect {
     String e; Set<String> r;
-    Removal(String e, Set<String> r) {
+    public Removal(String e, Set<String> r) {
       this.e = e;
       this.r = r;
     }

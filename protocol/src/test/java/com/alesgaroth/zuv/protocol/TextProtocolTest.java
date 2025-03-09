@@ -24,26 +24,32 @@ public class TextProtocolTest {
 
   OpCRDT crdt;
   MockTextSender ts;
+  Replicator rep;
 
   @BeforeEach
   public void before() {
     crdt = new OpCRDT("foo");
     ts = new MockTextSender();
+    rep = new Replicator(crdt, ts);
   }
 
   @Test
   public void testAdded() {
-    Replicator rep = new Replicator(crdt, ts);
     crdt.add("/hello/");
     assertLastIs("added /hello/ foo:1", "");
   }
 
   @Test
   public void testRemoved() {
-    Replicator rep = new Replicator(crdt, ts);
     crdt.add("/hello/");
     crdt.remove("/hello/");
-    assertLastIs("removed /hello/ foo:1");
+    assertLastIs("removed /hello/ foo:1", "");
+  }
+
+  @Test
+  public void testReadAdded() {
+    rep.receive("added /howdy/ bar:1");
+    assertTrue(crdt.contains("/howdy/"), "actual " + crdt.elements());
   }
 
   private void assertLastIs(String expected, String extra) {
