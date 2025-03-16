@@ -4,12 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Index {
-  CRDT<String> crdt;
+  CRDT crdt;
   String prefix;
   Set<String> cacheSet = new HashSet<>();
   CRDTListenerRegistration clr;
 
-  public Index(String prefix, CRDT<String> crdt, CRDTListenerRegistration cl) {
+  public Index(String prefix, CRDT crdt, CRDTListenerRegistration cl) {
     this.crdt = crdt;
     this.clr = cl;
     this.prefix = appendSlash(prefix);
@@ -78,7 +78,7 @@ public class Index {
   }
 
   static class Register extends Index {
-    Register(String prefix, CRDT<String> crdt, CRDTListenerRegistration cl) {
+    Register(String prefix, CRDT crdt, CRDTListenerRegistration cl) {
       super(prefix, crdt, cl);
     }
 
@@ -91,7 +91,7 @@ public class Index {
     }
   }
 
-  class Listener implements CRDT.CRDTListener<String> {
+  class Listener implements CRDT.CRDTListener {
     public void added(String e){ 
       String k = strip(e);
       cacheSet.add(k);

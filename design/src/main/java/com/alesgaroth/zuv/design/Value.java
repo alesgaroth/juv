@@ -9,6 +9,8 @@ import java.util.Set;
 
 public class Value {
   Set<FuncPort> listeners = new HashSet<>();
+  Value(String path) {
+  }
 
   public Collection<FuncPort> getListeners(){
       return Collections.unmodifiableSet(listeners);

@@ -7,11 +7,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class OpCRDT implements Replica, CRDT<String> {
+public class OpCRDT implements Replica, CRDT {
   Map<String, Set<String>> m = new HashMap<>();
   int c = 1;
   String replica;
-  CRDTListener<String> listener ;
+  CRDTListener listener ;
   Replica other;
 
   public OpCRDT(String replica) {
@@ -44,7 +44,7 @@ public class OpCRDT implements Replica, CRDT<String> {
     queueIt(new Removal(e, s));
   }
 
-  public void setListener(CRDTListener<String> l) {
+  public void setListener(CRDTListener l) {
     this.listener = l;
   }
 

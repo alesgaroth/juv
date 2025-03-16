@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FakeCRDT implements CRDT<String> {
+public class FakeCRDT implements CRDT {
   public ArrayList<String> log = new ArrayList<>();
   public Set<String> data = new HashSet<>();
-  public CRDTListener<String> listener ;
+  public CRDTListener listener ;
 
   FakeCRDT(){ 
   }
@@ -28,7 +28,7 @@ public class FakeCRDT implements CRDT<String> {
     listener.removed(e);
   }
 
-  public void setListener(CRDTListener<String> l) {
+  public void setListener(CRDTListener l) {
     log.add("listen");
     listener = l;
   }

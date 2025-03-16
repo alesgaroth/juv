@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Func extends Extensible implements ZNode<Func> {
+
   List<Value> outboundValues;
   int numInputs;
   String name;
+
   static long funcCounter;
 
   public Func(int numInputs, int numOutputs) {
@@ -18,7 +20,7 @@ public class Func extends Extensible implements ZNode<Func> {
     this.numInputs = numInputs;
     outboundValues = new ArrayList<Value>(numOutputs);
     for(int i = 0; i < numOutputs; i += 1) {
-      addOutput();
+      outboundValues.add(new Value("output/"+ i));
     }
   }
 
@@ -38,7 +40,7 @@ public class Func extends Extensible implements ZNode<Func> {
   }
 
   public void addOutput() {
-    outboundValues.add(new Value());
+    outboundValues.add(new Value("output/" + outboundValues.size()));
   }
 
   public int getNumOutputs() {

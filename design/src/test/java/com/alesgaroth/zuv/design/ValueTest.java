@@ -7,6 +7,6 @@ public class ValueTest
     @Test
     public void canCreateAValue()
     {
-        new Value();
+        new Value(null);
     }
 }

@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class Router implements CRDT.CRDTListener<String>, CRDTListenerRegistration {
-  Map<String, CRDT.CRDTListener<String>> listeners = new HashMap<>();
+public class Router implements CRDT.CRDTListener, CRDTListenerRegistration {
+  Map<String, CRDT.CRDTListener> listeners = new HashMap<>();
 
-  public void register(CRDT.CRDTListener<String> l, String prefix) {
+  public void register(CRDT.CRDTListener l, String prefix) {
     if (prefix.charAt(prefix.length() - 1) != '/') {
       prefix = prefix  + '/';
     } else {

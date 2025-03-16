@@ -52,10 +52,10 @@
   
   
   <modules>
+    <module>index</module>
     <module>design</module>
     <module>slow_interpreter</module>
     <module>textrep</module>
-    <module>index</module>
     <module>protocol</module>
   </modules>
         

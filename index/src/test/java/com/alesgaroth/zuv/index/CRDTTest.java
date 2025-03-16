@@ -38,20 +38,20 @@ public class CRDTTest {
     };
   }
 
-  static List<CRDT<String>> crdts() {
+  static List<CRDT> crdts() {
     return List.of(new OpCRDT("replica0"));
   }
 
-  static List<List<CRDT<String>>> doubleCrdts() {
+  static List<List<CRDT>> doubleCrdts() {
     return List.of(List.of( new OpCRDT("replica0"),
         new OpCRDT("replica1") ));
   }
 
-  void assertContains(CRDT<String> c, String s) {
+  void assertContains(CRDT c, String s) {
     assertTrue(c.contains(s), " actual contents:" + c.elements());
   }
 
-  void assertNotContains(CRDT<String> c, String s) {
+  void assertNotContains(CRDT c, String s) {
     assertFalse(c.contains(s), " actual contents:" + c.elements() + " log: " + log);
   }
 
@@ -63,13 +63,13 @@ public class CRDTTest {
   // this is supposed to be a test for a CRDT
   // It should work with any CRDT we might write that is an add/remove set.
   @TestOne
-  void canAdd(CRDT<String> crdt) {
+  void canAdd(CRDT crdt) {
     crdt.add("/hello/");
     assertContains(crdt, "/hello/");
   }
 
   @TestOne
-  void canRemove(CRDT<String> crdt) {
+  void canRemove(CRDT crdt) {
     ((OpCRDT)crdt).replicateTo(rep);
     crdt.add("/hello/");
     crdt.remove("/hello/");
@@ -78,7 +78,7 @@ public class CRDTTest {
 
 
   @TestOne
-  void canAddMultiple(CRDT<String> crdt) {
+  void canAddMultiple(CRDT crdt) {
     crdt.add("/foo/");
     crdt.add("/bar/");
     assertContains(crdt, "/foo/");
@@ -86,7 +86,7 @@ public class CRDTTest {
   }
 
   @TestOne
-  void reportsChanges(CRDT<String> crdt) {
+  void reportsChanges(CRDT crdt) {
       CompositeListenerTest.SpyListener spy = new CompositeListenerTest.SpyListener();
       crdt.setListener(spy);
       crdt.add("/foo/");
@@ -96,9 +96,9 @@ public class CRDTTest {
   }
 
   @TestTwo
-  void canBuildTwo(List<CRDT<String>> crdts) {
-    CRDT<String> rep0 = crdts.get(0);
-    CRDT<String> rep1 = crdts.get(1);
+  void canBuildTwo(List<CRDT> crdts) {
+    CRDT rep0 = crdts.get(0);
+    CRDT rep1 = crdts.get(1);
     ((OpCRDT)rep0).replicateTo((OpCRDT)rep1);
     rep0.add("/foo/");
     rep0.add("/bar/");
