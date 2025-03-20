@@ -12,12 +12,14 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import com.alesgaroth.zuv.design.Func;
+import com.alesgaroth.zuv.index.Index;
 
 public class AlgorithmInstanceTest {
+    Index ndx = Index.createRoot("strat");
     final static Map<Class<? extends Func>, Class<? extends FuncInstance>> mymap = Map.of(Func.class, FuncInstance.class);
 
-    Func one = new Func(0, 1);
-    Func two = new Func(1, 0);
+    Func one = new Func(0, 1, ndx);
+    Func two = new Func(1, 0, ndx);
 
     @BeforeEach
     public void before() {

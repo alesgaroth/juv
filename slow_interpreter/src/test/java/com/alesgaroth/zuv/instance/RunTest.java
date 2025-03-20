@@ -11,13 +11,15 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
+import com.alesgaroth.zuv.index.Index;
 import com.alesgaroth.zuv.design.Func;
 import com.alesgaroth.zuv.design.Value;
 
 public class RunTest {
 
-    VariableFunc variable = new VariableFunc(0, 1);
-    Func two = new Func(1, 0);
+    Index ndx = Index.createRoot("test");
+    VariableFunc variable = new VariableFunc(0, 1, ndx);
+    Func two = new Func(1, 0, ndx);
     VariableFuncInstance variableInstance = null;
     ReceiverFuncInstance twoInstance = null;
 

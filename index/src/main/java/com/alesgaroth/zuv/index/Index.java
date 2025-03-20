@@ -21,6 +21,10 @@ public class Index {
       j += 1;
     }
   }
+  
+  static public Index createRoot(String replicaName) {
+    return new Index("/", new OpCRDT(replicaName), new Router());
+  }
 
   static public String appendSlash(String e) {
     if (e.charAt(e.length() - 1) != '/') {
@@ -29,6 +33,14 @@ public class Index {
       return e;
     }
   }
+
+  public String getReplicaName() {
+    if (crdt instanceof OpCRDT opc) {
+      return opc.replica;
+    }
+    return "zuv";
+  }
+  
   public Set<String> elements() {
     return cacheSet;
   }

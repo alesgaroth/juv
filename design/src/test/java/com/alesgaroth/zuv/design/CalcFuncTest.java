@@ -12,7 +12,7 @@ public class CalcFuncTest
     @Test
     public void canCreateACalcFunc()
     {
-      CalcFunc cn = new CalcFunc(1, 1);
+      CalcFunc cn = new CalcFunc("calc", 1, 1);
       Func n = cn;
       Object [] outputs = cn.doCalculation(new Object[]{n});
       assertNotNull(outputs);

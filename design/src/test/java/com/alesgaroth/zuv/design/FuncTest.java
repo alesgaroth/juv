@@ -12,12 +12,14 @@ import org.junit.jupiter.api.Test;
 
 import com.alesgaroth.zuv.design.Extensible.Extension;
 import com.alesgaroth.zuv.design.Extensible.CloneableExtension;
+import com.alesgaroth.zuv.index.Index;
 
 public class FuncTest 
 {
+    Index ndx = Index.createRoot("test1");
 
-    Func one = new Func(0, 1);
-    Func two = new Func(1, 0);
+    Func one = new Func(0, 1, ndx);
+    Func two = new Func(1, 0, ndx);
     @Test
     public void canCreateConnectThem() {
         assertTrue(one != two);

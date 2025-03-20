@@ -7,13 +7,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import com.alesgaroth.zuv.design.Func;
+import com.alesgaroth.zuv.index.Index;
 import java.util.List;
 import java.util.Map;
 
 public class FuncInstanceTest {
+    Index ndx = Index.createRoot("test");
     @Test
     public void canInstantiate1() {
-        Func n = new Func(0, 0);
+        Func n = new Func(0, 0, ndx);
         FuncInstance<Func> ni = new FuncInstance(n);
         assertEquals(ni.getFunc(), n);
         assertThrows(Func.BadValueException.class, () -> ni.getOutput(-1));
@@ -46,8 +48,8 @@ public class FuncInstanceTest {
     }
 
    private List<FuncInstance<Func>> simpleGraph() {
-      Func one = new VariableFunc(0, 1);
-      Func two = new Func(1, 1);
+      Func one = new VariableFunc(0, 1, ndx);
+      Func two = new Func(1, 1, ndx);
       two.dependOn(0, one, 0);
       Map<Class<? extends Func>, Class<? extends FuncInstance>> classMap = Map.of(
         VariableFunc.class, VariableFuncInstance.class,

@@ -5,7 +5,7 @@ import java.util.function.Function;
 public class SimpleCalcFunc extends CalcFunc {
   final Function<Object, Object> func;
   public SimpleCalcFunc(Function<Object, Object> f){
-    super(1, 1);
+    super(f.toString(), 1, 1);
     this.func = f;
   }
 

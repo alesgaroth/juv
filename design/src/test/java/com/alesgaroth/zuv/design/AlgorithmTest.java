@@ -97,17 +97,17 @@ public class AlgorithmTest {
 
   Algorithm twoUnconnected() {
     Algorithm algo = new Algorithm();
-    Func one = new Func(0, 1);
+    Func one = new Func("one", 0, 1);
     algo.add(one);
-    algo.add(new Func(1, 0));
+    algo.add(new Func("two", 1, 0));
     return algo;
   }
 
   Algorithm oneRootTwoLeaves() {
     Algorithm algo = new Algorithm();
-    Func one = new Func(0, 1);
-    Func one2 = new Func(1, 0);
-    Func one3 = new Func(1, 0);
+    Func one = new Func("one", 0, 1);
+    Func one2 = new Func("one2", 1, 0);
+    Func one3 = new Func("one3", 1, 0);
     one2.dependOn(0, one, 0);
     one3.dependOn(0, one, 0);
     algo.add(one);
@@ -118,9 +118,9 @@ public class AlgorithmTest {
 
   Algorithm twoRootOneLeaf() {
     Algorithm algo = new Algorithm();
-    Func two = new Func(0, 1);
-    Func two2 = new Func(2, 0);
-    Func two3 = new Func(0, 1);
+    Func two = new Func("two", 0, 1);
+    Func two2 = new Func("two2", 2, 0);
+    Func two3 = new Func("two3", 0, 1);
     two2.dependOn(0, two, 0);
     two2.dependOn(1, two3, 0);
     algo.add(two);
@@ -131,15 +131,15 @@ public class AlgorithmTest {
 
   Algorithm longAlgo() {
     Algorithm algo = new Algorithm();
-    Func was = new Func(0, 1);
+    Func was = new Func("was", 0, 1);
     algo.add(was);
     for (int k = 0; k < 10; k += 1) {
-      Func next = new Func(1, 1);
+      Func next = new Func("next"+k, 1, 1);
       algo.add(next);
       next.dependOn(0, was, 0);
       was = next;
     }
-    Func last = new Func(1, 0);
+    Func last = new Func("last", 1, 0);
     algo.add(last);
     last.dependOn(0, was, 0);
     return algo;
@@ -147,21 +147,21 @@ public class AlgorithmTest {
 
   Algorithm spur(int j) {
     Algorithm algo = new Algorithm();
-    Func was = new Func(0, 1);
+    Func was = new Func("was", 0, 1);
     Func opt = null;
     algo.add(was);
     for (int k = 0; k < 10; k += 1) {
-      Func next = new Func(1, 1);
+      Func next = new Func("next"+k, 1, 1);
       algo.add(next);
       next.dependOn(0, was, 0);
       if (j == k ) {
-        opt = new Func(1, 1);
+        opt = new Func("opt", 1, 1);
         algo.add(opt);
         opt.dependOn(0, was, 0);
       }
       was = next;
     }
-    Func last = new Func(1, 0);
+    Func last = new Func("last", 1, 0);
     algo.add(last);
     last.dependOn(0, was, 0);
     return algo;

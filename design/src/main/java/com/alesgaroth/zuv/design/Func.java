@@ -1,5 +1,8 @@
 package com.alesgaroth.zuv.design;
 
+import com.alesgaroth.zuv.index.Index;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,17 +14,28 @@ public class Func extends Extensible implements ZNode<Func> {
 
   static long funcCounter;
 
-  public Func(int numInputs, int numOutputs) {
-    this("func:" + funcCounter ++, numInputs, numOutputs);
-
+  public Func(int numInputs, int numOutputs, Index parent) {
+    this(numInputs, numOutputs);
+    String id =  parent.getReplicaName() + ":" +  (funcCounter ++);
+    this.name = id;
+    parent.addIndex(id);
   }
-  public Func(String name, int numInputs, int numOutputs) {
-    this.name = name;
+  private Func(int numInputs, int numOutputs) {
     this.numInputs = numInputs;
+    String id =  "func:" +  (funcCounter ++);
+    this.name = id;
     outboundValues = new ArrayList<Value>(numOutputs);
     for(int i = 0; i < numOutputs; i += 1) {
       outboundValues.add(new Value("output/"+ i));
     }
+  }
+  public Func(String name, int numInputs, int numOutputs) {
+    this(numInputs, numOutputs);
+    this.name = name;
+  }
+  public Func(String name, int numInputs, int numOutputs, Index parent) {
+    this(numInputs, numOutputs, parent);
+    this.name = name;
   }
 
   public String getName(){

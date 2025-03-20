@@ -29,7 +29,7 @@ public class GraphOrderTest {
   @Test
   public void canOrderSingleton() {
     Algorithm algo = new Algorithm();
-    algo.add(new Func(0, 0));
+    algo.add(new Func("singleton", 0, 0));
     List<Set<Func>> list = new GraphOrder(algo).ordered();
     assertEquals(1, list.size());
   }
@@ -37,9 +37,9 @@ public class GraphOrderTest {
   @Test
   public void canOrderTriple() {
     Algorithm algo = new Algorithm();
-    Func root = new Func(0, 1);
-    Func leaf = new Func(1, 0);
-    Func leaf2 = new Func(1, 0);
+    Func root = new Func("root", 0, 1);
+    Func leaf = new Func("leaf", 1, 0);
+    Func leaf2 = new Func("leaf2", 1, 0);
     leaf.dependOn(0, root, 0);
     leaf2.dependOn(0, root, 0);
     algo.add(root);
