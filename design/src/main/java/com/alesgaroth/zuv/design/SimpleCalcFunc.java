@@ -1,11 +1,12 @@
 package com.alesgaroth.zuv.design;
 
 import java.util.function.Function;
+import com.alesgaroth.zuv.index.Index;
 
 public class SimpleCalcFunc extends CalcFunc {
   final Function<Object, Object> func;
-  public SimpleCalcFunc(Function<Object, Object> f){
-    super(f.toString(), 1, 1);
+  public SimpleCalcFunc(Function<Object, Object> f, Index parent){
+    super(f.toString(), 1, 1, parent);
     this.func = f;
   }
 
@@ -17,7 +18,7 @@ public class SimpleCalcFunc extends CalcFunc {
 
   @Override
   public Func shallowClone() {
-    return new SimpleCalcFunc(this.func).withExtensions(this);
+    return new SimpleCalcFunc(this.func, parent).withExtensions(this);
   }
 
 }

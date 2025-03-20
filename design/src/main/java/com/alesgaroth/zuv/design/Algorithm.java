@@ -9,15 +9,23 @@ import java.util.Set;
 
 import com.alesgaroth.zuv.design.Func;
 import com.alesgaroth.zuv.design.Value.FuncPort;
+import com.alesgaroth.zuv.index.Index;
 
 public class Algorithm {
   Map<String,Func> funcs = new HashMap<>();
+  Index index;
 
-  public Algorithm() {
+  public Algorithm(Index index) {
+    this.index = index;
   }
 
-  private Algorithm(Set<Func> f) {
+  public Index getIndex() {
+    return index;
+  }
+
+  private Algorithm(Set<Func> f, Index index) {
     this.funcs = f.stream().collect(Collectors.toMap(Func::getName, e -> e));
+    this.index = index;
   }
 
   /**
@@ -160,10 +168,10 @@ public class Algorithm {
     }
   }
 
-  public Algorithm shallowCopy() {
+  public Algorithm shallowCopy(Index ndx) {
     return new Algorithm(new HashSet<>(
           new AlgorithmCopier<Func>(new FuncFactory())
-            .instantiate(funcs.values())));
+            .instantiate(funcs.values())), ndx);
   }
 
 }

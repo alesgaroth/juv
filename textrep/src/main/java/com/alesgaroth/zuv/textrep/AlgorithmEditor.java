@@ -9,7 +9,7 @@ public class AlgorithmEditor {
     this.algo = algo;
   }
   public void createNode(String name) {
-    Func f = new Func(name, 0, 0);
+    Func f = new Func(name, 0, 0, algo.getIndex());
     algo.add(f);
   }
   public void connectNodes(String startName, String output, String endName, String input) {

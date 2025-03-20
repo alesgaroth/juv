@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.alesgaroth.zuv.design.Algorithm;
+import com.alesgaroth.zuv.index.Index;
 
 
 class AlgoEditorTest {
@@ -15,7 +16,7 @@ class AlgoEditorTest {
 
   @BeforeEach
   public void before() {
-    algo = new Algorithm();
+    algo = new Algorithm(Index.createRoot("editorTest"));
     editor = new AlgorithmEditor(algo);
   }
 

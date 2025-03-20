@@ -12,6 +12,8 @@ public class Func extends Extensible implements ZNode<Func> {
   int numInputs;
   String name;
 
+  Index parent;
+
   static long funcCounter;
 
   public Func(int numInputs, int numOutputs, Index parent) {
@@ -19,6 +21,7 @@ public class Func extends Extensible implements ZNode<Func> {
     String id =  parent.getReplicaName() + ":" +  (funcCounter ++);
     this.name = id;
     parent.addIndex(id);
+    this.parent = parent;
   }
   private Func(int numInputs, int numOutputs) {
     this.numInputs = numInputs;
@@ -29,7 +32,7 @@ public class Func extends Extensible implements ZNode<Func> {
       outboundValues.add(new Value("output/"+ i));
     }
   }
-  public Func(String name, int numInputs, int numOutputs) {
+  private Func(String name, int numInputs, int numOutputs) {
     this(numInputs, numOutputs);
     this.name = name;
   }

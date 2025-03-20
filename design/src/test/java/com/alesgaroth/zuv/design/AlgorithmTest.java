@@ -10,72 +10,77 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+import com.alesgaroth.zuv.index.Index;
+
 
 public class AlgorithmTest {
+
+  Index ndx = Index.createRoot("AlgorithmTest");
+  Index ndx2 = Index.createRoot("AlgorithmTest2");
 
   @Test
   public void algoWithTwoNotEquivalentToOne() {
     
-    Algorithm algo = twoNodeConnected();
-    Algorithm algo2 = new Algorithm();
+    Algorithm algo = twoNodeConnected(ndx);
+    Algorithm algo2 = new Algorithm(ndx2);
     assertFalse(algo.equivalentTo(algo2));
   }
 
   @Test
   public void twoEmptyEquivalent() {
-    Algorithm algo = new Algorithm();
-    Algorithm algo2 = new Algorithm();
+    Algorithm algo = new Algorithm(ndx);
+    Algorithm algo2 = new Algorithm(ndx2);
     assertTrue(algo.equivalentTo(algo2));
   }
 
   @Test
   public void twoSinglesEquivalent() {
-    Algorithm algo = singleNode();
-    Algorithm algo2 = singleNode();
+    Algorithm algo = singleNode(ndx);
+    Algorithm algo2 = singleNode(ndx2);
     assertTrue(algo.equivalentTo(algo2));
   }
 
   @Test
   public void twoUnconnectedDoublesEquivalent() {
-    Algorithm algo = twoUnconnected();
-    Algorithm algo2 = twoUnconnected();
+    Algorithm algo = twoUnconnected(ndx);
+    Algorithm algo2 = twoUnconnected(ndx2);
     assertTrue(algo.equivalentTo(algo2));
   }
 
   @Test
   public void twoConnectedDoublesEquivalent() {
-    Algorithm algo = twoNodeConnected();
-    Algorithm algo2 = twoNodeConnected();
+    Algorithm algo = twoNodeConnected(ndx);
+    Algorithm algo2 = twoNodeConnected(ndx2);
     assertTrue(algo.equivalentTo(algo2));
   }
 
   @Test
   public void twoDifferentlyConnectedDoublesNotEquivalent() {
-    Algorithm algo = twoNodeConnected();
-    Algorithm algo2 = twoUnconnected();
+    Algorithm algo = twoNodeConnected(ndx);
+    Algorithm algo2 = twoUnconnected(ndx2);
     assertFalse(algo.equivalentTo(algo2));
   }
 
   @Test
   public void twoSameConnectedTriplesEquivalent() {
-    Algorithm algo = oneRootTwoLeaves();
-    Algorithm algo2 = oneRootTwoLeaves();
+    Algorithm algo = oneRootTwoLeaves(ndx);
+    Algorithm algo2 = oneRootTwoLeaves(ndx2);
     assertTrue(algo.equivalentTo(algo2));
   }
 
   @Test
   public void twoDifferentlyConnectedTriplesNotEquivalent() {
-    Algorithm algo = oneRootTwoLeaves();
-    Algorithm algo2 = twoRootOneLeaf();
+    Algorithm algo = oneRootTwoLeaves(ndx);
+    Algorithm algo2 = twoRootOneLeaf(ndx2);
     assertFalse(algo.equivalentTo(algo2));
   }
 
   @Test public void twoLongEquivalent() {
-    same(longAlgo(), longAlgo());
+    same(longAlgo(ndx), longAlgo(ndx2));
   }
 
   @Test public void twoParallelNotEquivalent() {
-    different(spur(3), spur(4));
+    different(spur(ndx, 3), spur(ndx2, 4));
   }
 
   public void same(Algorithm algo, Algorithm algo2) { 
@@ -87,27 +92,27 @@ public class AlgorithmTest {
   }
 
 
-  Algorithm twoNodeConnected() {
-    return CacheMap.twoConnectedNodes();
+  Algorithm twoNodeConnected(Index ndx) {
+    return CacheMap.twoConnectedNodes(ndx);
   }
 
-  Algorithm singleNode() {
-    return CacheMap.oneNode();
+  Algorithm singleNode(Index ndx) {
+    return CacheMap.oneNode(ndx);
   }
 
-  Algorithm twoUnconnected() {
-    Algorithm algo = new Algorithm();
-    Func one = new Func("one", 0, 1);
+  Algorithm twoUnconnected(Index ndx) {
+    Algorithm algo = new Algorithm(ndx);
+    Func one = new Func("one", 0, 1, ndx);
     algo.add(one);
-    algo.add(new Func("two", 1, 0));
+    algo.add(new Func("two", 1, 0, ndx));
     return algo;
   }
 
-  Algorithm oneRootTwoLeaves() {
-    Algorithm algo = new Algorithm();
-    Func one = new Func("one", 0, 1);
-    Func one2 = new Func("one2", 1, 0);
-    Func one3 = new Func("one3", 1, 0);
+  Algorithm oneRootTwoLeaves(Index ndx) {
+    Algorithm algo = new Algorithm(ndx);
+    Func one = new Func("one", 0, 1, ndx);
+    Func one2 = new Func("one2", 1, 0, ndx);
+    Func one3 = new Func("one3", 1, 0, ndx);
     one2.dependOn(0, one, 0);
     one3.dependOn(0, one, 0);
     algo.add(one);
@@ -116,11 +121,11 @@ public class AlgorithmTest {
     return algo;
   }
 
-  Algorithm twoRootOneLeaf() {
-    Algorithm algo = new Algorithm();
-    Func two = new Func("two", 0, 1);
-    Func two2 = new Func("two2", 2, 0);
-    Func two3 = new Func("two3", 0, 1);
+  Algorithm twoRootOneLeaf(Index ndx) {
+    Algorithm algo = new Algorithm(ndx);
+    Func two = new Func("two", 0, 1, ndx);
+    Func two2 = new Func("two2", 2, 0, ndx);
+    Func two3 = new Func("two3", 0, 1, ndx);
     two2.dependOn(0, two, 0);
     two2.dependOn(1, two3, 0);
     algo.add(two);
@@ -129,39 +134,39 @@ public class AlgorithmTest {
     return algo;
   }
 
-  Algorithm longAlgo() {
-    Algorithm algo = new Algorithm();
-    Func was = new Func("was", 0, 1);
+  Algorithm longAlgo(Index ndx) {
+    Algorithm algo = new Algorithm(ndx);
+    Func was = new Func("was", 0, 1, ndx);
     algo.add(was);
     for (int k = 0; k < 10; k += 1) {
-      Func next = new Func("next"+k, 1, 1);
+      Func next = new Func("next"+k, 1, 1, ndx);
       algo.add(next);
       next.dependOn(0, was, 0);
       was = next;
     }
-    Func last = new Func("last", 1, 0);
+    Func last = new Func("last", 1, 0, ndx);
     algo.add(last);
     last.dependOn(0, was, 0);
     return algo;
   }
 
-  Algorithm spur(int j) {
-    Algorithm algo = new Algorithm();
-    Func was = new Func("was", 0, 1);
+  Algorithm spur(Index ndx, int j) {
+    Algorithm algo = new Algorithm(ndx);
+    Func was = new Func("was", 0, 1, ndx);
     Func opt = null;
     algo.add(was);
     for (int k = 0; k < 10; k += 1) {
-      Func next = new Func("next"+k, 1, 1);
+      Func next = new Func("next"+k, 1, 1, ndx);
       algo.add(next);
       next.dependOn(0, was, 0);
       if (j == k ) {
-        opt = new Func("opt", 1, 1);
+        opt = new Func("opt", 1, 1, ndx);
         algo.add(opt);
         opt.dependOn(0, was, 0);
       }
       was = next;
     }
-    Func last = new Func("last", 1, 0);
+    Func last = new Func("last", 1, 0, ndx);
     algo.add(last);
     last.dependOn(0, was, 0);
     return algo;

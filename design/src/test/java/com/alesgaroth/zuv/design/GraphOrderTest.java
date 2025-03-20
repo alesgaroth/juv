@@ -11,16 +11,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import com.alesgaroth.zuv.design.Func;
+import com.alesgaroth.zuv.index.Index;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 public class GraphOrderTest {
+  Index ndx = Index.createRoot("GraphOrder");
 
   @Test
   public void canOrderEmptyGraph() {
-    Algorithm algo = new Algorithm();
+    Algorithm algo = new Algorithm(ndx);
     List<Set<Func>> list = new GraphOrder(algo).ordered();
     assertNotNull(list);
     assertEquals(0, list.size());
@@ -28,18 +30,18 @@ public class GraphOrderTest {
 
   @Test
   public void canOrderSingleton() {
-    Algorithm algo = new Algorithm();
-    algo.add(new Func("singleton", 0, 0));
+    Algorithm algo = new Algorithm(ndx);
+    algo.add(new Func("singleton", 0, 0, ndx));
     List<Set<Func>> list = new GraphOrder(algo).ordered();
     assertEquals(1, list.size());
   }
 
   @Test
   public void canOrderTriple() {
-    Algorithm algo = new Algorithm();
-    Func root = new Func("root", 0, 1);
-    Func leaf = new Func("leaf", 1, 0);
-    Func leaf2 = new Func("leaf2", 1, 0);
+    Algorithm algo = new Algorithm(ndx);
+    Func root = new Func("root", 0, 1, ndx);
+    Func leaf = new Func("leaf", 1, 0, ndx);
+    Func leaf2 = new Func("leaf2", 1, 0, ndx);
     leaf.dependOn(0, root, 0);
     leaf2.dependOn(0, root, 0);
     algo.add(root);
