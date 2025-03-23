@@ -11,9 +11,9 @@ import com.alesgaroth.zuv.index.Index;
 public abstract class StratTestBase {
 
     Index ndx = Index.createRoot("strat");
-    VariableFunc variable = new VariableFunc(0, 1, ndx);
-    Func two = new PassThroughFunc(1, 1, ndx);
-    Func three = new Func(1, 0, ndx);
+    VariableFunc variable = new VariableFunc("variable", 0, 1, ndx);
+    Func two = new PassThroughFunc("two", 1, 1, ndx);
+    Func three = new Func("three", 1, 0, ndx);
     VariableFuncInstance variableInstance = null;
     ReceiverFuncInstance threeInstance = null;
     PassThroughFuncInstance twoInstance = null;

@@ -18,8 +18,8 @@ import com.alesgaroth.zuv.design.Value;
 public class RunTest {
 
     Index ndx = Index.createRoot("test");
-    VariableFunc variable = new VariableFunc(0, 1, ndx);
-    Func two = new Func(1, 0, ndx);
+    VariableFunc variable = new VariableFunc("variable", 0, 1, ndx);
+    Func two = new Func("two", 1, 0, ndx);
     VariableFuncInstance variableInstance = null;
     ReceiverFuncInstance twoInstance = null;
 

@@ -18,8 +18,8 @@ public class FuncTest
 {
     Index ndx = Index.createRoot("test1");
 
-    Func one = new Func(0, 1, ndx);
-    Func two = new Func(1, 0, ndx);
+    Func one = new Func("one", 0, 1, ndx);
+    Func two = new Func("two", 1, 0, ndx);
     @Test
     public void canCreateConnectThem() {
         assertTrue(one != two);

@@ -15,7 +15,7 @@ public class FuncInstanceTest {
     Index ndx = Index.createRoot("test");
     @Test
     public void canInstantiate1() {
-        Func n = new Func(0, 0, ndx);
+        Func n = new Func("n", 0, 0, ndx);
         FuncInstance<Func> ni = new FuncInstance(n);
         assertEquals(ni.getFunc(), n);
         assertThrows(Func.BadValueException.class, () -> ni.getOutput(-1));
@@ -48,8 +48,8 @@ public class FuncInstanceTest {
     }
 
    private List<FuncInstance<Func>> simpleGraph() {
-      Func one = new VariableFunc(0, 1, ndx);
-      Func two = new Func(1, 1, ndx);
+      Func one = new VariableFunc("one", 0, 1, ndx);
+      Func two = new Func("two", 1, 1, ndx);
       two.dependOn(0, one, 0);
       Map<Class<? extends Func>, Class<? extends FuncInstance>> classMap = Map.of(
         VariableFunc.class, VariableFuncInstance.class,
