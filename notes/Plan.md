@@ -37,3 +37,13 @@ Compilation
 
 Optimization
   How can we make this fast
+
+
+## classes
+to do method calls, we create a function vtable\_lookup, which takes an object and a signature returns the method
+object which can then be top-left placed into a form that takes the object and any parameters...
+
+But that's implementation, for better UI, we create the form as a "method" with its name, and it takes the class
+and any parameters.   That gets transformed into the implementatin above, and even the vtable\_lookup can be
+transformed to take the type(class) of object rather than the object itself, and then that can theoretically be hosited
+out of loops or functions up and up for optimization purposes.
